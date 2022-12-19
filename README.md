@@ -34,7 +34,7 @@ Installation
 
 To use UtilitiJs in your project, include it in your project using a `<script>` tag:
 
-    `<script src="https://unpkg.com/utilitijs@1.0.0/dist/utilitijs.min.js"></script>`
+    `<script src="https://cdn.jsdelivr.net/npm/utilitijs-beta@0.0.12/index.js"></script>`
     
   
 
