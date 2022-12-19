@@ -1,8 +1,4 @@
 
-*   [Twitter](http://www.twitter.com/feranmiwebdev/)
-*   [Facebook](http://www.facebook.com/UtilitiJs/)
-*   [Dribble](http://www.dribbble.com/UtilitiJs/)
-
 *   [Getting Started](#utiliti_start)
     *   [Installation](#utiliti_installation)
     *   [Usage](#utiliti_usage)
@@ -27,7 +23,7 @@ UtilityJS is a collection of functions that provide utility functionality for we
 *   **Author:** [Adeniji OluwaFeranmi](http://feranmiwebdev.netlify.app)
 
 *   **Created:** 27 November, 2022
-*   **Update:** 12 December, 2022
+*   **Update:** 19 December, 2022
 
 If you have any questions that are beyond the scope of this help file, Please feel free to email via [Support Page](https://twitter.com/Feranmiwebdev).
 
@@ -141,6 +137,23 @@ Sends a PUT request to the specified url with the specified data and headers. Re
      // Handle the error here
           });
     
+##### patch(url, data, headers)
+
+Sends a PATCH request to the specified url with the specified data and headers. Returns a promise that resolves with the response data in JSON format. The main difference between the PATCH and PUT request is that PATCH replaces only part of the data while PUT replaces the whole thing.
+
+    
+     const http = new Utiliti.Core.Http();
+     const data = {
+                    password: 'newpassword123'
+                         };
+    
+      http.patch('https://example.com/api/v1/users/1', data, {
+        'Content-Type': 'application/json'
+     }).then(data => {
+     // Use the data here
+     }).catch(error => {
+     // Handle the error here
+          });
 
 ##### delete(url, headers)
 
@@ -508,11 +521,27 @@ The Operators function defines a number of utility functions for
     `mode([1, 2, 2, 3])`                                                   
  In summary, the Operators function provides a number of useful  utility functions for performing basic statistical calculations in  JavaScript. These functions can be used to compute common statistical measures, such as the sum, mean, median, and mode of a dataset, which  is often useful in data analysis and other operations on numerical  data.
 
+ Error Handling
+ --------------
+ 
+ * * *
+# Troubleshooting
+
+* "Utiliti Error: url must be a string" when using the Http function: This error occurs when the url argument passed to the Http function is not a string. Make sure that you are passing a valid string as the url argument.
+
+* "Utiliti Error: header must be an object" when using the Http function: This error occurs when the header argument passed to the Http function is not an object. Make sure that you are passing a valid object as the header argument.
+
+* "Utiliti Error: data must be an array" when using the dataFilter function: This error occurs when the data argument passed to the dataFilter function is not an array. Make sure that you are passing a valid array as the data argument
+
+* "Utiliti Error: the body of the request must be an object" when using the Http function: This error occurs when the data argument passed to the Http function is not an object. Make sure that you are passing a valid object as the data argument.
+
+* "Utiliti Error: filter must be a function" when using the dataFilter function: This error occurs when the filter argument passed to the dataFilter function is not a function. Make sure that you are passing a valid function as the filter argument.
+
+
+* * *
+-----
+
 
 *   [Twitter](https://twitter.com/feranmiwebdev/)
-*   [Facebook](http://www.facebook.com/UtilitiJs/)
-*   [Dribble](http://www.dribbble.com/UtilitiJs/)
-*   [GitHub](http://www.github.com/judeadeniji)
 
 Copyright © 2022 [UtilitiJs](http://feranmiwebdev.netlify.app/). All Rights Reserved.
-
