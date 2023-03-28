@@ -1,7 +1,7 @@
 {
   "name": "utiliti-js",
   "type": "module",
-  "version": "2.0.1",
+  "version": "2.0.11",
   "description": "UtilitiJS is a collection of functions that provide utility functionality for web applications.",
   "main": "index.js",
   "scripts": {
