@@ -1,12 +1,13 @@
 {
-  "name": "kito",
-  "version": "1.0.1",
-  "description": "test do not install",
+  "name": "utiliti-js",
+  "type": "module",
+  "version": "2.0.1",
+  "description": "UtilitiJS is a collection of functions that provide utility functionality for web applications.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["error"],
-  "author": "anonymous",
-  "license": "ISC"
+  "keywords": ["utility", "kit", "web", "web-app", "jQuery", "utiliti", "Javascript"],
+  "author": "Adeniji Oluwaferanmi (FeranmiWebDev, TheLazyDev)",
+  "license": "MIT"
 }

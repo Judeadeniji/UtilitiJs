@@ -50,4 +50,7 @@ export {
     isObject,
     isFunction,
     isBoolean,
+    isNaN,
+    parseFloat,
+    parseInt,
 }

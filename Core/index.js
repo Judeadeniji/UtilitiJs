@@ -4,7 +4,7 @@
   const error = new Error(message);
 
   // Set the name property of the error object to "Utiliti Error"
-  error.name = "Utiliti Error";
+  error.name = "Utiliti: Error";
 
   // Set the code property of the error object
   error.code = code;
@@ -32,13 +32,8 @@
   * */
  function Http() {
   // Send a GET request to retrieve data from the server
- /* this.get = (url, header) => { return fetch(url, {
-    headers: header
-  })
 
-    .then(response => response.json()); }
-*/
- this.get = (url, header) => {
+ this.get = (url, header = {}) => {
       // Check if url is a string
   if (typeof url !== 'string') {
     // If not, throw a CustomError
@@ -64,7 +59,7 @@
  }
 
   // Send a POST request to create a new resource on the server
- this.post = (url, data, header) => {
+ this.post = (url, data, header = {}) => {
      // Check if url is a string
   if (typeof url !== 'string') {
     // If not, throw a CustomError
@@ -87,7 +82,7 @@
   }); }
 
   // Send a PUT request to update an existing resource on the server
- this.put = (url, data, header) => {
+ this.put = (url, data, header = {}) => {
       // Check if url is a string
   if (typeof url !== 'string') {
     // If not, throw a CustomError
@@ -109,7 +104,7 @@
     headers: header
   }); }
 
- this.patch = (url, data, header) => {
+ this.patch = (url, data, header = {}) => {
       // Check if url is a string
   if (typeof url !== 'string') {
     // If not, throw a CustomError
@@ -132,7 +127,7 @@
   }); }
   
   // Send a DELETE request to delete a resource on the server
- this.delete = (url, header) => {
+ this.delete = (url, header = {}) => {
       // Check if url is a string
   if (typeof url !== 'string') {
     // If not, throw a CustomError
@@ -158,7 +153,7 @@ function dataFilter(filterFn, data) {
   
   // Loop through each item in the data array
   for (const item of data) {
-         // Check if filterFn is a function
+  // Check if filterFn is a function
   if (typeof filterFn !== 'function') {
     // If not, throw a CustomError
     throw new CustomError('the callback provided to the dataFilter must be a function');
@@ -227,7 +222,7 @@ function dateFilter() {
 
 
 function setStore(reducer, enhancer) {
-  let state;;
+  let state;
   let listeners = [];
 
   if (enhancer) {
@@ -238,7 +233,7 @@ function setStore(reducer, enhancer) {
 
   const dispatch = (action) => {
     state = reducer(state, action);
-    listeners.forEach(listener => listener());
+    listeners.forEach(listener => listener(state));
   };
 
   const subscribe = (listener) => {

@@ -1,23 +1,22 @@
-/*import Core from './utilities/core';
-import Operators from './utilities/operators';
+
+import * as Core from "./Core/index.js";
+import * as array from "./Operators/array.js";
+import * as compare from "./Operators/compare.js";
+import * as logic from "./Operators/logic.js";
+import * as object from "./Operators/object.js";
+import * as typeCheck from "./Operators/type-check.js";
+import * as valueCheck from "./Operators/value-check.js";
+
+if (process.env.NODE_ENV === 'development') {
+  console.warn('You are now running UtilitiJs in development Mode', 'Happy Hacking 🎉');
+}
 
 export {
   Core,
-  Operators 
-} */
-
-import * as Core from "./Core/index";
-
-if (process.env.NODE_ENV === 'production') {
-  const packageJson = require('./package.json');
-const packageVersion = packageJson.version;
-console.warn(`Package version: ${packageVersion}`);
-  console.warn('You are now running UtilitiJs in development Mode', 'Happy Hacking');
-} else {
-  
-}
-
-
-export {
-  Core
+  array,
+  compare,
+  logic,
+  object,
+  typeCheck,
+  valueCheck
 }
