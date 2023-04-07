@@ -1,7 +1,7 @@
 import path from "path";
 
 export default {
-  mode: 'development',
+  mode: 'production',
   entry: './index.js',
   devtool: false,
   optimization: {
@@ -16,10 +16,10 @@ export default {
       },
     },
   output: {
-    path: path.join('/data/data/com.termux/files/home/storage/xyz/', 'lib', 'umd'),
+    path: path.resolve(process.cwd(), 'lib', 'umd'),
     library: "UtilitiJs",
     libraryTarget: "umd",
     umdNamedDefine: true,
-    filename: 'utiliti-js.development.js'
+    filename: 'utiliti-js.production.min.js'
   }
 }

@@ -21,7 +21,7 @@ UtilitiJS is a collection of functions that provide utility functionality for we
 - **Author:** [Adeniji OluwaFeranmi](http://feranmiwebdev.netlify.app)
 
 - **Created:** 27 November, 2022
-- **Update:** 19 December, 2022
+- **Update:** 06 March, 2023
 
 If you have any questions that are beyond the scope of this help file, Please feel free to email via [Support Page](https://twitter.com/Feranmiwebdev).
 
@@ -31,7 +31,9 @@ If you have any questions that are beyond the scope of this help file, Please fe
 
 To use UtilitiJs in your project, include it in your project using a `<script>` tag:
 
-    `<script src="https://cdn.jsdelivr.net/npm/utilitijs-beta@0.0.12/index.js"></script>`
+```
+ <script src="https://cdn.jsdelivr.net/npm/utilitijs-beta@0.0.12/index.js"></script>
+```
 
 Or, if you're using a module bundler like Webpack or Rollup, you can import it into your project using the following syntax:
 
@@ -119,7 +121,7 @@ Sends a GET request to the specified url with the specified headers. Returns a p
 Sends a POST request to the specified url with the specified data and headers. Returns a promise that resolves with the response data in JSON format.
 
 ```
-   const http = new Core.Http();
+  const http = new Core.Http();
   const data = {
   username: 'johndoe',
   password: 'password123'
@@ -214,12 +216,12 @@ Takes a date and returns a string representation of the date in the format "Mont
 
 Takes a date and a format string and returns a string representation of the date in the specified format. The format string can contain the following placeholder values: yyyy: The four-digit year mm: The month as a two-digit number (e.g. 01, 02, etc.) dd: The day as a two-digit number (e.g. 01, 02, etc.) HH: The hour as a two-digit number in 24-hour format (e.g. 00, 01, etc.) MM: The minute as a two-digit number (e.g. 00, 01, etc.) SS: The second as a two-digit number (e.g. 00, 01, etc.)
 
-    ```
-     const dateFilter = new Core.dateFilter();
-    const date = new Date('1/1/2020 13:30:00');
-    const formattedDate = dateFilter.formatDate(date, 'yyyy-mm-dd HH:MM:SS');
-    console.log(formattedDate); // Output: "2020-01-01 13:30:00"
-    ```
+```
+const dateFilter = new Core.dateFilter();
+const date = new Date('1/1/2020 13:30:00');
+const formattedDate = dateFilter.formatDate(date, 'yyyy-mm-dd HH:MM:SS');
+console.log(formattedDate); // Output: "2020-01-01 13:30:00"
+```
 
 ###### Example
 
@@ -982,8 +984,6 @@ In this example, `filterProperties` is used to create a new object that only con
 - "Utiliti Error: the body of the request must be an object" when using the Http function: This error occurs when the data argument passed to the Http function is not an object. Make sure that you are passing a valid object as the data argument.
 
 - "Utiliti Error: filter must be a function" when using the dataFilter function: This error occurs when the filter argument passed to the dataFilter function is not a function. Make sure that you are passing a valid function as the filter argument.
-
----
 
 ---
 
