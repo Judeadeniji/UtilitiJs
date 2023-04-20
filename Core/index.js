@@ -1,5 +1,4 @@
-
-   function CustomError(message, code) {
+function CustomError(message, code) {
   // Use the Error constructor to create an error object
   const error = new Error(message);
 
@@ -13,213 +12,230 @@
   Error.captureStackTrace(error, CustomError);
 
   // Add a getInfo method to the error object
-  error.getInfo = function() {
+  error.getInfo = function () {
     return {
       code: this.code,
       message: this.message,
-      stack: this.stack
+      stack: this.stack,
     };
-  }
+  };
 
   // Return the error object
   return error;
 }
 
-  
- /**
-  * Body takes in an object
-  * Headers also takes an object
-  * */
- function Http() {
+/**
+ * Body takes in an object
+ * Headers also takes an object
+ * */
+function Http() {
   // Send a GET request to retrieve data from the server
-
- this.get = (url, header = {}) => {
-      // Check if url is a string
-  if (typeof url !== 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('url must be a string');
-  }
-       // Check if header is an object
-  if (typeof header !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('header must be an object');
-  }
-   return fetch(url, {
-   headers: header
- })
-    .then(response => {
+  this.get = async (url, header = {}) => {
+    // Check if url is a string
+    if (typeof url !== "string") {
+      // If not, throw a CustomError
+      throw new CustomError("url must be a string");
+    }
+    // Check if header is an object
+    if (typeof header !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("Header must be an object");
+    }
+    try {
+      const response = await fetch(url, { headers: header });
       if (!response.ok) {
         return Promise.reject(response.statusText);
       }
-      return response.json();
-    })
-    .catch(error => {
-      console.error('Fetch error:', error);
-    });
- }
+      return response;
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
 
   // Send a POST request to create a new resource on the server
- this.post = (url, data, header = {}) => {
-     // Check if url is a string
-  if (typeof url !== 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('url must be a string');
-  }
-       // Check if header is an object
-  if (typeof header !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('header must be an object');
-  }
-       // Check if data is an object
-  if (typeof data !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('the body of the request must be an object');
-  }
-   return fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: header
-  }); }
+  this.post = async (url, data, header = {}) => {
+    // Check if url is a string
+    if (typeof url !== "string") {
+      // If not, throw a CustomError
+      throw new CustomError("url must be a string");
+    }
+    // Check if header is an object
+    if (typeof header !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("header must be an object");
+    }
+    // Check if data is an object
+    if (typeof data !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("the body of the request must be an object");
+    }
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: header,
+      });
+      return response;
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
 
   // Send a PUT request to update an existing resource on the server
- this.put = (url, data, header = {}) => {
-      // Check if url is a string
-  if (typeof url !== 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('url must be a string');
-  }
-       // Check if header is an object
-  if (typeof header !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('header must be an object');
-  }
-       // Check if data is an object
-  if (typeof data !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('the body of the request must be an object');
-  }
-   return fetch(url, {
-    method: 'PUT',
-    body: JSON.stringify(data),
-    headers: header
-  }); }
+  this.put = async (url, data, header = {}) => {
+    // Check if url is a string
+    if (typeof url !== "string") {
+      // If not, throw a CustomError
+      throw new CustomError("url must be a string");
+    }
+    // Check if header is an object
+    if (typeof header !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("header must be an object");
+    }
+    // Check if data is an object
+    if (typeof data !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("the body of the request must be an object");
+    }
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: header,
+      });
+      return response;
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
 
- this.patch = (url, data, header = {}) => {
-      // Check if url is a string
-  if (typeof url !== 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('url must be a string');
-  }
-       // Check if header is an object
-  if (typeof header !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('header must be an object');
-  }
-       // Check if data is an object
-  if (typeof data !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('the body of the request must be an object');
-  }
-   return fetch(url, {
-    method: 'PATCH',
-    body: JSON.stringify(data),
-    headers: header
-  }); }
-  
+  // Send a PATCH request to update a resource on the server
+  this.patch = async (url, data, header = {}) => {
+    // Check if url is a string
+    if (typeof url !== "string") {
+      // If not, throw a CustomError
+      throw new CustomError("url must be a string");
+    }
+    // Check if header is an object
+    if (typeof header !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("header must be an object");
+    }
+    // Check if data is an object
+    if (typeof data !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("the body of the request must be an object");
+    }
+    try {
+      const response = await fetch(url, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: header,
+      });
+      return response;
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
   // Send a DELETE request to delete a resource on the server
- this.delete = (url, header = {}) => {
-      // Check if url is a string
-  if (typeof url !== 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('url must be a string');
-  }
-       // Check if header is an object
-  if (typeof header !== 'object') {
-    // If not, throw a CustomError
-    throw new CustomError('header must be an object');
-  }
+  this.delete = async (url, header = {}) => {
+    // Check if url is a string
+    if (typeof url !== "string") {
+      // If not, throw a CustomError
+      throw new CustomError("url must be a string");
+    }
+    // Check if header is an object
+    if (typeof header !== "object") {
+      // If not, throw a CustomError
+      throw new CustomError("header must be an object");
+    }
 
-   return fetch(url, {
-    method: 'DELETE',
-    headers: header
-  }); }
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: header,
+      });
+      return response;
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
 }
 
- 
- // Define a function that takes a filter function and an array of data
+// Define a function that takes a filter function and an array of data
 function dataFilter(filterFn, data) {
   // Create an empty array to store the filtered data
   const filteredData = [];
-  
+
   // Loop through each item in the data array
   for (const item of data) {
-  // Check if filterFn is a function
-  if (typeof filterFn !== 'function') {
-    // If not, throw a CustomError
-    throw new CustomError('the callback provided to the dataFilter must be a function');
-  }
+    // Check if filterFn is a function
+    if (typeof filterFn !== "function") {
+      // If not, throw a CustomError
+      throw new CustomError(
+        "the callback provided to the dataFilter must be a function"
+      );
+    }
     // Apply the filter function to the current item
     const result = filterFn(item);
-    
+
     // If the filter function returns true, add the item to the filtered data array
     if (result === true) {
       filteredData.push(item);
     }
   }
-  
+
   // Return the filtered data array
   return filteredData;
 }
 
-
-
 function dateFilter() {
   this.text = (date) => {
-      const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-  ];
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-  const monthName = monthNames[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
+    const monthName = monthNames[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
 
-  return `${monthName} ${day}, ${year}`;
-  }
-  
+    return `${monthName} ${day}, ${year}`;
+  };
+
   this.formatDate = (date, format) => {
-      // Create a Date object from the date
-  let d = new Date(date);
+    // Create a Date object from the date
+    let d = new Date(date);
 
-     // Check if date format is valid
-  if (typeof format !== 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('provide a valid date format');
-  }
-  // Create a string representation of the date in the specified format
-  let formattedDate = format
-    .replace('yyyy', d.getFullYear())
-    .replace('mm', d.getMonth() + 1)
-    .replace('dd', d.getDate())
-    .replace('HH', d.getHours())
-    .replace('MM', d.getMinutes())
-    .replace('SS', d.getSeconds());
+    // Check if date format is valid
+    if (typeof format !== "string") {
+      // If not, throw a CustomError
+      throw new CustomError("provide a valid date format");
+    }
+    // Create a string representation of the date in the specified format
+    let formattedDate = format
+      .replace("yyyy", d.getFullYear())
+      .replace("mm", d.getMonth() + 1)
+      .replace("dd", d.getDate())
+      .replace("HH", d.getHours())
+      .replace("MM", d.getMinutes())
+      .replace("SS", d.getSeconds());
 
-  return formattedDate;
-  }
+    return formattedDate;
+  };
 }
-
-
 
 function setStore(reducer, enhancer) {
   let state;
@@ -233,23 +249,23 @@ function setStore(reducer, enhancer) {
 
   const dispatch = (action) => {
     state = reducer(state, action);
-    listeners.forEach(listener => listener(state));
+    listeners.forEach((listener) => listener(state));
   };
 
   const subscribe = (listener) => {
     // Check if listener is a string
-  if (typeof listener === 'string') {
-    // If not, throw a CustomError
-    throw new CustomError('Cannot subscribe to a string');
-  }
-       // Check if url is a string
-  if (typeof listener !== 'function') {
-    // If not, throw a CustomError
-    throw new CustomError('you must subscribe to a function');
-  }
+    if (typeof listener === "string") {
+      // If not, throw a CustomError
+      throw new CustomError("Cannot subscribe to a string");
+    }
+    // Check if url is a string
+    if (typeof listener !== "function") {
+      // If not, throw a CustomError
+      throw new CustomError("you must subscribe to a function");
+    }
     listeners.push(listener);
     return () => {
-      listeners = listeners.filter(l => l !== listener);
+      listeners = listeners.filter((l) => l !== listener);
     };
   };
 
@@ -260,9 +276,9 @@ function setStore(reducer, enhancer) {
   const getReducer = () => reducer;
 
   // Check if reducer is a function
-  if (typeof reducer !== 'function') {
+  if (typeof reducer !== "function") {
     // If not, throw a CustomError
-    throw new CustomError('reducer must be a function');
+    throw new CustomError("reducer must be a function");
   }
 
   dispatch({});
@@ -270,28 +286,28 @@ function setStore(reducer, enhancer) {
   return { getState, dispatch, subscribe, replaceReducer, getReducer };
 }
 
-
 function applyMiddleware(...middlewares) {
-  return setStore => (...args) => {
-    const store = setStore(...args);
+  return (setStore) =>
+    (...args) => {
+      const store = setStore(...args);
 
-    let dispatch = store.dispatch;
-    middlewares.forEach(middleware => {
-      dispatch = middleware(store)(dispatch);
-    });
+      let dispatch = store.dispatch;
+      middlewares.forEach((middleware) => {
+        dispatch = middleware(store)(dispatch);
+      });
 
-    return {
-      ...store,
-      dispatch
+      return {
+        ...store,
+        dispatch,
+      };
     };
-  };
 }
 
-function mergeReducers (reducers) {
-       // Check if reducers is an object
-  if (typeof reducers !== 'object') {
+function mergeReducers(reducers) {
+  // Check if reducers is an object
+  if (typeof reducers !== "object") {
     // If not, throw a CustomError
-    throw new CustomError('provide an object containing the reducers');
+    throw new CustomError("provide an object containing the reducers");
   }
   return (state = {}, action) => {
     return Object.keys(reducers).reduce((nextState, key) => {
@@ -299,16 +315,15 @@ function mergeReducers (reducers) {
       return nextState;
     }, {});
   };
-};
+}
 
 const createSubscriber = (store) => {
   return {
     subscribe: (callback) => {
       store.subscribe(callback);
-    }
+    },
   };
 };
-
 
 function generateId() {
   // Generate a random number between 1 and 1000000
@@ -329,11 +344,15 @@ function TaskQueue() {
   // Execute all tasks in the queue
   this.runTasks = () => {
     for (const task of this.tasks) {
-  // Check if the given task is a function
-  if (typeof task !== 'function') {
-    // If not, throw a CustomError
-    throw new CustomError('Cannot run a ' + typeof task + ' as a function. \n This requires a function');
-  }
+      // Check if the given task is a function
+      if (typeof task !== "function") {
+        // If not, throw a CustomError
+        throw new CustomError(
+          "Cannot run a " +
+            typeof task +
+            " as a function. \n This requires a function"
+        );
+      }
       task();
     }
   };
@@ -349,13 +368,12 @@ function TaskQueue() {
   };
 }
 
-
 // A function for parsing and manipulating URLs
 function UrlParser(url) {
-       // Check if url is a string
-  if (typeof url !== 'string') {
+  // Check if url is a string
+  if (typeof url !== "string") {
     // If not, throw a CustomError
-    throw new CustomError('url must be a string');
+    throw new CustomError("url must be a string");
   }
   // Parse the URL into its individual components
   const parsedUrl = new URL(url);
@@ -402,10 +420,11 @@ function Random() {
   // Define a function for generating a random string
   this.string = (length) => {
     // Create an array of characters to use in the string
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const chars =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     // Create an empty string to store the random string
-    let str = '';
+    let str = "";
 
     // Generate the random string by selecting random characters from the chars array
     for (let i = 0; i < length; i++) {
@@ -441,12 +460,10 @@ function DataValidator() {
 function trim(str) {
   // Use a regular expression to match leading and trailing whitespace
   const regex = /^\s+|\s+$/g;
-  
+
   // Replace the matched whitespace with an empty string
-  return str.replace(regex, '');
+  return str.replace(regex, "");
 }
-
-
 
 export {
   Http,
@@ -461,5 +478,5 @@ export {
   UrlParser,
   Random,
   DataValidator,
-  trim
-}
+  trim,
+};
