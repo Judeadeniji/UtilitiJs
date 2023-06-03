@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "module": "es6",
+    "target": "es2022"
+  },
+  "include": [
+    "./Core/**/*.ts",
+    "./Operators/**/*.ts",
+    "./index.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,13 +1,23 @@
 {
   "name": "utiliti-js",
   "type": "module",
-  "version": "2.0.3",
+  "version": "2.0.31",
   "description": "UtilitiJS is a collection of functions that provide utility functionality for web applications.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["utility", "kit", "web", "web-app", "utiliti", "Javascript"],
+  "keywords": [
+    "utility",
+    "kit",
+    "web",
+    "web-app",
+    "utiliti",
+    "Javascript"
+  ],
   "author": "Adeniji Oluwaferanmi (FeranmiWebDev, TheLazyDev)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.2.5"
+  }
 }
