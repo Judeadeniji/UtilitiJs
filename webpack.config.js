@@ -1,7 +1,7 @@
 import path from "path";
 
 export default {
-  mode: 'production',
+  mode: 'development',
   entry: './index.js',
   devtool: false,
   optimization: {
@@ -20,6 +20,6 @@ export default {
     library: "UtilitiJs",
     libraryTarget: "umd",
     umdNamedDefine: true,
-    filename: 'utiliti-js.production.min.js'
+    filename: 'utiliti-js.development.js'
   }
 }

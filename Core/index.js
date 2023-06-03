@@ -1,3 +1,11 @@
+/**
+ * Represents a custom error.
+ * @class CustomError
+ * @extends Error
+ * @param {string} message - The error message.
+ * @param {number} code - The error code.
+ * @returns {Error} The custom error object.
+ */
 function CustomError(message, code) {
   // Use the Error constructor to create an error object
   const error = new Error(message);
@@ -11,7 +19,15 @@ function CustomError(message, code) {
   // Capture a stack trace at the point where the error occurred
   Error.captureStackTrace(error, CustomError);
 
-  // Add a getInfo method to the error object
+  /**
+   * Returns an object with information about the error.
+   * @memberof CustomError
+   * @method getInfo
+   * @returns {Object} The error information.
+   * @property {number} code - The error code.
+   * @property {string} message - The error message.
+   * @property {string} stack - The stack trace.
+   */
   error.getInfo = function () {
     return {
       code: this.code,
@@ -24,11 +40,13 @@ function CustomError(message, code) {
   return error;
 }
 
+
 /**
  * Body takes in an object
  * Headers also takes an object
  * */
 function Http() {
+  console.warn('Use Of Core.Http has been deprecated Use the Http module instead');
   // Send a GET request to retrieve data from the server
   this.get = async (url, header = {}) => {
     // Check if url is a string
@@ -164,34 +182,62 @@ function Http() {
   };
 }
 
-// Define a function that takes a filter function and an array of data
-function dataFilter(filterFn, data) {
-  // Create an empty array to store the filtered data
+function dataFilter() {
+  console.warn('dataFilter has been renamed to DataFilter');
+  return new DataFilter();
+}
+
+/**
+ * Filters an array of data using a filter function.
+ *
+ * @param {Function} filterFn - The filter function used to filter the data.
+ * @param {Array} data - The array of data to be filtered.
+ * @returns {Array} The filtered data array.
+ * @throws {CustomError} Throws a CustomError if the callback provided to the DataFilter is not a function.
+ */
+function DataFilter(filterFn, data) {
+  /**
+   * The filtered data array.
+   * @type {Array}
+   */
   const filteredData = [];
 
-  // Loop through each item in the data array
   for (const item of data) {
-    // Check if filterFn is a function
     if (typeof filterFn !== "function") {
-      // If not, throw a CustomError
       throw new CustomError(
-        "the callback provided to the dataFilter must be a function"
+        "The callback provided to the DataFilter must be a function."
       );
     }
-    // Apply the filter function to the current item
+
+    /**
+     * The result of applying the filter function to the current item.
+     * @type {*}
+     */
     const result = filterFn(item);
 
-    // If the filter function returns true, add the item to the filtered data array
     if (result === true) {
       filteredData.push(item);
     }
   }
 
-  // Return the filtered data array
   return filteredData;
 }
 
 function dateFilter() {
+  console.warn('dateFilter has been renamed to DateFilter')
+  return new DateFilter();
+}
+
+/**
+ * A class representing a date filter.
+ * @class
+ */
+function DateFilter() {
+  /**
+   * Converts a date to text format.
+   * @param {Date} date - The date object to convert.
+   * @returns {string} The date in text format.
+   */
   this.text = (date) => {
     const monthNames = [
       "January",
@@ -215,6 +261,14 @@ function dateFilter() {
     return `${monthName} ${day}, ${year}`;
   };
 
+  /**
+   * Formats a date based on the specified format.
+   * @param {Date} date - The date object to format.
+   * @param {string} format - The format to use for formatting the date.
+   * Supported format specifiers: yyyy, mm, dd, HH, MM, SS, ago.
+   * @returns {string} The formatted date.
+   * @throws {CustomError} If the format is invalid.
+   */
   this.formatDate = (date, format) => {
     // Create a Date object from the date
     let d = new Date(date);
@@ -224,6 +278,33 @@ function dateFilter() {
       // If not, throw a CustomError
       throw new CustomError("provide a valid date format");
     }
+
+    // Handle "ago" format
+    if (format === "ago") {
+      const now = new Date();
+      const diff = now - d;
+      const seconds = Math.floor(diff / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      const months = Math.floor(days / 30);
+      const years = Math.floor(months / 12);
+
+      if (years > 0) {
+        return `${years} year${years > 1 ? "s" : ""} ago`;
+      } else if (months > 0) {
+        return `${months} month${months > 1 ? "s" : ""} ago`;
+      } else if (days > 0) {
+        return `${days} day${days > 1 ? "s" : ""} ago`;
+      } else if (hours > 0) {
+        return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+      } else if (minutes > 0) {
+        return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+      } else {
+        return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
+      }
+    }
+
     // Create a string representation of the date in the specified format
     let formattedDate = format
       .replace("yyyy", d.getFullYear())
@@ -237,28 +318,47 @@ function dateFilter() {
   };
 }
 
-function setStore(reducer, enhancer) {
-  let state;
+
+/**
+ * Represents a store that holds the state and manages state updates.
+ *
+ * @param {function} reducer - The reducer function for state updates.
+ * @param {Object} [initialState={}] - The initial state of the store.
+ *
+ * @throws {CustomError} If the reducer is not a function.
+ * @returns {Object} The store object with various methods.
+ */
+function Store(reducer, initialState = {}) {
+  let state = initialState;
   let listeners = [];
 
-  if (enhancer) {
-    return enhancer(setStore)(reducer);
-  }
-
+  /**
+   * Returns the current state of the store.
+   *
+   * @returns {Object} The current state.
+   */
   const getState = () => state;
 
+  /**
+   * Dispatches an action to update the state.
+   *
+   * @param {Object} action - The action object representing the state update.
+   */
   const dispatch = (action) => {
     state = reducer(state, action);
     listeners.forEach((listener) => listener(state));
   };
 
+  /**
+   * Subscribes a listener function to be called on state changes.
+   *
+   * @param {function} listener - The listener function to be called on state changes.
+   * @returns {function} A function to unsubscribe the listener.
+   *
+   * @throws {CustomError} If the listener is not a function.
+   */
   const subscribe = (listener) => {
-    // Check if listener is a string
-    if (typeof listener === "string") {
-      // If not, throw a CustomError
-      throw new CustomError("Cannot subscribe to a string");
-    }
-    // Check if url is a string
+    // Check if listener is a function
     if (typeof listener !== "function") {
       // If not, throw a CustomError
       throw new CustomError("you must subscribe to a function");
@@ -269,10 +369,20 @@ function setStore(reducer, enhancer) {
     };
   };
 
+  /**
+   * Replaces the current reducer function with a new one.
+   *
+   * @param {function} nextReducer - The new reducer function.
+   */
   const replaceReducer = (nextReducer) => {
     reducer = nextReducer;
   };
 
+  /**
+   * Returns the current reducer function.
+   *
+   * @returns {function} The current reducer function.
+   */
   const getReducer = () => reducer;
 
   // Check if reducer is a function
@@ -286,10 +396,16 @@ function setStore(reducer, enhancer) {
   return { getState, dispatch, subscribe, replaceReducer, getReducer };
 }
 
+/**
+ * Applies middlewares to the store's dispatch function.
+ *
+ * @param {...function} middlewares - The middlewares to apply.
+ * @returns {function} A function that wraps the store and applies the middlewares.
+ */
 function applyMiddleware(...middlewares) {
-  return (setStore) =>
+  return (Store) =>
     (...args) => {
-      const store = setStore(...args);
+      const store = Store(...args);
 
       let dispatch = store.dispatch;
       middlewares.forEach((middleware) => {
@@ -303,6 +419,14 @@ function applyMiddleware(...middlewares) {
     };
 }
 
+/**
+ * Merges multiple reducers into a single reducer function.
+ *
+ * @param {Object} reducers - An object containing the individual reducers.
+ * @returns {function} The merged reducer function.
+ *
+ * @throws {CustomError} If reducers is not an object.
+ */
 function mergeReducers(reducers) {
   // Check if reducers is an object
   if (typeof reducers !== "object") {
@@ -317,13 +441,25 @@ function mergeReducers(reducers) {
   };
 }
 
+/**
+ * Creates a subscriber object to subscribe to store updates.
+ *
+ * @param {Object} store - The store object to subscribe to.
+ * @returns {Object} The subscriber object.
+ */
 const createSubscriber = (store) => {
   return {
+    /**
+     * Subscribes a callback function to be called on store updates.
+     *
+     * @param {function} callback - The callback function to be called on store updates.
+     */
     subscribe: (callback) => {
       store.subscribe(callback);
     },
   };
 };
+
 
 function generateId() {
   // Generate a random number between 1 and 1000000
@@ -467,12 +603,15 @@ function trim(str) {
 
 export {
   Http,
+  DateFilter,
+  DataFilter,
   dateFilter,
   dataFilter,
-  setStore,
+  Store,
   mergeReducers,
   createSubscriber,
   applyMiddleware,
+  CustomError,
   generateId,
   TaskQueue,
   UrlParser,

@@ -1,56 +1,93 @@
-  // Type checks
+/**
+ * Checks if a value is an integer.
+ * @param {*} num - The value to check.
+ * @returns {boolean} - True if the value is an integer, false otherwise.
+ */
+function isInteger(num) {
+  return Number.isInteger(num);
+}
 
-  function isInteger(num) {
-    return Number.isInteger(num);
-  }
+/**
+ * Checks if a value is a string.
+ * @param {*} val - The value to check.
+ * @returns {boolean} - True if the value is a string, false otherwise.
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
 
-  function isString(val) {
-    return typeof val === 'string';
-  }
+/**
+ * Checks if a value is an array.
+ * @param {*} val - The value to check.
+ * @returns {boolean} - True if the value is an array, false otherwise.
+ */
+function isArray(val) {
+  return Array.isArray(val);
+}
 
-  function isArray(val) {
-    return Array.isArray(val);
-  }
+/**
+ * Checks if a value is an object.
+ * @param {*} val - The value to check.
+ * @returns {boolean} - True if the value is an object, false otherwise.
+ */
+function isObject(val) {
+  return typeof val === 'object' && !Array.isArray(val) && val !== null;
+}
 
-  function isObject(val) {
-    return typeof val === 'object' && !Array.isArray(val) && val !== null;
-  }
+/**
+ * Checks if a value is a function.
+ * @param {*} val - The value to check.
+ * @returns {boolean} - True if the value is a function, false otherwise.
+ */
+function isFunction(val) {
+  return typeof val === 'function';
+}
 
-  function isFunction(val) {
-    return typeof val === 'function';
-  }
+/**
+ * Checks if a value is a boolean.
+ * @param {*} val - The value to check.
+ * @returns {boolean} - True if the value is a boolean, false otherwise.
+ */
+function isBoolean(val) {
+  return typeof val === 'boolean';
+}
 
-  function isBoolean(val) {
-    return typeof val === 'boolean';
-  }
-  
-  // The isNaN function determines if a value is not a number
+/**
+ * Checks if a value is NaN (not a number).
+ * @param {*} value - The value to check.
+ * @returns {boolean} - True if the value is NaN, false otherwise.
+ */
 function isNaN(value) {
-  // Use the built-in Number.isNaN function to check if the value is not a number
   return Number.isNaN(value);
 }
 
-// The parseInt function converts a string to an integer
+/**
+ * Converts a string to an integer.
+ * @param {string} str - The string to convert.
+ * @param {number} radix - The radix used for parsing (optional).
+ * @returns {number} - The parsed integer value.
+ */
 function parseInt(str, radix) {
-  // Use the built-in Number.parseInt function to convert the string to an integer
   return Number.parseInt(str, radix);
 }
 
-// The parseFloat function converts a string to a floating-point number
+/**
+ * Converts a string to a floating-point number.
+ * @param {string} str - The string to convert.
+ * @returns {number} - The parsed floating-point number value.
+ */
 function parseFloat(str) {
-  // Use the built-in Number.parseFloat function to convert the string to a floating-point number
   return Number.parseFloat(str);
 }
 
 export {
-      // Type checks
-    isInteger,
-    isString,
-    isArray,
-    isObject,
-    isFunction,
-    isBoolean,
-    isNaN,
-    parseFloat,
-    parseInt,
-}
+  isInteger,
+  isString,
+  isArray,
+  isObject,
+  isFunction,
+  isBoolean,
+  isNaN,
+  parseFloat,
+  parseInt,
+};

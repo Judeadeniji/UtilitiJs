@@ -1,5 +1,5 @@
-
 import * as Core from "./Core/index.js";
+import Http from "./Core/http.js";
 import * as array from "./Operators/array.js";
 import * as compare from "./Operators/compare.js";
 import * as logic from "./Operators/logic.js";
@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export {
+  Http,
   Core,
   array,
   compare,
@@ -19,4 +20,4 @@ export {
   object,
   typeCheck,
   valueCheck
-}
+};
