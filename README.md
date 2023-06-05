@@ -42,7 +42,7 @@ UtilitiJs offers a wide range of features and functionalities, including:
 
 6. **Date and Time**: UtilitiJs offers a date module with functions for working with dates and time. Developers can use functions like `formatDate`, `isLeapYear`, `getDaysInMonth`, `addDays`, `subtractDays`, `compareDates`, `isPastDate`, and more to handle date and time-related tasks effectively.
 
-These are just a few highlights of the extensive set of features provided by the UtilitiJs library and some features might not be available yet. By leveraging UtilitiJs, developers can streamline their development process, reduce boilerplate code, and enhance the efficiency of their JavaScript projects.
+These are just a few highlights of the extensive set of features provided by the UtilitiJs library. By leveraging UtilitiJs, developers can streamline their development process, reduce boilerplate code, and enhance the efficiency of their JavaScript projects.
 
 ## Installation
 
@@ -73,12 +73,10 @@ console.log(typeCheck.isInteger(42)); // Output: true
 
 console.log(valueCheck.isPositive(5)); // Output: true
 
-// not available yet
 console.log(string.capitalize('utilitijs')); // Output: Utilitijs
 
 console.log(array.flatten([1, [2, [3, [4]]]])); // Output: [1, 2, 3, 4]
 
-// not available yet
 console.log(math.roundTo(3.14159, 2)); // Output
 
 : 3.14
