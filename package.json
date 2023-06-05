@@ -1,9 +1,9 @@
 {
   "name": "utiliti-js",
   "type": "module",
-  "version": "2.0.32",
+  "version": "2.0.33",
   "description": "UtilitiJS is a collection of functions that provide utility functionality for web applications.",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

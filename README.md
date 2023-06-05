@@ -36,7 +36,7 @@ UtilitiJs offers a wide range of features and functionalities, including:
 
 3. **String Manipulation**: UtilitiJs offers a string module that includes functions to manipulate and transform strings. Developers can utilize functions like `capitalize`, `reverse`, `truncate`, `startsWith`, `endsWith`, `contains`, `replaceAll`, and more to perform common string operations efficiently.
 
-4. **Array Manipulation**: The array module in UtilitiJs provides functions for working with arrays. Developers can find functions like `flatten`, `unique`, `shuffle`, `chunk`, `sortBy`, `filterUnique`, `countOccurrences`, and many others to simplify array manipulations and transformations.
+4. **Array Manipulation**: The array module in UtilitiJs provides functions for working with arrays. Developers can find functions like `flatten`, `unique`, `shuffle`, `chunk`, `sortBy`, `unique`, `countOccurrences`, and many others to simplify array manipulations and transformations.
 
 5. **Mathematical Operations**: UtilitiJs includes a math module with functions for performing various mathematical operations. Developers can utilize functions like `clamp`, `lerp`, `toDegrees`, `toRadians`, `roundTo`, `randomInt`, `sum`, `average`, and more to perform common mathematical calculations.
 
@@ -2065,10 +2065,16 @@ This documentation provides an overview of the functions available in the `value
 ---
 
 # Release Notes - Version 2.0.32
+The library now supports Typescript fully.
+
+# Release Notes - Version 2.0.33
+The library now provides a wide range of utility functions for mathematical
+operations, string manipulation, date manipulation, and includes an interface
+for creating and managing stores.
 
 # Changelog
 
-## [2.0.32] - 2023-04-03
+## [2.0.32] - 04-06-2023
 
 ### Added
 - TypeScript support: The library has been converted to TypeScript to provide type safety and improved developer experience. TypeScript definitions have been added to enable better code analysis, autocompletion, and error checking.
@@ -2076,10 +2082,6 @@ This documentation provides an overview of the functions available in the `value
 - Enhanced type definitions: Type definitions have been added or updated throughout the library to provide more accurate and descriptive types. This helps developers to write more reliable and maintainable code by catching type errors during development.
 - Improved error handling: Error handling has been improved throughout the library. Custom error types have been used to provide more informative error messages, helping developers to identify and resolve issues more efficiently.
 - Refactored and optimized code: The codebase has been refactored to follow best practices and improve performance. Redundant code has been removed, and optimizations have been made to enhance the overall efficiency of the library.
-
-### Fixed
-- Addressed issues reported in previous versions: Various bugs reported in previous versions have been fixed to ensure the library works as expected and provides a stable experience.
-
 
 ## Store Class Enhancements
 
@@ -2117,19 +2119,70 @@ const store = new Store<AppState, IncrementAction>(reducer, initialState);
 
 By specifying the action type when creating a new `Store` instance, TypeScript can now provide better type checking and inference. It ensures that the reducer function expects and handles the correct action type, reducing the chances of runtime errors caused by incompatible actions.
 
+### Fixed
+- Addressed issues reported in previous versions: Various bugs reported in previous versions have been fixed to ensure the library works as expected and provides a stable experience.
+
 ## Other Changes
 
-- Improved error handling: The constructor now throws a `Error` if the reducer parameter is not a function, providing better feedback during development.
+- Improved error handling
+
+## [2.0.33] - 06-06-2023
+
+### Added
+- Added mathematical utility functions:
+  - `import { maths } from "utiliti-js"`
+  - `clamp`: Restricts a value within a specified range.
+  - `lerp`: Performs linear interpolation between two values.
+  - `toDegrees`: Converts an angle from radians to degrees.
+  - `toRadians`: Converts an angle from degrees to radians.
+  - `roundTo`: Rounds a number to a specified number of decimal places.
+  - `randomInt`: Generates a random integer within a specified range.
+  - `sum`: Calculates the sum of an array of numbers.
+  - `average`: Calculates the average of an array of numbers.
+  - `min`: Finds the minimum value in an array of numbers.
+  - `max`: Finds the maximum value in an array of numbers.
+  - `factorial`: Calculates the factorial of a number.
+  - `fibonacci`: Generates the Fibonacci sequence up to a specified number of terms.
+  - `isPrime`: Checks if a number is prime.
+  - `gcd`: Calculates the greatest common divisor of two numbers.
+  - `lcm`: Calculates the least common multiple of two numbers.
+  - `isEven`: Checks if a number is even.
+  - `isOdd`: Checks if a number is odd.
+
+- Added string manipulation utility functions:
+  - `import { strings } from "utiliti-js"`
+  - `capitalize`: Converts the first character of a string to uppercase.
+  - `reverse`: Reverses the characters in a string.
+  - `truncate`: Truncates a string to a specified length.
+  - `startsWith`: Checks if a string starts with a specified prefix.
+  - `endsWith`: Checks if a string ends with a specified suffix.
+  - `contains`: Checks if a string contains a specified substring.
+  - `replaceAll`: Replaces all occurrences of a substring in a string.
+  - `countWords`: Counts the number of words in a string.
+  - `countCharacters`: Counts the number of characters in a string.
+  - `stripTags`: Removes HTML tags from a string.
+  - `isValidEmail`: Checks if a string is a valid email address.
+  - `isValidURL`: Checks if a string is a valid URL.
+
+- Added date manipulation utility functions to `DateFilter`:
+  - `isLeapYear`: Checks if a given year is a leap year.
+  - `getDaysInMonth`: Gets the number of days in a month for a given year.
+  - `addDays`: Adds a specified number of days to a given date.
+  - `subtractDays`: Subtracts a specified number of days from a given date.
+  - `compareDates`: Compares two dates and returns the difference in days.
+  - `isPastDate`: Checks if a given date is in the past.
+
+- Added `IStore` interface for `Store` class.
+
 
 Please note that this is a major release that introduces significant changes to
-the library. It is recommended to thoroughly test the updated library in your
-project environment before deploying it to production. If you encounter any
-issues or have any feedback, please don't hesitate to reach out to us.
+the library. It is recommended to thoroughly test the updated library in your project environment before deploying it to production. If you encounter any issues or have any feedback, please don't hesitate to reach out to us.
 
 We hope that these enhancements will improve the overall developer experience
 and help catch potential issues at compile-time. Happy coding!
 
-
+### Fixed
+- No issue reported since last release.
 
 ## Contributions
 

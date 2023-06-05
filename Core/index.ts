@@ -211,11 +211,11 @@ function dateFilter() {
 }
 
 /**
- * A class representing a date filter.
- * @class
+ * A class containing utility functions for working with dates.
+ * @class DateFilter
  */
 class DateFilter {
-  constructor() { }
+  constructor() {}
 
   /**
    * Converts a date to text format.
@@ -254,19 +254,13 @@ class DateFilter {
    * @throws {CustomError} If the format is invalid.
    */
   formatDate(date: Date, format: string): string {
-    // Create a Date object from the date
-    let d = new Date(date);
-
-    // Check if date format is valid
     if (typeof format !== "string") {
-      // If not, throw a CustomError
       throw new CustomError("Provide a valid date format.");
     }
 
-    // Handle "ago" format
     if (format === "ago") {
       const now = new Date();
-      const diff = now.getTime() - d.getTime();
+      const diff = now.getTime() - date.getTime();
       const seconds = Math.floor(diff / 1000);
       const minutes = Math.floor(seconds / 60);
       const hours = Math.floor(minutes / 60);
@@ -289,17 +283,131 @@ class DateFilter {
       }
     }
 
-    // Create a string representation of the date in the specified format
-    let formattedDate = format
-      .replace("yyyy", d.getFullYear().toString())
-      .replace("mm", (d.getMonth() + 1).toString().padStart(2, "0"))
-      .replace("dd", d.getDate().toString().padStart(2, "0"))
-      .replace("HH", d.getHours().toString().padStart(2, "0"))
-      .replace("MM", d.getMinutes().toString().padStart(2, "0"))
-      .replace("SS", d.getSeconds().toString().padStart(2, "0"));
+    const formatReplacements = {
+      yyyy: date.getFullYear().toString(),
+      mm: (date.getMonth() + 1).toString().padStart(2, "0"),
+      dd: date.getDate().toString().padStart(2, "0"),
+      HH: date.getHours().toString().padStart(2, "0"),
+      MM: date.getMinutes().toString().padStart(2, "0"),
+      SS: date.getSeconds().toString().padStart(2, "0"),
+    };
 
-    return formattedDate;
+    return format.replace(/yyyy|mm|dd|HH|MM|SS/g, (match) => formatReplacements[match]);
   }
+
+  /**
+   * Checks if a given year is a leap year.
+   * @param {number} year - The year to check.
+   * @returns {boolean} Whether the year is a leap year.
+   */
+  isLeapYear(year: number): boolean {
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  }
+
+  /**
+   * Gets the number of days in a month for a given year.
+   * @param {number} month - The month (1-indexed) to get the number of days.
+   * @param {number} year - The year to check if it's a leap year.
+   * @returns {number} The number of days in the month.
+   */
+  getDaysInMonth(month: number, year: number): number {
+    if (month === 2 && this.isLeapYear(year)) {
+      return 29;
+    }
+
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return daysInMonth[month - 1];
+  }
+
+  /**
+   * Adds a specified number of days to a given date.
+   * @param {Date} date - The date to add days to.
+   * @param {number} days - The number of days to add.
+   * @returns {Date} The resulting date after adding the days.
+   */
+  addDays(date: Date, days: number): Date {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + days);
+    return newDate;
+  }
+
+  /**
+   * Subtracts a specified number of days from a given date.
+   * @param {Date} date - The date to subtract days from.
+   * @param {number} days - The number of days to subtract.
+   * @returns {Date} The resulting date after subtracting the days.
+   */
+  subtractDays(date: Date, days: number): Date {
+    return this.addDays(date, -days);
+  }
+
+  /**
+   * Compares two dates and returns the difference in days.
+   * @param {Date} date1 - The first date.
+   * @param {Date} date2 - The second date.
+   * @returns {number} The difference in days between the two dates.
+   */
+  compareDates(date1: Date, date2: Date): number {
+    const diffInTime = date2.getTime() - date1.getTime();
+    return Math.floor(diffInTime / (1000 * 3600 * 24));
+  }
+
+  /**
+   * Checks if a given date is in the past.
+   * @param {Date} date - The date to check.
+   * @returns {boolean} Whether the date is in the past.
+   */
+  isPastDate(date: Date): boolean {
+    const today = new Date();
+    return date < today;
+  }
+}
+
+
+/**
+ * Represents a store that holds the state and manages state updates.
+ * @interface IStore
+ * @template T - The type of state.
+ * @template A - The type of action.
+ */
+interface IStore<T, A> {
+  /**
+   * Returns the current state of the store.
+   *
+   * @returns {T} The current state.
+   */
+  getState(): T;
+
+  /**
+   * Dispatches an action to update the state.
+   *
+   * @param {A} action - The action representing the state update.
+   */
+  dispatch(action: A): void;
+
+  /**
+   * Subscribes a listener function to be called on state changes.
+   *
+   * @param {function} listener - The listener function to be called on state changes.
+   * @returns {function} A function to unsubscribe the listener.
+   *
+   * @throws {CustomError} If the listener is not a function.
+   */
+  subscribe(listener: Function): Function;
+
+  /**
+   * Replaces the current reducer function with a new one.
+   *
+   * @param {function} nextReducer - The new reducer function.
+   */
+  replaceReducer(nextReducer: (state: T, action: A) => T): void;
+
+  /**
+   * Returns the current reducer function.
+   *
+   * @returns {function} The current reducer function.
+   */
+  getReducer(): (state: T, action: A) => T;
 }
 
 /**
@@ -313,7 +421,7 @@ class DateFilter {
  * @throws {CustomError} If the reducer is not a function.
  * @returns {Object} The store object with various methods.
  */
-class Store<T, A> {
+class Store<T, A> implements IStore<T, A> {
   private state: T;
   private listeners: Function[];
 
@@ -343,7 +451,7 @@ class Store<T, A> {
   /**
    * Dispatches an action to update the state.
    *
-   * @param {A} action - The action object representing the state update.
+   * @param {A} action - The action representing the state update.
    */
   dispatch(action: A): void {
     this.state = this.reducer(this.state, action);
