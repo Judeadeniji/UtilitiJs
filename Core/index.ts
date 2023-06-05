@@ -215,9 +215,7 @@ function dateFilter() {
  * @class
  */
 class DateFilter {
-  constructor() {
-    console.warn('DateFilter class is deprecated. Use DataFilter instead.');
-  }
+  constructor() { }
 
   /**
    * Converts a date to text format.
@@ -308,18 +306,19 @@ class DateFilter {
  * Represents a store that holds the state and manages state updates.
  * @class Store
  * @template T - The type of state.
+ * @template A - The type of action.
  * @param {function} reducer - The reducer function for state updates.
  * @param {T} [initialState={}] - The initial state of the store.
  *
  * @throws {CustomError} If the reducer is not a function.
  * @returns {Object} The store object with various methods.
  */
-class Store<T> {
+class Store<T, A> {
   private state: T;
   private listeners: Function[];
 
   constructor(
-    private reducer: (state: T, action: any) => T,
+    private reducer: (state: T, action: A) => T,
     initialState: T = {} as T
   ) {
     this.state = initialState;
@@ -330,8 +329,6 @@ class Store<T> {
       // If not, throw a CustomError
       throw new CustomError("Reducer must be a function.");
     }
-
-    this.dispatch({});
   }
 
   /**
@@ -346,9 +343,9 @@ class Store<T> {
   /**
    * Dispatches an action to update the state.
    *
-   * @param {Object} action - The action object representing the state update.
+   * @param {A} action - The action object representing the state update.
    */
-  dispatch(action: any): void {
+  dispatch(action: A): void {
     this.state = this.reducer(this.state, action);
     this.listeners.forEach((listener) => listener(this.state));
   }
@@ -378,7 +375,7 @@ class Store<T> {
    *
    * @param {function} nextReducer - The new reducer function.
    */
-  replaceReducer(nextReducer: (state: T, action: any) => T): void {
+  replaceReducer(nextReducer: (state: T, action: A) => T): void {
     this.reducer = nextReducer;
   }
 
@@ -387,7 +384,7 @@ class Store<T> {
    *
    * @returns {function} The current reducer function.
    */
-  getReducer(): (state: T, action: any) => T {
+  getReducer(): (state: T, action: A) => T {
     return this.reducer;
   }
 }
@@ -399,13 +396,13 @@ class Store<T> {
  * @returns {function} A function that wraps the store and applies the middlewares.
  */
 function applyMiddleware(...middlewares: Function[]) {
-  return (Store: any) =>
+  return (store: any) =>
     (...args: any[]) => {
-      const store = Store(...args);
+      const newStore = new store(...args);
 
-      let dispatch = store.dispatch;
+      let dispatch = newStore.dispatch;
       middlewares.forEach((middleware) => {
-        dispatch = middleware(store)(dispatch);
+        dispatch = middleware(newStore)(dispatch);
       });
 
       return {
@@ -413,6 +410,25 @@ function applyMiddleware(...middlewares: Function[]) {
         dispatch,
       };
     };
+}
+
+/**
+ * Creates a subscriber object to subscribe to store updates.
+ *
+ * @param {*} store - The store object to subscribe to.
+ * @returns {Object} The subscriber object.
+ */
+const createSubscriber = (store: any) => {
+  return {
+    /**
+     * Subscribes a callback function to be called on store updates.
+     *
+     * @param {function} callback - The callback function to be called on store updates.
+     */
+    subscribe(callback: Function) {
+      store.subscribe(callback);
+    },
+  };
 }
 
 /**
@@ -434,25 +450,6 @@ function mergeReducers(reducers: { [key: string]: Function }) {
       nextState[key] = reducers[key](state[key], action);
       return nextState;
     }, {});
-  };
-}
-
-/**
- * Creates a subscriber object to subscribe to store updates.
- *
- * @param {Object} store - The store object to subscribe to.
- * @returns {Object} The subscriber object.
- */
-const createSubscriber = (store: any) => {
-  return {
-    /**
-     * Subscribes a callback function to be called on store updates.
-     *
-     * @param {function} callback - The callback function to be called on store updates.
-     */
-    subscribe(callback: Function) {
-      store.subscribe(callback);
-    },
   };
 }
 

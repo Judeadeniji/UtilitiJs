@@ -1,0 +1,776 @@
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.trim = exports.DataValidator = exports.Random = exports.UrlParser = exports.TaskQueue = exports.generateId = exports.CustomError = exports.applyMiddleware = exports.createSubscriber = exports.mergeReducers = exports.Store = exports.dataFilter = exports.dateFilter = exports.DataFilter = exports.DateFilter = exports.Http = void 0;
+/**
+ * Represents a custom error.
+ * @class CustomError
+ * @extends Error
+ */
+var CustomError = /** @class */ (function (_super) {
+    __extends(CustomError, _super);
+    function CustomError(message) {
+        var _this = 
+        // Call the super constructor with the error message
+        _super.call(this, message) || this;
+        // Set the name property of the error object to "Utiliti Error"
+        _this.name = "Utiliti: Error";
+        return _this;
+    }
+    return CustomError;
+}(Error));
+exports.CustomError = CustomError;
+/**
+ * Body takes in an object
+ * Headers also takes an object
+ */
+function Http() {
+    var _this = this;
+    console.warn('Use Of Core.Http has been deprecated. Use the Http module instead');
+    // Send a GET request to retrieve data from the server
+    this.get = function (url, header) {
+        if (header === void 0) { header = {}; }
+        return __awaiter(_this, void 0, void 0, function () {
+            var response, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // Check if url is a string
+                        if (typeof url !== "string") {
+                            // If not, throw a CustomError
+                            throw new CustomError("url must be a string");
+                        }
+                        // Check if header is an object
+                        if (typeof header !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("Header must be an object");
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, fetch(url, { headers: new Headers(header) })];
+                    case 2:
+                        response = _a.sent();
+                        if (!response.ok) {
+                            return [2 /*return*/, Promise.reject(response.statusText)];
+                        }
+                        return [2 /*return*/, response];
+                    case 3:
+                        error_1 = _a.sent();
+                        console.error("Fetch error:", error_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // Send a POST request to create a new resource on the server
+    this.post = function (url, data, header) {
+        if (header === void 0) { header = {}; }
+        return __awaiter(_this, void 0, void 0, function () {
+            var response, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // Check if url is a string
+                        if (typeof url !== "string") {
+                            // If not, throw a CustomError
+                            throw new CustomError("url must be a string");
+                        }
+                        // Check if header is an object
+                        if (typeof header !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("header must be an object");
+                        }
+                        // Check if data is an object
+                        if (typeof data !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("the body of the request must be an object");
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, fetch(url, {
+                                method: "POST",
+                                body: JSON.stringify(data),
+                                headers: new Headers(header),
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response];
+                    case 3:
+                        error_2 = _a.sent();
+                        console.error("Fetch error:", error_2);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // Send a PUT request to update an existing resource on the server
+    this.put = function (url, data, header) {
+        if (header === void 0) { header = {}; }
+        return __awaiter(_this, void 0, void 0, function () {
+            var response, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // Check if url is a string
+                        if (typeof url !== "string") {
+                            // If not, throw a CustomError
+                            throw new CustomError("url must be a string");
+                        }
+                        // Check if header is an object
+                        if (typeof header !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("header must be an object");
+                        }
+                        // Check if data is an object
+                        if (typeof data !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("the body of the request must be an object");
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, fetch(url, {
+                                method: "PUT",
+                                body: JSON.stringify(data),
+                                headers: new Headers(header),
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response];
+                    case 3:
+                        error_3 = _a.sent();
+                        console.error("Fetch error:", error_3);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // Send a PATCH request to update a resource on the server
+    this.patch = function (url, data, header) {
+        if (header === void 0) { header = {}; }
+        return __awaiter(_this, void 0, void 0, function () {
+            var response, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // Check if url is a string
+                        if (typeof url !== "string") {
+                            // If not, throw a CustomError
+                            throw new CustomError("url must be a string");
+                        }
+                        // Check if header is an object
+                        if (typeof header !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("header must be an object");
+                        }
+                        // Check if data is an object
+                        if (typeof data !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("the body of the request must be an object");
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, fetch(url, {
+                                method: "PATCH",
+                                body: JSON.stringify(data),
+                                headers: new Headers(header),
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response];
+                    case 3:
+                        error_4 = _a.sent();
+                        console.error("Fetch error:", error_4);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // Send a DELETE request to delete a resource on the server
+    this.delete = function (url, header) {
+        if (header === void 0) { header = {}; }
+        return __awaiter(_this, void 0, void 0, function () {
+            var response, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        // Check if url is a string
+                        if (typeof url !== "string") {
+                            // If not, throw a CustomError
+                            throw new CustomError("url must be a string");
+                        }
+                        // Check if header is an object
+                        if (typeof header !== "object") {
+                            // If not, throw a CustomError
+                            throw new CustomError("header must be an object");
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, fetch(url, {
+                                method: "DELETE",
+                                headers: new Headers(header),
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response];
+                    case 3:
+                        error_5 = _a.sent();
+                        console.error("Fetch error:", error_5);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+}
+exports.Http = Http;
+function dataFilter(item) {
+    console.warn('dataFilter has been renamed to DataFilter');
+    return new DataFilter(item);
+}
+exports.dataFilter = dataFilter;
+/**
+ * A class representing a data filter.
+ * @class DataFilter
+ * @template T - The type of data being filtered.
+ */
+var DataFilter = /** @class */ (function () {
+    /**
+     * Constructs a DataFilter instance with the provided filter function.
+     * @param {Function} filterFn - The filter function used to filter the data.
+     */
+    function DataFilter(filterFn) {
+        this.filterFn = filterFn;
+    }
+    /**
+     * Filters an array of data using the filter function.
+     * @param {Array<T>} data - The array of data to be filtered.
+     * @returns {Array<T>} The filtered data array.
+     * @throws {CustomError} Throws a CustomError if the filter function is not a function.
+     */
+    DataFilter.prototype.filter = function (data) {
+        if (typeof this.filterFn !== "function") {
+            throw new CustomError("The filter function must be a function.");
+        }
+        var filteredData = [];
+        for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
+            var item = data_1[_i];
+            var result = this.filterFn(item);
+            if (result === true) {
+                filteredData.push(item);
+            }
+        }
+        return filteredData;
+    };
+    return DataFilter;
+}());
+exports.DataFilter = DataFilter;
+function dateFilter() {
+    console.warn('dateFilter has been renamed to DateFilter');
+    return new DateFilter();
+}
+exports.dateFilter = dateFilter;
+/**
+ * A class representing a date filter.
+ * @class
+ */
+var DateFilter = /** @class */ (function () {
+    function DateFilter() {
+    }
+    /**
+     * Converts a date to text format.
+     * @param {Date} date - The date object to convert.
+     * @returns {string} The date in text format.
+     */
+    DateFilter.prototype.text = function (date) {
+        var monthNames = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+        var monthName = monthNames[date.getMonth()];
+        var day = date.getDate();
+        var year = date.getFullYear();
+        return "".concat(monthName, " ").concat(day, ", ").concat(year);
+    };
+    /**
+     * Formats a date based on the specified format.
+     * @param {Date} date - The date object to format.
+     * @param {string} format - The format to use for formatting the date.
+     * Supported format specifiers: yyyy, mm, dd, HH, MM, SS, ago.
+     * @returns {string} The formatted date.
+     * @throws {CustomError} If the format is invalid.
+     */
+    DateFilter.prototype.formatDate = function (date, format) {
+        // Create a Date object from the date
+        var d = new Date(date);
+        // Check if date format is valid
+        if (typeof format !== "string") {
+            // If not, throw a CustomError
+            throw new CustomError("Provide a valid date format.");
+        }
+        // Handle "ago" format
+        if (format === "ago") {
+            var now = new Date();
+            var diff = now.getTime() - d.getTime();
+            var seconds = Math.floor(diff / 1000);
+            var minutes = Math.floor(seconds / 60);
+            var hours = Math.floor(minutes / 60);
+            var days = Math.floor(hours / 24);
+            var months = Math.floor(days / 30);
+            var years = Math.floor(months / 12);
+            if (years > 0) {
+                return "".concat(years, " year").concat(years > 1 ? "s" : "", " ago");
+            }
+            else if (months > 0) {
+                return "".concat(months, " month").concat(months > 1 ? "s" : "", " ago");
+            }
+            else if (days > 0) {
+                return "".concat(days, " day").concat(days > 1 ? "s" : "", " ago");
+            }
+            else if (hours > 0) {
+                return "".concat(hours, " hour").concat(hours > 1 ? "s" : "", " ago");
+            }
+            else if (minutes > 0) {
+                return "".concat(minutes, " minute").concat(minutes > 1 ? "s" : "", " ago");
+            }
+            else {
+                return "".concat(seconds, " second").concat(seconds !== 1 ? "s" : "", " ago");
+            }
+        }
+        // Create a string representation of the date in the specified format
+        var formattedDate = format
+            .replace("yyyy", d.getFullYear().toString())
+            .replace("mm", (d.getMonth() + 1).toString().padStart(2, "0"))
+            .replace("dd", d.getDate().toString().padStart(2, "0"))
+            .replace("HH", d.getHours().toString().padStart(2, "0"))
+            .replace("MM", d.getMinutes().toString().padStart(2, "0"))
+            .replace("SS", d.getSeconds().toString().padStart(2, "0"));
+        return formattedDate;
+    };
+    return DateFilter;
+}());
+exports.DateFilter = DateFilter;
+/**
+ * Represents a store that holds the state and manages state updates.
+ * @class Store
+ * @template T - The type of state.
+ * @template A - The type of action.
+ * @param {function} reducer - The reducer function for state updates.
+ * @param {T} [initialState={}] - The initial state of the store.
+ *
+ * @throws {CustomError} If the reducer is not a function.
+ * @returns {Object} The store object with various methods.
+ */
+var Store = /** @class */ (function () {
+    function Store(reducer, initialState) {
+        if (initialState === void 0) { initialState = {}; }
+        this.reducer = reducer;
+        this.state = initialState;
+        this.listeners = [];
+        // Check if reducer is a function
+        if (typeof reducer !== "function") {
+            // If not, throw a CustomError
+            throw new CustomError("Reducer must be a function.");
+        }
+    }
+    /**
+     * Returns the current state of the store.
+     *
+     * @returns {T} The current state.
+     */
+    Store.prototype.getState = function () {
+        return this.state;
+    };
+    /**
+     * Dispatches an action to update the state.
+     *
+     * @param {A} action - The action object representing the state update.
+     */
+    Store.prototype.dispatch = function (action) {
+        var _this = this;
+        this.state = this.reducer(this.state, action);
+        this.listeners.forEach(function (listener) { return listener(_this.state); });
+    };
+    /**
+     * Subscribes a listener function to be called on state changes.
+     *
+     * @param {function} listener - The listener function to be called on state changes.
+     * @returns {function} A function to unsubscribe the listener.
+     *
+     * @throws {CustomError} If the listener is not a function.
+     */
+    Store.prototype.subscribe = function (listener) {
+        var _this = this;
+        // Check if listener is a function
+        if (typeof listener !== "function") {
+            // If not, throw a CustomError
+            throw new CustomError("You must subscribe to a function.");
+        }
+        this.listeners.push(listener);
+        return function () {
+            _this.listeners = _this.listeners.filter(function (l) { return l !== listener; });
+        };
+    };
+    /**
+     * Replaces the current reducer function with a new one.
+     *
+     * @param {function} nextReducer - The new reducer function.
+     */
+    Store.prototype.replaceReducer = function (nextReducer) {
+        this.reducer = nextReducer;
+    };
+    /**
+     * Returns the current reducer function.
+     *
+     * @returns {function} The current reducer function.
+     */
+    Store.prototype.getReducer = function () {
+        return this.reducer;
+    };
+    return Store;
+}());
+exports.Store = Store;
+/**
+ * Applies middlewares to the store's dispatch function.
+ *
+ * @param {...function} middlewares - The middlewares to apply.
+ * @returns {function} A function that wraps the store and applies the middlewares.
+ */
+function applyMiddleware() {
+    var middlewares = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        middlewares[_i] = arguments[_i];
+    }
+    return function (store) {
+        return function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            var newStore = new (store.bind.apply(store, __spreadArray([void 0], args, false)))();
+            var dispatch = newStore.dispatch;
+            middlewares.forEach(function (middleware) {
+                dispatch = middleware(newStore)(dispatch);
+            });
+            return __assign(__assign({}, store), { dispatch: dispatch });
+        };
+    };
+}
+exports.applyMiddleware = applyMiddleware;
+/**
+ * Creates a subscriber object to subscribe to store updates.
+ *
+ * @param {*} store - The store object to subscribe to.
+ * @returns {Object} The subscriber object.
+ */
+var createSubscriber = function (store) {
+    return {
+        /**
+         * Subscribes a callback function to be called on store updates.
+         *
+         * @param {function} callback - The callback function to be called on store updates.
+         */
+        subscribe: function (callback) {
+            store.subscribe(callback);
+        },
+    };
+};
+exports.createSubscriber = createSubscriber;
+/**
+ * Merges multiple reducers into a single reducer function.
+ *
+ * @param {Object} reducers - An object containing the individual reducers.
+ * @returns {function} The merged reducer function.
+ *
+ * @throws {CustomError} If reducers is not an object.
+ */
+function mergeReducers(reducers) {
+    // Check if reducers is an object
+    if (typeof reducers !== "object") {
+        // If not, throw a CustomError
+        throw new CustomError("Provide an object containing the reducers.");
+    }
+    return function (state, action) {
+        if (state === void 0) { state = {}; }
+        return Object.keys(reducers).reduce(function (nextState, key) {
+            nextState[key] = reducers[key](state[key], action);
+            return nextState;
+        }, {});
+    };
+}
+exports.mergeReducers = mergeReducers;
+function generateId() {
+    // Generate a random number between 1 and 1000000
+    var id = Math.floor(Math.random() * 1000000) + 1;
+    return id;
+}
+exports.generateId = generateId;
+/**
+ * Creates and manages a queue of tasks.
+ * @class TaskQueue
+ */
+var TaskQueue = /** @class */ (function () {
+    function TaskQueue() {
+        this.tasks = [];
+    }
+    /**
+     * Adds a new task to the queue.
+     * @param {function} task - The task to add to the queue.
+     * @returns {void}
+     */
+    TaskQueue.prototype.addTask = function (task) {
+        this.tasks.push(task);
+    };
+    /**
+     * Executes all tasks in the queue.
+     * @returns {void}
+     * @throws {CustomError} If a task is not a function.
+     */
+    TaskQueue.prototype.runTasks = function () {
+        for (var _i = 0, _a = this.tasks; _i < _a.length; _i++) {
+            var task = _a[_i];
+            if (typeof task !== "function") {
+                throw new CustomError("Cannot run a " +
+                    typeof task +
+                    " as a function. \n This requires a function");
+            }
+            task();
+        }
+    };
+    /**
+     * Clears the queue.
+     * @returns {void}
+     */
+    TaskQueue.prototype.clearTasks = function () {
+        this.tasks = [];
+    };
+    /**
+     * Gets the number of tasks in the queue.
+     * @returns {number} The number of tasks in the queue.
+     */
+    TaskQueue.prototype.getTaskCount = function () {
+        return this.tasks.length;
+    };
+    return TaskQueue;
+}());
+exports.TaskQueue = TaskQueue;
+/**
+ * Parses and manipulates URLs.
+ * @class UrlParser
+ * @param {string} url - The URL to parse and manipulate.
+ * @throws {CustomError} If the url is not a string.
+ */
+var UrlParser = /** @class */ (function () {
+    function UrlParser(url) {
+        if (typeof url !== "string") {
+            throw new CustomError("url must be a string");
+        }
+        this.parsedUrl = new URL(url);
+    }
+    /**
+     * Gets the URL path.
+     * @returns {string} The URL path.
+     */
+    UrlParser.prototype.getPath = function () {
+        return this.parsedUrl.pathname;
+    };
+    /**
+     * Gets the query string.
+     * @returns {string} The query string.
+     */
+    UrlParser.prototype.getQueryString = function () {
+        return this.parsedUrl.search;
+    };
+    /**
+     * Gets a specific query parameter.
+     * @param {string} param - The query parameter to retrieve.
+     * @returns {string|null} The value of the query parameter, or null if not found.
+     */
+    UrlParser.prototype.getQueryParameter = function (param) {
+        return this.parsedUrl.searchParams.get(param);
+    };
+    /**
+     * Builds a URL from its components.
+     * @param {string} protocol - The URL protocol.
+     * @param {string} hostname - The URL hostname.
+     * @param {string} path - The URL path.
+     * @param {Object.<string, string>} queryParams - The query parameters.
+     * @returns {string} The built URL.
+     */
+    UrlParser.prototype.buildUrl = function (protocol, hostname, path, queryParams) {
+        var url = new URL(protocol, hostname);
+        url.pathname = path;
+        for (var _i = 0, _a = Object.entries(queryParams); _i < _a.length; _i++) {
+            var _b = _a[_i], param = _b[0], value = _b[1];
+            url.searchParams.append(param, value);
+        }
+        return url.toString();
+    };
+    return UrlParser;
+}());
+exports.UrlParser = UrlParser;
+/**
+ * Generates random numbers or strings.
+ * @class Random
+ */
+var Random = /** @class */ (function () {
+    function Random() {
+    }
+    /**
+     * Generates a random number within a specified range.
+     * @param {number} min - The minimum value.
+     * @param {number} max - The maximum value.
+     * @returns {number} The generated random number.
+     */
+    Random.prototype.number = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    /**
+     * Generates a random string with a specified length.
+     * @param {number} length - The length of the random string.
+     * @returns {string} The generated random string.
+     */
+    Random.prototype.string = function (length) {
+        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var str = "";
+        for (var i = 0; i < length; i++) {
+            str += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return str;
+    };
+    return Random;
+}());
+exports.Random = Random;
+/**
+ * Validates data.
+ * @class DataValidator
+ */
+var DataValidator = /** @class */ (function () {
+    function DataValidator() {
+    }
+    /**
+     * Checks if a value is within a certain range.
+     * @param {number} value - The value to check.
+     * @param {number} min - The minimum value of the range.
+     * @param {number} max - The maximum value of the range.
+     * @returns {boolean} true if the value is within the range, false otherwise.
+     */
+    DataValidator.prototype.inRange = function (value, min, max) {
+        return value >= min && value <= max;
+    };
+    /**
+     * Checks if a string matches a certain format.
+     * @param {string} str - The string to check.
+     * @param {RegExp} regex - The regular expression to match against.
+     * @returns {boolean} true if the string matches the format, false otherwise.
+     */
+    DataValidator.prototype.matchFormat = function (str, regex) {
+        return regex.test(str);
+    };
+    /**
+     * Checks if a string has a certain length.
+     * @param {string} str - The string to check.
+     * @param {number} length - The required length of the string.
+     * @returns {boolean} true if the string has the specified length, false otherwise.
+     */
+    DataValidator.prototype.hasLength = function (str, length) {
+        return str.length === length;
+    };
+    return DataValidator;
+}());
+exports.DataValidator = DataValidator;
+function trim(str) {
+    // Use a regular expression to match leading and trailing whitespace
+    var regex = /^\s+|\s+$/g;
+    // Replace the matched whitespace with an empty string
+    return str.replace(regex, "");
+}
+exports.trim = trim;
