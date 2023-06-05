@@ -16,7 +16,7 @@
 - **Author:** [Adeniji OluwaFeranmi](http://feranmiwebdev.netlify.app)
 
 - **Created:** 27 November, 2022
-- **Update:** 05 June, 2023
+- **Update:** 06 June, 2023
 
 If you have any questions that are beyond the scope of this help file, Please feel free to email via [Support Page](https://twitter.com/Feranmiwebdev).
 
@@ -65,7 +65,9 @@ Once installed, you can import the desired modules and start using the utility f
 Here's an example of how you can use UtilitiJs in your code:
 
 ```javascript
-import { typeCheck, valueCheck, string, array, math, date } from 'utiliti-js';
+import { typeCheck, valueCheck, string, array, math, Core } from 'utiliti-js';
+
+const date = new Core.DateFilter();
 
 console.log(typeCheck.isInteger(42)); // Output: true
 
