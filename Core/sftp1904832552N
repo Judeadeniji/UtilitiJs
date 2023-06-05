@@ -587,6 +587,10 @@ function mergeReducers(reducers) {
     };
 }
 exports.mergeReducers = mergeReducers;
+/**
+ * Generates a unique id of a random length.
+ * @returns {number} The generated id.
+*/
 function generateId() {
     // Generate a random number between 1 and 1000000
     var id = Math.floor(Math.random() * 1000000) + 1;

@@ -453,6 +453,10 @@ function mergeReducers(reducers: { [key: string]: Function }) {
   };
 }
 
+/**
+ * Generates a unique id of a random length.
+ * @returns {number} The generated id.
+*/
 function generateId(): number {
   // Generate a random number between 1 and 1000000
   const id: number = Math.floor(Math.random() * 1000000) + 1;
