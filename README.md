@@ -309,14 +309,14 @@ http.delete('https://api.example.com/users/123', { Authorization: 'Bearer token'
 
 ### Interceptors
 
-Interceptors allow you to modify requests or responses globally or for specific requests. You can add interceptors using the `addInterceptor` and `addScopedInterceptor` methods.
+Interceptors allow you to modify requests or responses globally or for specific requests. You can add interceptors using the `useInterceptors` and `useScopedInterceptors` methods.
 
 #### Global Interceptors
 
 Global interceptors apply to all requests made using the `Http` instance.
 
 ```typescript
-http.addInterceptor(interceptor: Function): void
+http.useInterceptors(interceptors: Function[]): void
 ```
 
 Example:
@@ -332,7 +332,7 @@ function requestInterceptor(request: any, next: Function) {
   return next(request);
 }
 
-http.addInterceptor(requestInterceptor);
+http.useInterceptors([requestInterceptor]);
 ```
 
 #### Scoped Interceptors
@@ -340,7 +340,7 @@ http.addInterceptor(requestInterceptor);
 Scoped interceptors apply to specific requests based on the method and URL.
 
 ```typescript
-http.addScopedInterceptor(interceptor: Function): void
+http.useScopedInterceptors(interceptor: Function[]): void
 ```
 
 Example:
@@ -354,7 +354,7 @@ function responseInterceptor(response: any, next: Function) {
   return next(response);
 }
 
-http.addScopedInterceptor(responseInterceptor);
+http.useScopedInterceptors([responseInterceptor], 'https://api.example.com/users/123', 'GET');
 ```
 
 ### Examples
@@ -406,28 +406,6 @@ http.post('https://api.example.com/users', user, { Authorization: 'Bearer token'
 
 The HTTP Client module throws a `Error` if the method, URL, headers, or interceptors are invalid. Make sure to handle these errors appropriately in your application.
 
-### Example Error Handling
-
-```typescript
-import { Error } from 'http-client-module';
-
-try {
-  http.get('https://api.example.com/users', { Authorization: 'Bearer token' })
-    .then((response) => {
-      // Handle the response
-    })
-    .catch((error) => {
-      // Handle other errors
-      if (error instanceof Error) {
-        // Handle Error
-      } else {
-        // Handle other errors
-      }
-    });
-} catch (error) {
-  // Handle synchronous errors
-}
-```
 
 ## Conclusion
 
@@ -609,6 +587,13 @@ const date = new Date();
 const formattedDate = DateFilter.formatDate(date, "yyyy-mm-dd HH:MM:SS");
 console.log(formattedDate);
 // Output: "2023-06-05 12:30:45"
+```
+
+```typescript
+const date = new Date();
+const formattedDate = DateFilter.formatDate(date, "ago");
+console.log(formattedDate);
+// Output: "xx day(s) or xx hour(s) ago"
 ```
 
 ### Warning
@@ -973,9 +958,6 @@ const builtUrl = urlParser.buildUrl(protocol, hostname, path, queryParams);
 console.log(builtUrl); // Expected output: The built URL as a string (e.g., "https://example.com/api?key1=value1&key2=value2")
 ```
 
-## Error Handling
-
-The `UrlParser` class throws a `CustomError` if the URL provided is not a string. Make sure to handle this error appropriately in your code.
 
 ---
 
