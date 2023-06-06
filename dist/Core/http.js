@@ -1,4 +1,41 @@
-import { CustomError } from "./index";
+/**
+ * Custom error class for HTTP request errors.
+ */
+class HttpRequestError extends Error {
+    /**
+     * The HTTP method of the failed request.
+     */
+    method;
+    /**
+     * The URL of the failed request.
+     */
+    url;
+    /**
+     * The body of the failed request.
+     */
+    data;
+    /**
+     * The headers of the failed request.
+     */
+    headers;
+    /**
+     * Creates an instance of HttpRequestError.
+     *
+     * @param {string} message - The error message.
+     * @param {string} method - The HTTP method of the failed request.
+     * @param {string} url - The URL of the failed request.
+     * @param {Object} data - The body of the failed request.
+     * @param {Object} headers - The headers of the failed request.
+     */
+    constructor(message, method, url, data, headers) {
+        super(message);
+        this.name = "Utiliti-HttpRequestError";
+        this.method = method;
+        this.url = url;
+        this.data = data;
+        this.headers = headers;
+    }
+}
 /**
  * Sends an HTTP request with the specified method.
  *
@@ -9,23 +46,25 @@ import { CustomError } from "./index";
  * @param {Object} [header={}] - The headers of the request (optional).
  * @param {AbortSignal} [signal] - The abort signal (optional).
  * @returns {Promise<Response>} A promise that resolves to the response from the server.
- * @throws {CustomError} Throws a CustomError if the method, URL, headers, or interceptors are invalid.
+ * @throws {HttpRequestError} Throws a HttpRequestError if the method, URL, headers, or interceptors are invalid.
  */
 async function sendRequest(method, url, data = undefined, header = {}, signal) {
     if (typeof method !== 'string') {
-        throw new CustomError('Method must be a string');
+        throw new HttpRequestError('Method must be a string', method, data, url, header);
     }
     if (typeof url !== 'string') {
-        throw new CustomError('URL must be a string');
+        throw new HttpRequestError('URL must be a string', method, url, data, header);
     }
     if (typeof header !== 'object') {
-        throw new CustomError('Header must be an object');
+        throw new HttpRequestError('Header must be an object', method, url, data, header);
     }
     const options = {
         method,
         headers: header,
-        signal, // Assign the abort signal to the request options
     };
+    if (signal instanceof AbortSignal) {
+        options.signal = signal; // Assign the abort signal to the request options
+    }
     if (data) {
         if (typeof data === 'string') {
             options.body = data;
@@ -44,13 +83,12 @@ async function sendRequest(method, url, data = undefined, header = {}, signal) {
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
-            throw new Error(response.statusText);
+            throw new HttpRequestError(response.statusText, method, url, data, header);
         }
         return response;
     }
     catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+        throw new HttpRequestError(error.message, method, url, data, header);
     }
 }
 /**
@@ -80,11 +118,11 @@ class Http {
      * @memberof Http
      * @method addInterceptor
      * @param {Function} interceptor - The interceptor function.
-     * @throws {CustomError} Throws a CustomError if the interceptor is not a function.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the interceptor is not a function.
      */
     addInterceptor(interceptor) {
         if (typeof interceptor !== 'function') {
-            throw new CustomError('Interceptor must be a function');
+            throw new HttpRequestError('Interceptor must be a function', '', '', 'interceptor must be of type Function', {});
         }
         this.interceptors.push(interceptor);
     }
@@ -94,11 +132,11 @@ class Http {
      * @memberof Http
      * @method addScopedInterceptor
      * @param {Function} interceptor - The interceptor function.
-     * @throws {CustomError} Throws a CustomError if the interceptor is not a function.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the interceptor is not a function.
      */
     addScopedInterceptor(interceptor) {
         if (typeof interceptor !== 'function') {
-            throw new CustomError('Interceptor must be a function');
+            throw new HttpRequestError('Interceptor must be a function', '', '', 'interceptor must be of type Function', {});
         }
         this.scopedInterceptors.push(interceptor);
     }
@@ -113,20 +151,20 @@ class Http {
      * @param {Object} [data] - The body of the request (optional).
      * @param {Object} [header={}] - The headers of the request (optional).
      * @returns {Promise<Response>} A promise that resolves to the response from the server.
-     * @throws {CustomError} Throws a CustomError if the method, URL, headers, or interceptors are invalid.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the method, URL, headers, or interceptors are invalid.
      */
     sendRequestWithInterceptors(method, url, data = undefined, header = {}, signal) {
         if (typeof method !== 'string') {
-            throw new CustomError('Method must be a string');
+            throw new HttpRequestError('Method must be a string', method, url, data, header);
         }
         if (typeof url !== 'string') {
-            throw new CustomError('URL must be a string');
+            throw new HttpRequestError('URL must be a string', method, url, data, header);
         }
         if (typeof header !== 'object') {
-            throw new CustomError('Header must be an object');
+            throw new HttpRequestError('Header must be an object', method, url, data, header);
         }
         if (!Array.isArray(this.interceptors)) {
-            throw new CustomError('Interceptors must be an array');
+            throw new HttpRequestError('Interceptors must be an array', method, url, data, header);
         }
         const interceptorsCount = this.interceptors.length;
         let requestPromise = Promise.resolve({
@@ -145,7 +183,7 @@ class Http {
                     data: request.data,
                     header: request.header,
                     signal: request.signal,
-                }, ({ method, url, data, header }) => sendRequest(method || request.method, url || request.url, data || request.data, signal || request?.signal, request.header));
+                }, ({ method, url, data, header, signal }) => sendRequest(request.method || method, request.url || url, request.data || data, request.signal || signal instanceof AbortSignal ? signal : undefined, request.header || header));
             }).then((response) => {
                 if (response && response.constructor.name === 'Response') {
                     // If the interceptor returned a response, convert it back to the request object
@@ -174,8 +212,9 @@ class Http {
      * @method get
      * @param {string} url - The URL to send the request to.
      * @param {Object} [header={}] - The headers of the request (optional).
+     * @param {AbortSignal} [signal] - The abort signal (optional).
      * @returns {Promise<Response>} A promise that resolves to the response from the server.
-     * @throws {CustomError} Throws a CustomError if the URL or headers are invalid.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the URL or headers are invalid.
      */
     async get(url, header = {}, signal) {
         return await this.sendRequestWithInterceptors('GET', url, undefined, header, signal);
@@ -188,8 +227,9 @@ class Http {
      * @param {string} url - The URL to send the request to.
      * @param {Object} data - The body of the request.
      * @param {Object} [header={}] - The headers of the request (optional).
+     * @param {AbortSignal} [signal] - The abort signal (optional).
      * @returns {Promise<Response>} A promise that resolves to the response from the server.
-     * @throws {CustomError} Throws a CustomError if the URL, body, or headers are invalid.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the URL, body, or headers are invalid.
      */
     async post(url, data, header = {}, signal) {
         return await this.sendRequestWithInterceptors('POST', url, data, header, signal);
@@ -202,8 +242,9 @@ class Http {
      * @param {string} url - The URL to send the request to.
      * @param {Object} data - The body of the request.
      * @param {Object} [header={}] - The headers of the request (optional).
+     * @param {AbortSignal} [signal] - The abort signal (optional).
      * @returns {Promise<Response>} A promise that resolves to the response from the server.
-     * @throws {CustomError} Throws a CustomError if the URL, body, or headers are invalid.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the URL, body, or headers are invalid.
      */
     async put(url, data, header = {}, signal) {
         return await this.sendRequestWithInterceptors('PUT', url, data, header, signal);
@@ -216,8 +257,9 @@ class Http {
      * @param {string} url - The URL to send the request to.
      * @param {Object} data - The body of the request.
      * @param {Object} [header={}] - The headers of the request (optional).
+     * @param {AbortSignal} [signal] - The abort signal (optional).
      * @returns {Promise<Response>} A promise that resolves to the response from the server.
-     * @throws {CustomError} Throws a CustomError if the URL, body, or headers are invalid.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the URL, body, or headers are invalid.
      */
     async patch(url, data, header = {}, signal) {
         return await this.sendRequestWithInterceptors('PATCH', url, data, header, signal);
@@ -229,8 +271,9 @@ class Http {
      * @method delete
      * @param {string} url - The URL to send the request to.
      * @param {Object} [header={}] - The headers of the request (optional).
+     * @param {AbortSignal} [signal] - The abort signal (optional).
      * @returns {Promise<Response>} A promise that resolves to the response from the server.
-     * @throws {CustomError} Throws a CustomError if the URL or headers are invalid.
+     * @throws {HttpRequestError} Throws a HttpRequestError if the URL or headers are invalid.
      */
     async delete(url, header = {}, signal) {
         return await this.sendRequestWithInterceptors('DELETE', url, undefined, header, signal);
@@ -241,11 +284,11 @@ class Http {
      * @memberof Http
      * @method useInterceptors
      * @param {Function[]} interceptors - The array of interceptor functions to be added.
-     * @throws {CustomError} Throws a CustomError if any of the interceptors is not a function.
+     * @throws {HttpRequestError} Throws a HttpRequestError if any of the interceptors is not a function.
      */
     useInterceptors(interceptors) {
         if (!Array.isArray(interceptors)) {
-            throw new CustomError('Interceptors must be an array');
+            throw new HttpRequestError('Interceptors must be an array', '', '', 'Interceptors must be of type Function[]', {});
         }
         interceptors.forEach((interceptor) => {
             this.addInterceptor(interceptor);
@@ -259,11 +302,11 @@ class Http {
      * @param {Function[]} interceptors - The array of interceptor functions to be added.
      * @param {string} method - The HTTP method of the request.
      * @param {string} url - The URL of the request.
-     * @throws {CustomError} Throws a CustomError if any of the interceptors is not a function.
+     * @throws {HttpRequestError} Throws a HttpRequestError if any of the interceptors is not a function.
      */
     useScopedInterceptors(interceptors, method, url) {
         if (!Array.isArray(interceptors)) {
-            throw new CustomError('Interceptors must be an array');
+            throw new HttpRequestError('Interceptors must be an array', method, url, 'interceptors must be of type Function[]', {});
         }
         interceptors.forEach((interceptor) => {
             this.addScopedInterceptor((request, next) => {
