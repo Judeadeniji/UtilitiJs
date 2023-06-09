@@ -87,9 +87,7 @@ esFetch('https://api.example.com')
     });
   })
   .send();
-``
-
-`
+```
 
 ### Adding headers and data
 
