@@ -9,7 +9,7 @@
 - [Interceptors](#interceptors)
 - [Methods](#methods)
 - [Sending Requests](#sending-requests)
-- [Callbacks](#callbacks)
+- [Events](#events)
 - [Examples](#examples)
 - [Pros and Cons](#pros-and-cons)
 
@@ -52,7 +52,9 @@ The `callback` parameter is a function that handles the request and response.
 
 ## Sending Requests
 
-To send all the added requests, call the `send` method:
+To send a specific request or all added requests, you can use the `send()` method.
+
+To send all added requests, call the `send()` method on the `esFetch` instance:
 
 ```javascript
 esFetch('https://api.example.com')
@@ -62,15 +64,42 @@ esFetch('https://api.example.com')
   .post((request, response) => {
     // Handle the response
   })
+  .put((request, response) => {
+    // Handle the response
+  })
+  .patch((request, response) => {
+    // Handle the response
+  })
+  .delete((request, response) => {
+    // Handle the response
+  })
   .send();
 ```
 
-## Callbacks
+Alternatively, if you want to send a specific request, you can call `send()` directly on that request:
 
-`esFetch` provides two methods for setting callbacks:
+```javascript
+const server = esFetch('https://api.example.com');
 
-- `onend(callback: (args: Array<object>) => any): this`: Sets the callback function to be called when all requests are successfully completed.
-- `onerror(callback: (error: Error) => any): this`: Sets the callback function to be called when an error occurs during the requests.
+server.get((request, response) => {
+  // Handle the response
+}).send();
+```
+
+In these examples
+
+, we create an `esFetch` instance with the base URL `https://api.example.com`. We can use various methods such as `get()`, `post()`, `put()`, `patch()`, and `delete()` to add requests. By calling `send()` on the `esFetch` instance, we send all added requests simultaneously. Alternatively, we can call `send()` directly on a specific request object to trigger that request individually.
+
+The `send()` method initiates the actual execution of the requests and triggers the associated callbacks for each request.
+
+Please note that if `send()` is called multiple times, it will send the requests multiple times. Ensure that you call `send()` when you are ready to send the requests.
+
+## Events
+
+`esFetch` provides two methods for events:
+
+- `onend(callback: (args: Array<object>) => any): this`: Uses the callback function when all requests are successfully completed.
+- `onerror(callback: (error: Error) => any): this`: Uses the callback function when an error occurs during the requests.
 
 ## Examples
 
@@ -109,10 +138,13 @@ esFetch('https://api.example.com')
 
 ### Using interceptors
 
+Use the `useInterceptor()` method to add an interceptor Object. You can use as many interceptors as needed
+
 ```javascript
 const requestInterceptor = async (request) => {
   // Modify request options
   request.options.headers['X-Auth-Token'] = 'token';
+  // always return the request
   return request.options;
 };
 
@@ -139,6 +171,25 @@ esFetch('https://api.example.com')
   .send();
 ```
 
+## Examples
+
+### Backend Example Using esFetch
+
+Here's an example of how to use `esFetch` on the backend using Node.js:
+
+```javascript
+const { esFetch } = require('utiliti-js');
+
+const apiUrl = 'https://api.example.com';
+
+esFetch(apiUrl)
+  .get((request, response) => {
+    // Handle the response
+  })
+  .send();
+```
+
+
 ### Todo App Example Using Svelte
 
 ```html
@@ -163,8 +214,7 @@ esFetch('https://api.example.com')
     try {
       const response = await api.get(async (request, response) => {
         todos = await response.json();
-      });
-      await response.send();
+      }).send();
     } catch (error) {
       console.error('Error retrieving todos:', error);
     }
@@ -182,65 +232,72 @@ esFetch('https://api.example.com')
       const response = await api.post(async (request, response) => {
         const addedTodo = await response.json();
         todos = [...todos, addedTodo];
-      }, { data: newTodo });
-      await response.send();
+      }, { data: newTodo }).send();
     } catch (error) {
       console.error('Error adding todo:', error);
     }
   }
-
-  async function toggleTodo(todo) {
-    try {
-      const response = await api.put(async (request, response) => {
-        const updatedTodo = await response.json();
-        todos = todos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t));
-      }, { data: { completed: !todo.completed } });
-      await response.send();
-    } catch (error) {
-      console.error('Error updating todo:', error);
-    }
-  }
-
-  async function deleteTodo(todo) {
-    try {
-      const response = await api.delete(async (request, response) => {
-        todos = todos.filter((t) => t.id !== todo.id);
-      });
-      await response.send();
-    } catch (error) {
-      console.error('Error deleting todo:', error);
-    }
-  }
 </script>
 
-<h1>Todo App</h1>
-
-<button on:click={addTodo}>Add Todo</button>
+<h1>Todos</h1>
 
 <ul>
   {#each todos as todo (todo.id)}
-    <li on:click={() => toggleTodo(todo)} class:selected={todo.completed}>
-      {todo.title}
-      <button on:click={() => deleteTodo(todo)}>Delete</button>
-    </li>
+    <li>{todo.title}</li>
   {/each}
 </ul>
+
+<button on:click={addTodo}>Add Todo</button>
 ```
+
+In this example, we use `esFetch` to perform GET and POST requests to retrieve and add todos to a Todo app built with Svelte.
+
+
+### Using an Interceptor with AbortController to Conditionally Cancel a Request
+
+```javascript
+const { esFetch } = require('utiliti-js');
+
+const apiUrl = 'https://api.example.com';
+
+
+ const abortController = new AbortController();
+esFetch(apiUrl)
+  .useInterceptor({
+    request: async (request) => {
+      // using the interceptor to modify the request object
+      request.options.signal = abortController.signal;
+      // Conditionally cancel the request
+      if (shouldCancelRequest) {
+        abortController.abort();
+      }
+      return request.options;
+    },
+  })
+  .get((request, response) => {
+    // Handle the response
+  }, /*{ signal: abortController.signal }*/)
+  .send();
+```
+
 
 ## Pros and Cons
 
 ### Pros
 
-- Simple and flexible API for
-
- making HTTP requests.
-- Supports different HTTP methods (GET, POST, PUT, PATCH, DELETE).
-- Allows customization of request options, such as headers and data.
-- Provides interceptors for modifying requests and responses.
-- Supports TypeScript for static type checking.
+- Simple and flexible API for making HTTP requests.
+- Supports different HTTP methods: GET, POST, PUT, PATCH, DELETE.
+- Works on all environment server (Nodejs) and browsers.
+- Supports all data types like blobs, files, multi-part forms.
+- Allows chaining multiple requests together.
+- Provides options for setting headers and sending data with requests.
+- Supports interceptors for modifying requests and responses.
+- Works with modern JavaScript frameworks and libraries.
 
 ### Cons
 
-- The module might be overkill for simple use cases where a more lightweight solution is sufficient.
+- Requires a modern JavaScript environment (ES6+).
+- May require additional dependencies in certain frameworks.
+- Doesn't Support older browser (You can use a fetch() polyfill to solve that).
 
-Despite these cons, `esFetch` is a powerful module for managing HTTP requests in JavaScript and TypeScript projects. It provides a convenient way to handle requests and responses, and the ability to apply interceptors adds flexibility and extensibility to the module. The Todo app example demonstrates how `esFetch` can be used in a real-world scenario to interact with a backend API and manage a list of todos.
+That concludes the documentation for `esFetch`. Feel free to explore and experiment with the different features and options to make HTTP requests in your JavaScript projects.
