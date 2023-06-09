@@ -1,5 +1,3 @@
-Certainly! Here's the updated documentation with the Todo app example included:
-
 # esFetch Documentation
 
 `esFetch` is a JavaScript module that provides a simple and flexible way to make HTTP requests. It allows you to define multiple requests, set request options, handle responses, and apply interceptors for modifying requests and responses. This documentation will explain the importance of `esFetch`, highlight its pros and cons, and provide a Todo app example.
