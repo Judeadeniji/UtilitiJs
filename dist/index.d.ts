@@ -1,5 +1,6 @@
 import * as Core from "./Core/index";
 import Http from "./Core/http";
+import esFetch from "./Core/http-2";
 import * as array from "./Operators/array";
 import * as maths from "./Operators/maths";
 import * as strings from "./Operators/string";
@@ -8,4 +9,4 @@ import * as logic from "./Operators/logic";
 import * as object from "./Operators/object";
 import * as typeCheck from "./Operators/type-check";
 import * as valueCheck from "./Operators/value-check";
-export { Http, Core, array, maths, strings, compare, logic, object, typeCheck, valueCheck };
+export { Http, Core, array, maths, strings, compare, logic, object, esFetch, typeCheck, valueCheck };

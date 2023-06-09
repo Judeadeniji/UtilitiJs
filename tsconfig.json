@@ -1,4 +1,8 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
   "compilerOptions": {
     "declaration": true,
     "moduleResolution": "node",
@@ -6,12 +10,6 @@
     "module": "es6",
     "target": "es2022"
   },
-  "include": [
-    "./Core/**/*.ts",
-    "./Operators/**/*.ts",
-    "./index.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./Core/**/*.ts", "./Operators/**/*.ts", "./index.ts"],
+  "exclude": ["node_modules"]
 }

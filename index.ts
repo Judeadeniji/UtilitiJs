@@ -1,5 +1,6 @@
 import * as Core from "./Core/index";
 import Http from "./Core/http";
+import esFetch from "./Core/http-2";
 import * as array from "./Operators/array";
 import * as maths from "./Operators/maths";
 import * as strings from "./Operators/string";
@@ -22,6 +23,7 @@ export {
   compare,
   logic,
   object,
+  esFetch,
   typeCheck,
   valueCheck
 };
