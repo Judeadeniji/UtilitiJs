@@ -580,7 +580,10 @@ class UrlParser {
      * @returns {string} The built URL.
      */
     buildUrl(protocol, hostname, path, queryParams) {
-        const url = new URL(protocol, hostname);
+        let url = this.parsedUrl;
+        if (protocol && hostname) {
+            url = new URL(protocol, hostname);
+        }
         url.pathname = path;
         for (const [param, value] of Object.entries(queryParams)) {
             url.searchParams.append(param, value);

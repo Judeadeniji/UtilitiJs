@@ -1,3 +1,5 @@
+import { UrlParser } from "./index.js"
+
 /**
  * Custom error class for HTTP request errors.
  */
@@ -42,7 +44,15 @@ class HttpRequestError extends Error {
   }
 }
 
-
+/**
+ * Delays the execution for the specified number of milliseconds.
+ *
+ * @param {number} ms - The number of milliseconds to delay.
+ * @returns {Promise<void>} A promise that resolves after the delay.
+ */
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 /**
  * Sends an HTTP request with the specified method.
@@ -53,6 +63,9 @@ class HttpRequestError extends Error {
  * @param {Object} [data] - The body of the request (optional).
  * @param {Object} [header={}] - The headers of the request (optional).
  * @param {AbortSignal} [signal] - The abort signal (optional).
+ * @param {number} [retryCount=0] - The number of retry attempts (optional).
+ * @param {number} [retryDelay=0] - The delay between retry attempts in milliseconds (optional).
+ * @param {number} [retryAttempt=0] - The current retry attempt (optional).
  * @returns {Promise<Response>} A promise that resolves to the response from the server.
  * @throws {HttpRequestError} Throws a HttpRequestError if the method, URL, headers, or interceptors are invalid.
  */
@@ -62,6 +75,9 @@ async function sendRequest(
   data: any = undefined,
   header: any = {},
   signal?: AbortSignal | undefined,
+  retryCount: number = 0,
+  retryDelay: number = 0,
+  retryAttempt: number = 0,
 ): Promise<Response> {
   if (typeof method !== 'string') {
     throw new HttpRequestError('Method must be a string', method, data, url, header);
@@ -74,10 +90,18 @@ async function sendRequest(
   if (typeof header !== 'object') {
     throw new HttpRequestError('Header must be an object', method, url, data, header);
   }
+  
+  const { params, pathname, ...requestHeaders } = header;
+  
+  let destination: string = url;
+  if (params) {
+    const urlParser = new UrlParser(url);
+    destination = urlParser.buildUrl(null, null, pathname || urlParser.getPath(), params);
+  }
 
   const options: RequestInit = {
     method,
-    headers: header,
+    headers: requestHeaders,
   };
   
   if (signal instanceof AbortSignal) {
@@ -98,14 +122,28 @@ async function sendRequest(
   }
 
   try {
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      throw new HttpRequestError(response.statusText, method, url, data, header);
+      const response = await fetch(destination, options);
+      if (!response.ok) {
+        throw new HttpRequestError(response.statusText, method, url, data, header);
+      }
+      return response;
+    } catch (error) {
+      if (retryAttempt > retryCount) {
+        await delay(retryDelay); // Delay between retries
+        return sendRequest(
+          method,
+          url,
+          data,
+          header,
+          signal,
+          retryCount + 1,
+          retryDelay,
+          retryAttempt,
+        );
+      } else {
+        throw new HttpRequestError(error.message, method, url, data, header);
+      }
     }
-    return response;
-  } catch (error) {
-    throw new HttpRequestError(error.message, method, url, data, header)
-  }
 }
 
 
@@ -127,10 +165,34 @@ class Http {
    * @type {Function[]}
    */
   private scopedInterceptors: Function[];
+  
+  /**
+   * The number of times a request has been tried.
+   * @private
+   * @type {number}
+   */
+  private retryCount: number;
+  
+  /**
+   * The interval between a failed request and the next try.
+   * @private
+   * @type {number}
+   */
+  private retryDelay: number;
+  
+  /**
+   * The number of times a request should be tried if it failes.
+   * @private
+   * @type {number}
+   */
+  private retryAttempt: number;
 
-  constructor() {
+  constructor(config: {retryDelay?: number, retryAttempt?: number } = {}) {
     this.interceptors = [];
     this.scopedInterceptors = [];
+    this.retryCount = 0; // Default value or provided value
+    this.retryDelay = config.retryDelay || 1000; // Default value or provided value
+    this.retryAttempt = config.retryAttempt || 3;
   }
 
   /**
@@ -178,7 +240,7 @@ class Http {
    * @returns {Promise<Response>} A promise that resolves to the response from the server.
    * @throws {HttpRequestError} Throws a HttpRequestError if the method, URL, headers, or interceptors are invalid.
    */
-  private sendRequestWithInterceptors(method: string, url: string, data: any = undefined, header: any = {}, signal?: AbortSignal | undefined): Promise<Response> {
+  private sendRequestWithInterceptors(method: string, url: string, data: any = undefined, header: any = {},    signal?: AbortSignal | undefined): Promise<Response> {
     if (typeof method !== 'string') {
       throw new HttpRequestError('Method must be a string', method, url, data, header);
     }
@@ -242,7 +304,7 @@ class Http {
     }
 
     return requestPromise.then((request) => {
-      return sendRequest(request.method, request.url, request.data, request.header, request.signal);
+      return sendRequest(request.method, request.url, request.data, request.header, request.signal, this.retryCount, this.retryDelay, this.retryAttempt);
     });
   }
 

@@ -15,7 +15,28 @@ declare class Http {
      * @type {Function[]}
      */
     private scopedInterceptors;
-    constructor();
+    /**
+     * The number of times a request has been tried.
+     * @private
+     * @type {number}
+     */
+    private retryCount;
+    /**
+     * The interval between a failed request and the next try.
+     * @private
+     * @type {number}
+     */
+    private retryDelay;
+    /**
+     * The number of times a request should be tried if it failes.
+     * @private
+     * @type {number}
+     */
+    private retryAttempt;
+    constructor(config?: {
+        retryDelay?: number;
+        retryAttempt?: number;
+    });
     /**
      * Adds an interceptor function to the list of request interceptors.
      *

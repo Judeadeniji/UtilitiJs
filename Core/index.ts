@@ -681,12 +681,15 @@ class UrlParser {
    * @returns {string} The built URL.
    */
   buildUrl(
-    protocol: string,
-    hostname: string,
+    protocol: string | null,
+    hostname: string | null,
     path: string,
     queryParams: { [key: string]: string }
   ): string {
-    const url = new URL(protocol, hostname);
+    let url = this.parsedUrl;
+    if (protocol && hostname) {
+      url = new URL(protocol, hostname);
+    }
     url.pathname = path;
 
     for (const [param, value] of Object.entries(queryParams)) {

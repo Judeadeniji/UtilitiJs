@@ -294,7 +294,7 @@ declare class UrlParser {
      * @param {Object.<string, string>} queryParams - The query parameters.
      * @returns {string} The built URL.
      */
-    buildUrl(protocol: string, hostname: string, path: string, queryParams: {
+    buildUrl(protocol: string | null, hostname: string | null, path: string, queryParams: {
         [key: string]: string;
     }): string;
 }

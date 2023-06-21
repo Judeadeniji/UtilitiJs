@@ -7,6 +7,7 @@
     "declaration": true,
     "moduleResolution": "node",
     "outDir": "dist",
+    "declarationDir": "dist/types",
     "module": "es6",
     "target": "es2022"
   },
