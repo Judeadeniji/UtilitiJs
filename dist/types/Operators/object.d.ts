@@ -98,4 +98,11 @@ declare function mapProperties(object: object, callback: (value: any, key: strin
  * @returns {Object} - A new object with the properties for which the callback returned a truthy value.
  */
 declare function filterProperties(object: object, callback: (value: any, key: string, object: object) => boolean): object;
-export { getProperty, setProperty, hasProperty, getKeys, getValues, getEntries, extendObject, cloneShallow, cloneDeep, forEachProperty, mapProperties, filterProperties, };
+/**
+ * Checks if the structure of two objects are almost identical or partially identical.
+ * @param {object} model - The model object to compare.
+ * @param {object} template - The template object specifying the desired structure.
+ * @returns {boolean} - True if the structure matches; false otherwise.
+ */
+declare function looksLike(model: object, template: object): boolean;
+export { getProperty, setProperty, hasProperty, getKeys, getValues, getEntries, looksLike, extendObject, cloneShallow, cloneDeep, forEachProperty, mapProperties, filterProperties, };

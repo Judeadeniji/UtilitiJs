@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.greaterThan = exports.lessThan = exports.deepEqual = exports.equals = void 0;
 /**
  * Checks if two values are equal.
  * @param {*} a - The first value.
@@ -7,6 +10,7 @@
 function equals(a, b) {
     return a === b;
 }
+exports.equals = equals;
 /**
  * Checks if the first value is greater than the second value.
  * @param {number} a - The first value.
@@ -16,6 +20,7 @@ function equals(a, b) {
 function greaterThan(a, b) {
     return a > b;
 }
+exports.greaterThan = greaterThan;
 /**
  * Checks if the first value is less than the second value.
  * @param {number} a - The first value.
@@ -25,6 +30,7 @@ function greaterThan(a, b) {
 function lessThan(a, b) {
     return a < b;
 }
+exports.lessThan = lessThan;
 /**
  * Performs a deep equality check between two objects or arrays.
  * @param {Object|Array} obj1 - The first object or array.
@@ -53,4 +59,5 @@ function deepEqual(obj1, obj2) {
     }
     return true;
 }
-export { equals, deepEqual, lessThan, greaterThan };
+exports.deepEqual = deepEqual;
+//# sourceMappingURL=compare.js.map

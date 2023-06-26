@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.iff = exports.implies = exports.nor = exports.nand = exports.xor = exports.not = exports.or = exports.and = void 0;
 /**
  * Returns true if all the conditions are truthy values, false otherwise.
  *
@@ -7,6 +10,7 @@
 function and(...conditions) {
     return conditions.every(Boolean);
 }
+exports.and = and;
 /**
  * Returns true if any of the conditions are truthy values, false otherwise.
  *
@@ -16,6 +20,7 @@ function and(...conditions) {
 function or(...conditions) {
     return conditions.some(Boolean);
 }
+exports.or = or;
 /**
  * Returns the boolean negation of the condition.
  *
@@ -25,6 +30,7 @@ function or(...conditions) {
 function not(condition) {
     return !condition;
 }
+exports.not = not;
 /**
  * Returns true if an odd number of the conditions are truthy values, false otherwise.
  *
@@ -34,6 +40,7 @@ function not(condition) {
 function xor(...conditions) {
     return conditions.filter(Boolean).length % 2 === 1;
 }
+exports.xor = xor;
 /**
  * Returns true if any of the conditions are falsy values, false otherwise.
  *
@@ -43,6 +50,7 @@ function xor(...conditions) {
 function nand(...conditions) {
     return !and(...conditions);
 }
+exports.nand = nand;
 /**
  * Returns true if all of the conditions are falsy values, false otherwise.
  *
@@ -52,6 +60,7 @@ function nand(...conditions) {
 function nor(...conditions) {
     return !or(...conditions);
 }
+exports.nor = nor;
 /**
  * Returns the value of a logical implication (a -> b).
  *
@@ -62,6 +71,7 @@ function nor(...conditions) {
 function implies(a, b) {
     return or(!a, b);
 }
+exports.implies = implies;
 /**
  * Returns the value of a biconditional implication (a <-> b).
  *
@@ -72,6 +82,5 @@ function implies(a, b) {
 function iff(a, b) {
     return and(implies(a, b), implies(b, a));
 }
-export { 
-// Logical operations
-and, or, not, xor, nand, nor, implies, iff, };
+exports.iff = iff;
+//# sourceMappingURL=logic.js.map

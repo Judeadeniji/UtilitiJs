@@ -8,8 +8,12 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "declarationDir": "dist/types",
-    "module": "es6",
-    "target": "es2022"
+    "module": "commonjs",
+    "target": "es2022",
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": "."
   },
   "include": ["./Core/**/*.ts", "./Operators/**/*.ts", "./index.ts"],
   "exclude": ["node_modules"]

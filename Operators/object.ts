@@ -146,6 +146,44 @@ function filterProperties(object: object, callback: (value: any, key: string, ob
   return result;
 }
 
+/**
+ * Checks if the structure of two objects are almost identical or partially identical.
+ * @param {object} model - The model object to compare.
+ * @param {object} template - The template object specifying the desired structure.
+ * @returns {boolean} - True if the structure matches; false otherwise.
+ */
+function looksLike(model: object, template: object): boolean {
+  // Check if both inputs are objects
+  if (typeof model !== 'object' || typeof template !== 'object') {
+    return false;
+  }
+
+  // Get the keys of the template object
+  const templateKeys = Object.keys(template);
+
+  // Check if each key in the template matches the corresponding key in the model
+  for (let key of templateKeys) {
+    if (!model.hasOwnProperty(key)) {
+      return false;
+    }
+
+    // Check if the types of the matched properties are strictly the same
+    if (model[key]?.constructor !== template[key]?.constructor) {
+      return false;
+    }
+
+    // Recursively check the nested structure of the objects
+    if (typeof model[key] === 'object' && typeof template[key] === 'object') {
+      if (!looksLike(model[key], template[key])) {
+        return false;
+      }
+    }
+  }
+
+  // If all checks pass, return true
+  return true;
+}
+
 export {
   getProperty,
   setProperty,
@@ -153,6 +191,7 @@ export {
   getKeys,
   getValues,
   getEntries,
+  looksLike,
   extendObject,
   cloneShallow,
   cloneDeep,

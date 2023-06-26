@@ -1,4 +1,6 @@
-import { UrlParser } from "./index.js";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const index_js_1 = require("./index.js");
 /**
  * Custom error class for HTTP request errors.
  */
@@ -74,7 +76,7 @@ async function sendRequest(method, url, data = undefined, header = {}, signal, r
     const { params, pathname, ...requestHeaders } = header;
     let destination = url;
     if (params) {
-        const urlParser = new UrlParser(url);
+        const urlParser = new index_js_1.UrlParser(url);
         destination = urlParser.buildUrl(null, null, pathname || urlParser.getPath(), params);
     }
     const options = {
@@ -366,4 +368,5 @@ class Http {
         });
     }
 }
-export default Http;
+exports.default = Http;
+//# sourceMappingURL=http.js.map

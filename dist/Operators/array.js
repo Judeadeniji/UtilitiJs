@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.entries = exports.values = exports.keys = exports.concat = exports.fill = exports.join = exports.reverse = exports.lastIndexOf = exports.indexOf = exports.includes = exports.sort = exports.slice = exports.forEach = exports.flatMap = exports.findIndex = exports.find = exports.some = exports.every = exports.shuffle = exports.chunk = exports.flatten = exports.unique = exports.min = exports.max = exports.reduce = exports.map = exports.filter = exports.mode = exports.median = exports.mean = exports.sum = void 0;
 /**
  * Calculates the sum of all the elements in an array.
  * @param {number[]} arr - The input array.
@@ -6,6 +9,7 @@
 function sum(arr) {
     return arr.reduce((total, num) => total + num, 0);
 }
+exports.sum = sum;
 /**
  * Calculates the mean of all the elements in an array.
  * @param {number[]} arr - The input array.
@@ -14,6 +18,7 @@ function sum(arr) {
 function mean(arr) {
     return sum(arr) / arr.length;
 }
+exports.mean = mean;
 /**
  * Calculates the median of all the elements in an array.
  * @param {number[]} arr - The input array.
@@ -27,6 +32,7 @@ function median(arr) {
     }
     return arr[mid];
 }
+exports.median = median;
 /**
  * Finds the mode of an array.
  * @param {number[]} arr - The input array.
@@ -40,6 +46,7 @@ function mode(arr) {
     const mode = Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b);
     return parseInt(mode, 10);
 }
+exports.mode = mode;
 /**
  * Filters the elements of an array based on a given predicate.
  * @param {Array} arr - The input array.
@@ -49,6 +56,7 @@ function mode(arr) {
 function filter(arr, predicate) {
     return arr.filter(predicate);
 }
+exports.filter = filter;
 /**
  * Transforms each element of an array using a given mapper function.
  * @param {Array} arr - The input array.
@@ -58,6 +66,7 @@ function filter(arr, predicate) {
 function map(arr, mapper) {
     return arr.map(mapper);
 }
+exports.map = map;
 /**
  * Reduces an array to a single value using a given reducer function and an initial value.
  * @param {Array} arr - The input array.
@@ -68,6 +77,7 @@ function map(arr, mapper) {
 function reduce(arr, reducer, initialValue) {
     return arr.reduce(reducer, initialValue);
 }
+exports.reduce = reduce;
 /**
  * Finds the maximum element of an array.
  * @param {Array} arr - The input array.
@@ -85,6 +95,7 @@ function max(arr) {
     }
     return maxElement;
 }
+exports.max = max;
 /**
  * Finds the minimum element of an array.
  * @param {Array} arr - The input array.
@@ -93,6 +104,7 @@ function max(arr) {
 function min(arr) {
     return Math.min(...arr);
 }
+exports.min = min;
 /**
  * Removes duplicate elements from an array.
  * @param {Array} arr - The input array.
@@ -101,6 +113,7 @@ function min(arr) {
 function unique(arr) {
     return [...new Set(arr)];
 }
+exports.unique = unique;
 /**
  * Flattens a nested array into a single-level array.
  * @param {Array} arr - The input array.
@@ -109,6 +122,7 @@ function unique(arr) {
 function flatten(arr) {
     return arr.flat();
 }
+exports.flatten = flatten;
 /**
  * Breaks an array into chunks of a given size.
  * @param {Array} arr - The input array.
@@ -122,6 +136,7 @@ function chunk(arr, size) {
     }
     return chunks;
 }
+exports.chunk = chunk;
 /**
  * Shuffles an array in place using the Fisher-Yates algorithm.
  *
@@ -136,6 +151,7 @@ function shuffle(arr) {
     }
     return shuffled;
 }
+exports.shuffle = shuffle;
 /**
  * Tests whether all elements in the array pass the predicate function.
  *
@@ -146,6 +162,7 @@ function shuffle(arr) {
 function every(arr, predicate) {
     return arr.every(predicate);
 }
+exports.every = every;
 /**
  * Tests whether at least one element in the array passes the predicate function.
  *
@@ -156,6 +173,7 @@ function every(arr, predicate) {
 function some(arr, predicate) {
     return arr.some(predicate);
 }
+exports.some = some;
 /**
  * Returns the first element in the array that passes the predicate function,
  * or undefined if no such element is found.
@@ -167,6 +185,7 @@ function some(arr, predicate) {
 function find(arr, predicate) {
     return arr.find(predicate);
 }
+exports.find = find;
 /**
  * Returns the index of the first element in the array that passes the predicate function,
  * or -1 if no such element is found.
@@ -178,6 +197,7 @@ function find(arr, predicate) {
 function findIndex(arr, predicate) {
     return arr.findIndex(predicate);
 }
+exports.findIndex = findIndex;
 /**
  * Maps each element in the array to a new value using the provided mapper function,
  * and then flattens the result to a one-dimensional array.
@@ -189,6 +209,7 @@ function findIndex(arr, predicate) {
 function flatMap(arr, mapper) {
     return arr.flatMap(mapper);
 }
+exports.flatMap = flatMap;
 /**
  * Calls the provided callback function once for each element in the array,
  * in order, and passing the element as an argument to the callback.
@@ -199,6 +220,7 @@ function flatMap(arr, mapper) {
 function forEach(arr, callback) {
     arr.forEach(callback);
 }
+exports.forEach = forEach;
 /**
  * Returns a new array containing the elements from the start index up to, but not including, the end index.
  *
@@ -210,6 +232,7 @@ function forEach(arr, callback) {
 function slice(arr, start, end) {
     return arr.slice(start, end);
 }
+exports.slice = slice;
 /**
  * Returns a new array with the elements sorted according to the provided comparator function.
  *
@@ -221,6 +244,7 @@ function slice(arr, start, end) {
 function sort(arr, comparator) {
     return arr.sort(comparator);
 }
+exports.sort = sort;
 /**
  * Returns a Boolean indicating whether the given value is found in the array.
  *
@@ -232,6 +256,7 @@ function sort(arr, comparator) {
 function includes(arr, value) {
     return arr.includes(value);
 }
+exports.includes = includes;
 /**
  * Returns the index of the first occurrence of the given value in the array, or -1 if it is not found.
  *
@@ -243,6 +268,7 @@ function includes(arr, value) {
 function indexOf(arr, value) {
     return arr.indexOf(value);
 }
+exports.indexOf = indexOf;
 /**
  * Returns the index of the last occurrence of the given value in the array, or -1 if it is not found.
  *
@@ -254,6 +280,7 @@ function indexOf(arr, value) {
 function lastIndexOf(arr, value) {
     return arr.lastIndexOf(value);
 }
+exports.lastIndexOf = lastIndexOf;
 /**
  * Returns a new array with the elements in reverse order.
  *
@@ -264,6 +291,7 @@ function lastIndexOf(arr, value) {
 function reverse(arr) {
     return arr.reverse();
 }
+exports.reverse = reverse;
 /**
  * Joins all elements of an array into a string, with an optional separator.
  *
@@ -275,6 +303,7 @@ function reverse(arr) {
 function join(arr, separator) {
     return arr.join(separator);
 }
+exports.join = join;
 /**
  * Fills elements of an array with a static value.
  * @param {Array} arr - The input array.
@@ -286,6 +315,7 @@ function join(arr, separator) {
 function fill(arr, value, start = 0, end = arr.length) {
     return arr.fill(value, start, end);
 }
+exports.fill = fill;
 /**
  * Combines two or more arrays.
  * @param {Array} arr1 - The first array.
@@ -295,6 +325,7 @@ function fill(arr, value, start = 0, end = arr.length) {
 function concat(arr1, ...arr2) {
     return arr1.concat(...arr2);
 }
+exports.concat = concat;
 /**
  * Returns an iterator that contains the keys for each index in the array.
  * @param {Array} arr - The input array.
@@ -303,6 +334,7 @@ function concat(arr1, ...arr2) {
 function keys(arr) {
     return arr.keys();
 }
+exports.keys = keys;
 /**
  * Returns an iterator that contains the values for each index in the array.
  * @param {Array} arr - The input array.
@@ -311,6 +343,7 @@ function keys(arr) {
 function values(arr) {
     return arr.values();
 }
+exports.values = values;
 /**
  * Returns an iterator that contains key/value pairs for each index in the array.
  * @param {Array} arr - The input array.
@@ -319,6 +352,5 @@ function values(arr) {
 function entries(arr) {
     return arr.entries();
 }
-export { 
-// Statistics
-sum, mean, median, mode, filter, map, reduce, max, min, unique, flatten, chunk, shuffle, every, some, find, findIndex, flatMap, forEach, slice, sort, includes, indexOf, lastIndexOf, reverse, join, fill, concat, keys, values, entries, };
+exports.entries = entries;
+//# sourceMappingURL=array.js.map

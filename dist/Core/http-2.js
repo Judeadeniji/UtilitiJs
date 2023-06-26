@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * The main request class for making HTTP requests.
  */
@@ -164,4 +166,5 @@ class Request {
 function esFetch(url) {
     return new Request(url);
 }
-export default esFetch;
+exports.default = esFetch;
+//# sourceMappingURL=http-2.js.map

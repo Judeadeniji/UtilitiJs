@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.filterProperties = exports.mapProperties = exports.forEachProperty = exports.cloneDeep = exports.cloneShallow = exports.extendObject = exports.looksLike = exports.getEntries = exports.getValues = exports.getKeys = exports.hasProperty = exports.setProperty = exports.getProperty = void 0;
 /**
  * Returns the value at the specified key in the object.
  *
@@ -8,6 +11,7 @@
 function getProperty(object, key) {
     return object[key];
 }
+exports.getProperty = getProperty;
 /**
  * Sets the value at the specified key in the object.
  *
@@ -18,6 +22,7 @@ function getProperty(object, key) {
 function setProperty(object, key, value) {
     object[key] = value;
 }
+exports.setProperty = setProperty;
 /**
  * Returns a boolean indicating whether the object has a property with the specified key.
  *
@@ -28,6 +33,7 @@ function setProperty(object, key, value) {
 function hasProperty(object, key) {
     return Object.prototype.hasOwnProperty.call(object, key);
 }
+exports.hasProperty = hasProperty;
 /**
  * Returns an array of the object's own enumerable property names.
  *
@@ -37,6 +43,7 @@ function hasProperty(object, key) {
 function getKeys(object) {
     return Object.keys(object);
 }
+exports.getKeys = getKeys;
 /**
  * Returns an array of the object's own enumerable property values.
  *
@@ -46,6 +53,7 @@ function getKeys(object) {
 function getValues(object) {
     return Object.values(object);
 }
+exports.getValues = getValues;
 /**
  * Returns an array of the object's own enumerable property [key, value] pairs.
  *
@@ -55,6 +63,7 @@ function getValues(object) {
 function getEntries(object) {
     return Object.entries(object);
 }
+exports.getEntries = getEntries;
 /**
  * Copies the own enumerable properties of source objects to the target object and returns the target object.
  *
@@ -65,6 +74,7 @@ function getEntries(object) {
 function extendObject(object, ...sources) {
     return Object.assign(object, ...sources);
 }
+exports.extendObject = extendObject;
 /**
  * Creates a shallow copy of the object.
  *
@@ -74,6 +84,7 @@ function extendObject(object, ...sources) {
 function cloneShallow(object) {
     return Object.assign({}, object);
 }
+exports.cloneShallow = cloneShallow;
 /**
  * Creates a deep copy of the object.
  *
@@ -83,6 +94,7 @@ function cloneShallow(object) {
 function cloneDeep(object) {
     return JSON.parse(JSON.stringify(object));
 }
+exports.cloneDeep = cloneDeep;
 /**
  * Calls the callback function for each own enumerable property of the object.
  *
@@ -98,6 +110,7 @@ function forEachProperty(object, callback) {
         callback(value, key, object);
     }
 }
+exports.forEachProperty = forEachProperty;
 /**
  * Calls the callback function for each own enumerable property of the object and returns a new object with the returned values.
  *
@@ -115,6 +128,7 @@ function mapProperties(object, callback) {
     }
     return result;
 }
+exports.mapProperties = mapProperties;
 /**
  * Calls the callback function for each own enumerable property of the object and returns a new object with the properties for which the callback returned a truthy value.
  *
@@ -134,4 +148,38 @@ function filterProperties(object, callback) {
     }
     return result;
 }
-export { getProperty, setProperty, hasProperty, getKeys, getValues, getEntries, extendObject, cloneShallow, cloneDeep, forEachProperty, mapProperties, filterProperties, };
+exports.filterProperties = filterProperties;
+/**
+ * Checks if the structure of two objects are almost identical or partially identical.
+ * @param {object} model - The model object to compare.
+ * @param {object} template - The template object specifying the desired structure.
+ * @returns {boolean} - True if the structure matches; false otherwise.
+ */
+function looksLike(model, template) {
+    // Check if both inputs are objects
+    if (typeof model !== 'object' || typeof template !== 'object') {
+        return false;
+    }
+    // Get the keys of the template object
+    const templateKeys = Object.keys(template);
+    // Check if each key in the template matches the corresponding key in the model
+    for (let key of templateKeys) {
+        if (!model.hasOwnProperty(key)) {
+            return false;
+        }
+        // Check if the types of the matched properties are strictly the same
+        if (model[key]?.constructor !== template[key]?.constructor) {
+            return false;
+        }
+        // Recursively check the nested structure of the objects
+        if (typeof model[key] === 'object' && typeof template[key] === 'object') {
+            if (!looksLike(model[key], template[key])) {
+                return false;
+            }
+        }
+    }
+    // If all checks pass, return true
+    return true;
+}
+exports.looksLike = looksLike;
+//# sourceMappingURL=object.js.map

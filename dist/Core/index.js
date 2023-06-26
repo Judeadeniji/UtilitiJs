@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.trim = exports.DataValidator = exports.Random = exports.UrlParser = exports.TaskQueue = exports.generateId = exports.CustomError = exports.dataFilter = exports.dateFilter = exports.DataFilter = exports.DateFilter = exports.Http = void 0;
 /**
  * Represents a custom error.
  * @class CustomError
@@ -11,6 +14,7 @@ class CustomError extends Error {
         this.name = "Utiliti: Error";
     }
 }
+exports.CustomError = CustomError;
 /**
  * Body takes in an object
  * Headers also takes an object
@@ -151,10 +155,12 @@ function Http() {
         }
     };
 }
+exports.Http = Http;
 function dataFilter(item) {
     console.warn('dataFilter has been renamed to DataFilter');
     return new DataFilter(item);
 }
+exports.dataFilter = dataFilter;
 /**
  * A class representing a data filter.
  * @class DataFilter
@@ -193,10 +199,12 @@ class DataFilter {
         return filteredData;
     }
 }
+exports.DataFilter = DataFilter;
 function dateFilter() {
     console.warn('dateFilter has been renamed to DateFilter');
     return new DateFilter();
 }
+exports.dateFilter = dateFilter;
 /**
  * A class containing utility functions for working with dates.
  * @class DateFilter
@@ -339,142 +347,7 @@ class DateFilter {
         return date < today;
     }
 }
-/**
- * Represents a store that holds the state and manages state updates.
- * @class Store
- * @template T - The type of state.
- * @template A - The type of action.
- * @param {function} reducer - The reducer function for state updates.
- * @param {T} [initialState={}] - The initial state of the store.
- *
- * @throws {CustomError} If the reducer is not a function.
- * @returns {Object} The store object with various methods.
- */
-class Store {
-    reducer;
-    state;
-    listeners;
-    constructor(reducer, initialState = {}) {
-        this.reducer = reducer;
-        this.state = initialState;
-        this.listeners = [];
-        // Check if reducer is a function
-        if (typeof reducer !== "function") {
-            // If not, throw a CustomError
-            throw new CustomError("Reducer must be a function.");
-        }
-    }
-    /**
-     * Returns the current state of the store.
-     *
-     * @returns {T} The current state.
-     */
-    getState() {
-        return this.state;
-    }
-    /**
-     * Dispatches an action to update the state.
-     *
-     * @param {A} action - The action representing the state update.
-     */
-    dispatch(action) {
-        this.state = this.reducer(this.state, action);
-        this.listeners.forEach((listener) => listener(this.state));
-    }
-    /**
-     * Subscribes a listener function to be called on state changes.
-     *
-     * @param {function} listener - The listener function to be called on state changes.
-     * @returns {function} A function to unsubscribe the listener.
-     *
-     * @throws {CustomError} If the listener is not a function.
-     */
-    subscribe(listener) {
-        // Check if listener is a function
-        if (typeof listener !== "function") {
-            // If not, throw a CustomError
-            throw new CustomError("You must subscribe to a function.");
-        }
-        this.listeners.push(listener);
-        return () => {
-            this.listeners = this.listeners.filter((l) => l !== listener);
-        };
-    }
-    /**
-     * Replaces the current reducer function with a new one.
-     *
-     * @param {function} nextReducer - The new reducer function.
-     */
-    replaceReducer(nextReducer) {
-        this.reducer = nextReducer;
-    }
-    /**
-     * Returns the current reducer function.
-     *
-     * @returns {function} The current reducer function.
-     */
-    getReducer() {
-        return this.reducer;
-    }
-}
-/**
- * Applies middlewares to the store's dispatch function.
- *
- * @param {...function} middlewares - The middlewares to apply.
- * @returns {function} A function that wraps the store and applies the middlewares.
- */
-function applyMiddleware(...middlewares) {
-    return (store) => (...args) => {
-        const newStore = new store(...args);
-        let dispatch = newStore.dispatch;
-        middlewares.forEach((middleware) => {
-            dispatch = middleware(newStore)(dispatch);
-        });
-        return {
-            ...store,
-            dispatch,
-        };
-    };
-}
-/**
- * Creates a subscriber object to subscribe to store updates.
- *
- * @param {*} store - The store object to subscribe to.
- * @returns {Object} The subscriber object.
- */
-const createSubscriber = (store) => {
-    return {
-        /**
-         * Subscribes a callback function to be called on store updates.
-         *
-         * @param {function} callback - The callback function to be called on store updates.
-         */
-        subscribe(callback) {
-            store.subscribe(callback);
-        },
-    };
-};
-/**
- * Merges multiple reducers into a single reducer function.
- *
- * @param {Object} reducers - An object containing the individual reducers.
- * @returns {function} The merged reducer function.
- *
- * @throws {CustomError} If reducers is not an object.
- */
-function mergeReducers(reducers) {
-    // Check if reducers is an object
-    if (typeof reducers !== "object") {
-        // If not, throw a CustomError
-        throw new CustomError("Provide an object containing the reducers.");
-    }
-    return (state = {}, action) => {
-        return Object.keys(reducers).reduce((nextState, key) => {
-            nextState[key] = reducers[key](state[key], action);
-            return nextState;
-        }, {});
-    };
-}
+exports.DateFilter = DateFilter;
 /**
  * Generates a unique id of a random length.
  * @returns {number} The generated id.
@@ -484,6 +357,7 @@ function generateId() {
     const id = Math.floor(Math.random() * 1000000) + 1;
     return id;
 }
+exports.generateId = generateId;
 /**
  * Creates and manages a queue of tasks.
  * @class TaskQueue
@@ -535,6 +409,7 @@ class TaskQueue {
         return this.tasks.length;
     }
 }
+exports.TaskQueue = TaskQueue;
 /**
  * Parses and manipulates URLs.
  * @class UrlParser
@@ -591,6 +466,7 @@ class UrlParser {
         return url.toString();
     }
 }
+exports.UrlParser = UrlParser;
 /**
  * Generates random numbers or strings.
  * @class Random
@@ -619,6 +495,7 @@ class Random {
         return str;
     }
 }
+exports.Random = Random;
 /**
  * Validates data.
  * @class DataValidator
@@ -653,10 +530,12 @@ class DataValidator {
         return str.length === length;
     }
 }
+exports.DataValidator = DataValidator;
 function trim(str) {
     // Use a regular expression to match leading and trailing whitespace
     const regex = /^\s+|\s+$/g;
     // Replace the matched whitespace with an empty string
     return str.replace(regex, "");
 }
-export { Http, DateFilter, DataFilter, dateFilter, dataFilter, Store, mergeReducers, createSubscriber, applyMiddleware, CustomError, generateId, TaskQueue, UrlParser, Random, DataValidator, trim, };
+exports.trim = trim;
+//# sourceMappingURL=index.js.map
