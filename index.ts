@@ -1,8 +1,10 @@
 import * as Core from "./Core/index.js";
 import Http from "./Core/http.js";
 import esFetch from "./Core/http-2.js";
+import { executeParallelAsync } from "./Core/parallel.js";
 import {
   Store,
+  createStore,
   applyMiddleware,
   mergeReducers,
   createSubscriber,
@@ -27,9 +29,11 @@ export {
   Http,
   Core,
   Store,
+  createStore,
   applyMiddleware,
   mergeReducers,
   createSubscriber,
+  executeParallelAsync,
   array,
   maths,
   strings,

@@ -38,7 +38,7 @@ function splitIntoChunks<T>(array: T[], chunkSize: number): T[][] {
  * @template T - The return type of the function.
  * @template Y - The argument type of the function.
  */
-export function __<T, Y>(
+export function executeParallelAsync<T, Y>(
   fn: (...args: Y[]) => T | Promise<T>,
   array: Y[] = [],
   chunkSize: number = 1000

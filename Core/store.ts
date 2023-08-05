@@ -1,3 +1,10 @@
+
+type Listener<T, A> = (action: A, state: T) => void
+
+type Reducer<T, A> = (state: T, action: A) => T
+
+type Unsubscribe = () => void
+
 /**
  * Represents a store that holds the state and manages state updates.
  * @interface IStore
@@ -27,7 +34,7 @@ interface IStore<T, A> {
    *
    * @throws {Error} If the listener is not a function.
    */
-  subscribe(listener: Function): Function;
+  subscribe(listener: Listener<T, A>): Function;
 
   /**
    * Replaces the current reducer function with a new one.
@@ -57,7 +64,7 @@ interface IStore<T, A> {
  */
 class Store<T, A> implements IStore<T, A> {
   private state: T;
-  private listeners: Function[];
+  private listeners: Listener<T, A>[];
 
   constructor(
     private reducer: (state: T, action: A) => T,
@@ -89,7 +96,7 @@ class Store<T, A> implements IStore<T, A> {
    */
   dispatch(action: A): void {
     this.state = this.reducer(this.state, action);
-    this.listeners.forEach((listener) => listener(this.state));
+    this.listeners.forEach((listener) => listener(action, this.state));
   }
 
   /**
@@ -100,7 +107,7 @@ class Store<T, A> implements IStore<T, A> {
    *
    * @throws {Error} If the listener is not a function.
    */
-  subscribe(listener: Function): Function {
+  subscribe(listener: Listener<T, A>): Unsubscribe {
     // Check if listener is a function
     if (typeof listener !== "function") {
       // If not, throw a Error
@@ -114,19 +121,22 @@ class Store<T, A> implements IStore<T, A> {
 
   /**
    * Replaces the current reducer function with a new one.
-   *
-   * @param {function} nextReducer - The new reducer function.
+   * @template T - The type of state.
+   * @template A - The type of action.
+   * @param {Reducer} nextReducer - The new reducer function.
    */
-  replaceReducer(nextReducer: (state: T, action: A) => T): void {
+  replaceReducer(nextReducer: Reducer<T, A>): void {
     this.reducer = nextReducer;
   }
 
   /**
    * Returns the current reducer function.
    *
+   * @template T - The type of state.
+   * @template A - The type of action.
    * @returns {function} The current reducer function.
    */
-  getReducer(): (state: T, action: A) => T {
+  getReducer(): Reducer<T, A> {
     return this.reducer;
   }
 }
@@ -134,18 +144,20 @@ class Store<T, A> implements IStore<T, A> {
 /**
  * Merges multiple reducers into a single reducer function.
  *
+ * @template T - The type of state.
+ * @template A - The type of action.
  * @param {Object} reducers - An object containing the individual reducers.
  * @returns {function} The merged reducer function.
  *
  * @throws {Error} If reducers is not an object.
  */
-function mergeReducers(reducers: { [key: string]: Function }) {
+function mergeReducers<T, A> (reducers: { [key: string]: Reducer<T, A> }) {
   // Check if reducers is an object
   if (typeof reducers !== "object") {
     // If not, throw a Error
     throw new Error("Provide an object containing the reducers.");
   }
-  return (state: any = {}, action: any) => {
+  return (state: T, action: A) => {
     return Object.keys(reducers).reduce((nextState, key) => {
       nextState[key] = reducers[key](state[key], action);
       return nextState;
@@ -179,22 +191,26 @@ function applyMiddleware(...middlewares: Function[]) {
 
 /**
  * Creates a subscriber object to subscribe to store updates.
- *
- * @param {*} store - The store object to subscribe to.
+  * @template T - The type of state.
+  * @template A - The type of action.
+ * @param {Store} store - The store object to subscribe to.
  * @returns {Object} The subscriber object.
  */
-const createSubscriber = (store: any) => {
+function createSubscriber<T, A>(store: Store<T, A>) {
   return {
     /**
      * Subscribes a callback function to be called on store updates.
      *
      * @param {function} callback - The callback function to be called on store updates.
      */
-    subscribe(callback: Function) {
+    subscribe(callback: Listener<T, A>) {
       store.subscribe(callback);
     },
   };
 }
 
+function createStore<T, A> (state: T, reducer: Reducer<T, A>): Store<T, A> {
+  return new Store<T, A>(reducer, state);
+}
 
-export { Store, applyMiddleware, mergeReducers, createSubscriber }
+export { Store, applyMiddleware, mergeReducers, createSubscriber, createStore }

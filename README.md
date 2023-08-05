@@ -307,6 +307,84 @@ http.delete('https://api.example.com/users/123', { Authorization: 'Bearer token'
   });
 ```
 
+### Retrying a request
+
+The `Http` class provides a retry feature that allows for automatic retries when an HTTP request fails. This feature is helpful for handling transient errors and improving the robustness of HTTP communication.
+
+#### Retry Configuration
+
+The retry feature in the `Http` class is configurable with the following options:
+
+- `retryDelay` (number, default: `1000`): The interval between a failed request and the next retry attempt in milliseconds. This value determines how long to wait before retrying the request after a failure.
+- `retryAttempt` (number, default: `3`): The number of times a request should be retried if it fails. This value determines the maximum number of retry attempts for each failed request.
+
+By default, the retry delay is set to `1000` milliseconds (1 second), and the retry attempt is set to `3`. You can customize these values when creating an instance of the `Http` class, as demonstrated in the example below.
+
+#### Usage
+
+To utilize the retry feature of the `Http` class, follow these steps:
+
+1. Create an instance of the `Http` class with the desired retry configuration.
+
+Example:
+
+```javascript
+import { Http } from 'utiliti-js';
+
+// Create an instance of the Http class with custom retry settings
+const http = new Http({
+  retryDelay: 2000, // Retry after 2 seconds on failure
+  retryAttempt: 5,   // Retry up to 5 times on failure
+});
+```
+
+2. Use the HTTP methods provided by the `Http` class (`get`, `post`, `put`, `patch`, `delete`) to send requests. The retry feature is applied automatically to all requests made through the `Http` class instance.
+
+Example:
+
+```javascript
+// Perform a GET request with automatic retries on failure
+http.get('https://api.example.com/data')
+  .then((response) => {
+    // Handle the successful response
+    console.log('Success:', response);
+  })
+  .catch((error) => {
+    // Handle the error, including any retries if applicable
+    console.error('Error:', error);
+  });
+```
+
+The `Http` class will automatically retry the request if it encounters any network-related failures, such as a server timeout or connection issue. If the maximum number of retry attempts is reached and the request still fails, the final error will be thrown, and the catch block will be triggered with the corresponding error information.
+
+Please note that the retry feature is especially useful for handling transient errors that might be resolved with subsequent retries. However, keep in mind that not all types of errors are eligible for retries, and careful consideration should be given to the specific use case and nature of the failure before enabling automatic retries.
+
+#### Custom Interceptors and Retries
+
+The retry feature works in conjunction with custom interceptors. Interceptors allow you to modify the request and response objects before and after each request. If you have added any interceptors using the `addInterceptor` or `addScopedInterceptor` methods, they will be applied during each retry attempt as well.
+
+Make sure that any interceptors you add do not interfere with the retry process, as this could lead to unexpected behavior.
+
+#### Handling Custom Errors
+
+The `Http` class includes a custom error class named `HttpRequestError`, which is used to represent HTTP request-related errors. This custom error class extends the standard `Error` class and includes additional properties such as `method`, `url`, `data`, and `headers`, providing relevant information about the failed request.
+
+When an HTTP request fails, the `Http` class will throw a `HttpRequestError` if any of the following conditions are met:
+
+- The provided `method`, `url`, or `header` is not of the expected type (string or object, respectively).
+- One of the interceptors is not a function.
+- The maximum number of retry attempts (`retryAttempt`) is exceeded.
+
+You can catch and handle `HttpRequestError` instances in your code to handle any potential request-related errors effectively.
+
+#### Important Considerations
+
+- The retry feature should be used judiciously, as excessive retries could cause additional load on servers and result in unexpected behavior for certain requests.
+- Ensure that the retry delay and retry attempt values are set appropriately based on the nature of the requests and the server's capacity.
+- Implement proper error handling and logging to track the success or failure of retry attempts and understand potential issues.
+
+For more details on the usage of the `Http` class and other functionalities, refer to the main documentation or comments within the code.
+
 ### Interceptors
 
 Interceptors allow you to modify requests or responses globally or for specific requests. You can add interceptors using the `useInterceptors` and `useScopedInterceptors` methods.
@@ -357,59 +435,8 @@ function responseInterceptor(response: any, next: Function) {
 http.useScopedInterceptors([responseInterceptor], 'https://api.example.com/users/123', 'GET');
 ```
 
-### Examples
+For more details on using interceptors and the Http class, refer to the documentation folder.
 
-#### GET Request Example
-
-```typescript
-http.get('https://api.example.com/users', { Authorization: 'Bearer token' })
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed');
-    }
-  })
-  .then((data) => {
-    // Handle the response data
-  })
-  .catch((error) => {
-    // Handle the error
-  });
-```
-
-#### POST Request Example
-
-```typescript
-const user = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-};
-
-http.post('https://api.example.com/users', user, { Authorization: 'Bearer token' })
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed');
-    }
-  })
-  .then((data) => {
-    // Handle the response data
-  })
-  .catch((error) => {
-    // Handle the error
-  });
-```
-
-## Error Handling
-
-The HTTP Client module throws a `Error` if the method, URL, headers, or interceptors are invalid. Make sure to handle these errors appropriately in your application.
-
-
-## Conclusion
-
-The HTTP Client module provides a convenient way to make HTTP requests in JavaScript/TypeScript. It supports various HTTP methods and allows you to add interceptors for request/response handling. Use this module to simplify your API communication and enhance your application's flexibility.
 
 # Core.Http Module Documentation (deprecated)
 
@@ -2049,6 +2076,10 @@ That covers the functions provided by the `valueCheck` module. You can now use t
 This documentation provides an overview of the functions available in the `valueCheck` module, their parameters, return types, and examples of usage. You can use this documentation to understand and utilize the functionalities provided by the module.
 
 -----
+
+**Additional Documentation**
+
+For more comprehensive documentation and details about the functions and features not covered here, please check the documentation folder in the project repository. You can find more in-depth explanations and usage examples for the functions provided in the code.
 
 # Troubleshooting
 
