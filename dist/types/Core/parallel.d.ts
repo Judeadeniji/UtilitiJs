@@ -7,4 +7,4 @@
  * @template T - The return type of the function.
  * @template Y - The argument type of the function.
  */
-export declare function __<T, Y>(fn: (...args: Y[]) => T | Promise<T>, array?: Y[], chunkSize?: number): Promise<T[]>;
+export declare function executeParallelAsync<T, Y>(fn: (...args: Y[]) => T | Promise<T>, array?: Y[], chunkSize?: number): Promise<T[]>;
