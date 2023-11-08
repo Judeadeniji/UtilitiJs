@@ -154,20 +154,27 @@ exports.filterProperties = filterProperties;
  * @param {object} model - The model object to compare.
  * @param {object} template - The template object specifying the desired structure.
  * @returns {boolean} - True if the structure matches; false otherwise.
+ * @returns {FailedField[]} - Array of objects indicating the failed fields and the reasons for failure.
  */
 function looksLike(model, template) {
-    // Check if both inputs are objects
-    if (typeof model !== 'object' || typeof template !== 'object') {
-        return false;
-    }
+    const failedFields = [];
+    /*
+      // Check if both inputs are objects
+      if (typeof model !== 'object' || typeof template !== 'object') {
+        return [false, []];
+      }
+    */
     // Handle arrays differently
     if (Array.isArray(model) && Array.isArray(template)) {
         if (model.length !== template.length) {
-            return false;
+            failedFields.push({ field: 'Array Length', reason: 'Lengths do not match' });
+            return [false, failedFields];
         }
         for (let i = 0; i < model.length; i++) {
-            if (!looksLike(model[i], template[i])) {
-                return false;
+            const [subResult, subFailedFields] = looksLike(model[i], template[i]);
+            if (!subResult) {
+                failedFields.push({ field: `Array Index ${i}`, reason: 'Array items do not match' });
+                failedFields.push(...subFailedFields);
             }
         }
     }
@@ -177,25 +184,30 @@ function looksLike(model, template) {
         // Check if each key in the template matches the corresponding key in the model
         for (let key of templateKeys) {
             if (!model.hasOwnProperty(key)) {
-                return false;
+                failedFields.push({ field: key, reason: 'Field does not exist in the model' });
+                continue;
             }
             // Check if the types of the matched properties match exactly or are built-in types
-            if ((model[key]?.constructor !== template[key]?.constructor &&
+            if ((model[key]?.constructor !== template[key] &&
                 ![Number, String, Object, Array].includes(template[key]?.constructor)) ||
                 (template[key] instanceof RegExp &&
                     !template[key].test(model[key]))) {
-                return false;
+                failedFields.push({ field: key, reason: 'Field type does not match' });
             }
             if (typeof model[key] === 'object' && typeof template[key] === 'object') {
                 // Recursively check the nested structure of the objects
-                if (!looksLike(model[key], template[key])) {
-                    return false;
+                const [subResult, subFailedFields] = looksLike(model[key], template[key]);
+                if (!subResult) {
+                    failedFields.push(...subFailedFields.map(failedField => ({
+                        field: `${key}.${failedField.field}`,
+                        reason: failedField.reason,
+                    })));
                 }
             }
         }
     }
-    // If all checks pass, return true
-    return true;
+    // If there are failed fields, return them; otherwise, return true
+    return [failedFields.length === 0, failedFields];
 }
 exports.looksLike = looksLike;
 //# sourceMappingURL=object.js.map

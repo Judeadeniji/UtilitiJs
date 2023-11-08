@@ -98,11 +98,16 @@ declare function mapProperties(object: object, callback: (value: any, key: strin
  * @returns {Object} - A new object with the properties for which the callback returned a truthy value.
  */
 declare function filterProperties(object: object, callback: (value: any, key: string, object: object) => boolean): object;
+interface FailedField {
+    field: string;
+    reason: string;
+}
 /**
  * Checks if the structure of two objects are almost identical or partially identical.
  * @param {object} model - The model object to compare.
  * @param {object} template - The template object specifying the desired structure.
  * @returns {boolean} - True if the structure matches; false otherwise.
+ * @returns {FailedField[]} - Array of objects indicating the failed fields and the reasons for failure.
  */
-declare function looksLike(model: object, template: object): boolean;
+declare function looksLike(model: object, template: object): [boolean, FailedField[]];
 export { getProperty, setProperty, hasProperty, getKeys, getValues, getEntries, looksLike, extendObject, cloneShallow, cloneDeep, forEachProperty, mapProperties, filterProperties, };
