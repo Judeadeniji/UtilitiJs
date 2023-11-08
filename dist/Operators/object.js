@@ -160,21 +160,37 @@ function looksLike(model, template) {
     if (typeof model !== 'object' || typeof template !== 'object') {
         return false;
     }
-    // Get the keys of the template object
-    const templateKeys = Object.keys(template);
-    // Check if each key in the template matches the corresponding key in the model
-    for (let key of templateKeys) {
-        if (!model.hasOwnProperty(key)) {
+    // Handle arrays differently
+    if (Array.isArray(model) && Array.isArray(template)) {
+        if (model.length !== template.length) {
             return false;
         }
-        // Check if the types of the matched properties are strictly the same
-        if (model[key]?.constructor !== template[key]?.constructor) {
-            return false;
-        }
-        // Recursively check the nested structure of the objects
-        if (typeof model[key] === 'object' && typeof template[key] === 'object') {
-            if (!looksLike(model[key], template[key])) {
+        for (let i = 0; i < model.length; i++) {
+            if (!looksLike(model[i], template[i])) {
                 return false;
+            }
+        }
+    }
+    else {
+        // Get the keys of the template object
+        const templateKeys = Object.keys(template);
+        // Check if each key in the template matches the corresponding key in the model
+        for (let key of templateKeys) {
+            if (!model.hasOwnProperty(key)) {
+                return false;
+            }
+            // Check if the types of the matched properties match exactly or are built-in types
+            if ((model[key]?.constructor !== template[key]?.constructor &&
+                ![Number, String, Object, Array].includes(template[key]?.constructor)) ||
+                (template[key] instanceof RegExp &&
+                    !template[key].test(model[key]))) {
+                return false;
+            }
+            if (typeof model[key] === 'object' && typeof template[key] === 'object') {
+                // Recursively check the nested structure of the objects
+                if (!looksLike(model[key], template[key])) {
+                    return false;
+                }
             }
         }
     }

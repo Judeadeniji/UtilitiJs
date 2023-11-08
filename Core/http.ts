@@ -34,13 +34,12 @@ class HttpRequestError extends Error {
    * @param {Object} data - The body of the failed request.
    * @param {Object} headers - The headers of the failed request.
    */
-  constructor(message: string, method: string, url: string, data: any, headers: any) {
+  constructor(message: string, method: string, url: string, data: any) {
     super(message);
     this.name = "Utiliti-HttpRequestError";
     this.method = method;
     this.url = url;
     this.data = data;
-    this.headers = headers;
   }
 }
 
@@ -80,15 +79,15 @@ async function sendRequest(
   retryAttempt: number = 0,
 ): Promise<Response> {
   if (typeof method !== 'string') {
-    throw new HttpRequestError('Method must be a string', method, data, url, header);
+    throw new HttpRequestError('Method must be a string', method, data, url);
   }
 
   if (typeof url !== 'string') {
-    throw new HttpRequestError('URL must be a string', method, url, data, header);
+    throw new HttpRequestError('URL must be a string', method, url, data);
   }
 
   if (typeof header !== 'object') {
-    throw new HttpRequestError('Header must be an object', method, url, data, header);
+    throw new HttpRequestError('Header must be an object', method, url, data);
   }
   
   const { params, pathname, ...requestHeaders } = header;
@@ -124,7 +123,7 @@ async function sendRequest(
   try {
       const response = await fetch(destination, options);
       if (!response.ok) {
-        throw new HttpRequestError(response.statusText, method, url, data, header);
+        throw new HttpRequestError(response.statusText, method, url, data);
       }
       return response;
     } catch (error) {
@@ -141,7 +140,7 @@ async function sendRequest(
           retryAttempt,
         );
       } else {
-        throw new HttpRequestError(error.message, method, url, data, header);
+        throw new HttpRequestError(error.message, method, url, data);
       }
     }
 }
@@ -205,7 +204,7 @@ class Http {
    */
   addInterceptor(interceptor: Function): void {
     if (typeof interceptor !== 'function') {
-      throw new HttpRequestError('Interceptor must be a function', '', '', 'interceptor must be of type Function', {});
+      throw new HttpRequestError('Interceptor must be a function', '', '', 'interceptor must be of type Function');
     }
 
     this.interceptors.push(interceptor);
@@ -221,7 +220,7 @@ class Http {
    */
   addScopedInterceptor(interceptor: Function): void {
     if (typeof interceptor !== 'function') {
-      throw new HttpRequestError('Interceptor must be a function', '', '', 'interceptor must be of type Function', {});
+      throw new HttpRequestError('Interceptor must be a function', '', '', 'interceptor must be of type Function');
     }
 
     this.scopedInterceptors.push(interceptor);
@@ -242,19 +241,19 @@ class Http {
    */
   private sendRequestWithInterceptors(method: string, url: string, data: any = undefined, header: any = {},    signal?: AbortSignal | undefined): Promise<Response> {
     if (typeof method !== 'string') {
-      throw new HttpRequestError('Method must be a string', method, url, data, header);
+      throw new HttpRequestError('Method must be a string', method, url, data);
     }
 
     if (typeof url !== 'string') {
-      throw new HttpRequestError('URL must be a string', method, url, data, header);
+      throw new HttpRequestError('URL must be a string', method, url, data);
     }
 
     if (typeof header !== 'object') {
-      throw new HttpRequestError('Header must be an object', method, url, data, header);
+      throw new HttpRequestError('Header must be an object', method, url, data);
     }
 
     if (!Array.isArray(this.interceptors)) {
-      throw new HttpRequestError('Interceptors must be an array', method, url, data, header);
+      throw new HttpRequestError('Interceptors must be an array', method, url, data);
     }
 
     const interceptorsCount = this.interceptors.length;
@@ -396,7 +395,7 @@ class Http {
    */
   useInterceptors(interceptors: Function[]): void {
     if (!Array.isArray(interceptors)) {
-      throw new HttpRequestError('Interceptors must be an array', '', '', 'Interceptors must be of type Function[]', {});
+      throw new HttpRequestError('Interceptors must be an array', '', '', 'Interceptors must be of type Function[]');
     }
 
     interceptors.forEach((interceptor) => {
@@ -416,7 +415,7 @@ class Http {
    */
   useScopedInterceptors(interceptors: Function[], method: string, url: string): void {
     if (!Array.isArray(interceptors)) {
-      throw new HttpRequestError('Interceptors must be an array', method, url, 'interceptors must be of type Function[]', {});
+      throw new HttpRequestError('Interceptors must be an array', method, url, 'interceptors must be of type Function[]');
     }
 
     interceptors.forEach((interceptor) => {
