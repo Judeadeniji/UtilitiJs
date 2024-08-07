@@ -1,5 +1,4 @@
-Core/
-Operators/
+src/
 documentation/
 webpack.config.js
 index.ts

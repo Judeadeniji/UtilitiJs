@@ -15,6 +15,6 @@
     "sourceMap": true,
     "baseUrl": "."
   },
-  "include": ["./Core/**/*.ts", "./Operators/**/*.ts", "./index.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/Core/**/*.ts", "src/Operators/**/*.ts", "./index.ts"],
+  "exclude": ["node_modules", "src"]
 }
