@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createStore = exports.createSubscriber = exports.mergeReducers = exports.applyMiddleware = exports.Store = void 0;
+exports.Store = void 0;
+exports.applyMiddleware = applyMiddleware;
+exports.mergeReducers = mergeReducers;
+exports.createSubscriber = createSubscriber;
+exports.createStore = createStore;
 /**
  * Represents a store that holds the state and manages state updates.
  * @class Store
@@ -106,7 +110,6 @@ function mergeReducers(reducers) {
         }, {});
     };
 }
-exports.mergeReducers = mergeReducers;
 /**
  * Applies middlewares to the store's dispatch function.
  *
@@ -126,7 +129,6 @@ function applyMiddleware(...middlewares) {
         };
     };
 }
-exports.applyMiddleware = applyMiddleware;
 /**
  * Creates a subscriber object to subscribe to store updates.
   * @template T - The type of state.
@@ -146,9 +148,7 @@ function createSubscriber(store) {
         },
     };
 }
-exports.createSubscriber = createSubscriber;
 function createStore(state, reducer) {
     return new Store(reducer, state);
 }
-exports.createStore = createStore;
 //# sourceMappingURL=store.js.map

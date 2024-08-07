@@ -1,6 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isAlphanumericPalindrome = exports.generateRandomString = exports.maskCreditCardNumber = exports.isValidHexColor = exports.toSlug = exports.removeDuplicates = exports.isValidCreditCardNumber = exports.splitString = exports.isValidUsername = exports.removeNonAlphanumeric = exports.toCamelCase = exports.isValidPassword = exports.toSnakeCase = exports.padString = exports.countWords = exports.toKebabCase = exports.isValidPhoneNumber = exports.isValidUrl = exports.removeSubstring = exports.reverseWords = exports.isValidEmail = exports.toUpperCase = exports.toLowerCase = exports.removeWhitespace = exports.extractNumbers = exports.toTitleCase = exports.isPalindrome = exports.isEmpty = exports.trim = exports.countOccurrences = exports.capitalizeWords = exports.replaceAll = exports.contains = exports.endsWith = exports.startsWith = exports.truncate = exports.reverse = exports.capitalize = void 0;
+exports.capitalize = capitalize;
+exports.reverse = reverse;
+exports.truncate = truncate;
+exports.startsWith = startsWith;
+exports.endsWith = endsWith;
+exports.contains = contains;
+exports.replaceAll = replaceAll;
+exports.capitalizeWords = capitalizeWords;
+exports.countOccurrences = countOccurrences;
+exports.trim = trim;
+exports.isEmpty = isEmpty;
+exports.isPalindrome = isPalindrome;
+exports.toTitleCase = toTitleCase;
+exports.extractNumbers = extractNumbers;
+exports.removeWhitespace = removeWhitespace;
+exports.toLowerCase = toLowerCase;
+exports.toUpperCase = toUpperCase;
+exports.isValidEmail = isValidEmail;
+exports.reverseWords = reverseWords;
+exports.removeSubstring = removeSubstring;
+exports.isValidUrl = isValidUrl;
+exports.isValidPhoneNumber = isValidPhoneNumber;
+exports.toKebabCase = toKebabCase;
+exports.countWords = countWords;
+exports.padString = padString;
+exports.toSnakeCase = toSnakeCase;
+exports.isValidPassword = isValidPassword;
+exports.toCamelCase = toCamelCase;
+exports.removeNonAlphanumeric = removeNonAlphanumeric;
+exports.isValidUsername = isValidUsername;
+exports.splitString = splitString;
+exports.isValidCreditCardNumber = isValidCreditCardNumber;
+exports.removeDuplicates = removeDuplicates;
+exports.toSlug = toSlug;
+exports.isValidHexColor = isValidHexColor;
+exports.maskCreditCardNumber = maskCreditCardNumber;
+exports.generateRandomString = generateRandomString;
+exports.isAlphanumericPalindrome = isAlphanumericPalindrome;
 /**
  * Capitalizes the first letter of a string.
  * @param {string} str - The input string.
@@ -9,7 +46,6 @@ exports.isAlphanumericPalindrome = exports.generateRandomString = exports.maskCr
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
-exports.capitalize = capitalize;
 /**
  * Reverses a string.
  * @param {string} str - The input string.
@@ -18,7 +54,6 @@ exports.capitalize = capitalize;
 function reverse(str) {
     return str.split('').reverse().join('');
 }
-exports.reverse = reverse;
 /**
  * Truncates a string to a specified length and appends an ellipsis if necessary.
  * @param {string} str - The input string.
@@ -31,7 +66,6 @@ function truncate(str, maxLength) {
     }
     return str.slice(0, maxLength) + '...';
 }
-exports.truncate = truncate;
 /**
  * Checks if a string starts with a specified substring.
  * @param {string} str - The input string.
@@ -41,7 +75,6 @@ exports.truncate = truncate;
 function startsWith(str, substring) {
     return str.startsWith(substring);
 }
-exports.startsWith = startsWith;
 /**
  * Checks if a string ends with a specified substring.
  * @param {string} str - The input string.
@@ -51,7 +84,6 @@ exports.startsWith = startsWith;
 function endsWith(str, substring) {
     return str.endsWith(substring);
 }
-exports.endsWith = endsWith;
 /**
  * Checks if a string contains a specified substring.
  * @param {string} str - The input string.
@@ -61,7 +93,6 @@ exports.endsWith = endsWith;
 function contains(str, substring) {
     return str.includes(substring);
 }
-exports.contains = contains;
 /**
  * Replaces all occurrences of a substring in a string with a new substring.
  * @param {string} str - The input string.
@@ -72,7 +103,6 @@ exports.contains = contains;
 function replaceAll(str, searchValue, replaceValue) {
     return str.split(searchValue).join(replaceValue);
 }
-exports.replaceAll = replaceAll;
 /**
  * Converts the first character of each word in a string to uppercase.
  * @param {string} str - The input string.
@@ -81,7 +111,6 @@ exports.replaceAll = replaceAll;
 function capitalizeWords(str) {
     return str.replace(/\b\w/g, match => match.toUpperCase());
 }
-exports.capitalizeWords = capitalizeWords;
 /**
  * Counts the number of occurrences of a substring in a string.
  * @param {string} str - The input string.
@@ -93,7 +122,6 @@ function countOccurrences(str, substring) {
     const matches = str.match(regex);
     return matches ? matches.length : 0;
 }
-exports.countOccurrences = countOccurrences;
 /**
  * Removes leading and trailing whitespace from a string.
  * @param {string} str - The input string.
@@ -102,7 +130,6 @@ exports.countOccurrences = countOccurrences;
 function trim(str) {
     return str.trim();
 }
-exports.trim = trim;
 /**
  * Checks if a string is empty (contains only whitespace).
  * @param {string} str - The input string.
@@ -111,7 +138,6 @@ exports.trim = trim;
 function isEmpty(str) {
     return str.trim() === '';
 }
-exports.isEmpty = isEmpty;
 /**
  * Checks if a string is a palindrome (reads the same forward and backward).
  * @param {string} str - The input string.
@@ -121,7 +147,6 @@ function isPalindrome(str) {
     const reversed = str.split('').reverse().join('');
     return str === reversed;
 }
-exports.isPalindrome = isPalindrome;
 /**
  * Converts a string to title case (each word starts with an uppercase letter).
  * @param {string} str - The input string.
@@ -130,7 +155,6 @@ exports.isPalindrome = isPalindrome;
 function toTitleCase(str) {
     return str.replace(/\b\w/g, match => match.toUpperCase());
 }
-exports.toTitleCase = toTitleCase;
 /**
  * Extracts the numbers from a string and returns them as an array.
  * @param {string} str - The input string.
@@ -141,7 +165,6 @@ function extractNumbers(str) {
     const matches = str.match(regex);
     return matches ? matches.map(Number) : [];
 }
-exports.extractNumbers = extractNumbers;
 /**
  * Removes all whitespace from a string.
  * @param {string} str - The input string.
@@ -150,7 +173,6 @@ exports.extractNumbers = extractNumbers;
 function removeWhitespace(str) {
     return str.replace(/\s/g, '');
 }
-exports.removeWhitespace = removeWhitespace;
 /**
  * Converts a string to lowercase.
  * @param {string} str - The input string.
@@ -159,7 +181,6 @@ exports.removeWhitespace = removeWhitespace;
 function toLowerCase(str) {
     return str.toLowerCase();
 }
-exports.toLowerCase = toLowerCase;
 /**
  * Converts a string to uppercase.
  * @param {string} str - The input string.
@@ -168,7 +189,6 @@ exports.toLowerCase = toLowerCase;
 function toUpperCase(str) {
     return str.toUpperCase();
 }
-exports.toUpperCase = toUpperCase;
 /**
  * Checks if a string is a valid email address.
  * @param {string} str - The input string.
@@ -178,7 +198,6 @@ function isValidEmail(str) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(str);
 }
-exports.isValidEmail = isValidEmail;
 /**
  * Reverses the order of words in a string.
  * @param {string} str - The input string.
@@ -187,7 +206,6 @@ exports.isValidEmail = isValidEmail;
 function reverseWords(str) {
     return str.split(' ').reverse().join(' ');
 }
-exports.reverseWords = reverseWords;
 /**
  * Removes a specified substring from a string.
  * @param {string} str - The input string.
@@ -197,7 +215,6 @@ exports.reverseWords = reverseWords;
 function removeSubstring(str, substring) {
     return str.replace(substring, '');
 }
-exports.removeSubstring = removeSubstring;
 /**
  * Checks if a string is a valid URL.
  * @param {string} str - The input string.
@@ -207,7 +224,6 @@ function isValidUrl(str) {
     const regex = /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/;
     return regex.test(str);
 }
-exports.isValidUrl = isValidUrl;
 /**
  * Checks if a string is a valid phone number.
  * @param {string} str - The input string.
@@ -217,7 +233,6 @@ function isValidPhoneNumber(str) {
     const regex = /^\d{3}-\d{3}-\d{4}$/;
     return regex.test(str);
 }
-exports.isValidPhoneNumber = isValidPhoneNumber;
 /**
  * Converts a string to kebab case (lowercase letters separated by hyphens).
  * @param {string} str - The input string.
@@ -226,7 +241,6 @@ exports.isValidPhoneNumber = isValidPhoneNumber;
 function toKebabCase(str) {
     return str.replace(/\s+/g, '-').toLowerCase();
 }
-exports.toKebabCase = toKebabCase;
 /**
  * Counts the number of words in a string.
  * @param {string} str - The input string.
@@ -236,7 +250,6 @@ function countWords(str) {
     const words = str.split(/\s+/);
     return words.length;
 }
-exports.countWords = countWords;
 /**
  * Pads a string with a specified character to a specified length.
  * @param {string} str - The input string.
@@ -251,7 +264,6 @@ function padString(str, length, char) {
     const padding = char.repeat(length - str.length);
     return str + padding;
 }
-exports.padString = padString;
 /**
  * Converts a string to snake case (lowercase letters separated by underscores).
  * @param {string} str - The input string.
@@ -260,7 +272,6 @@ exports.padString = padString;
 function toSnakeCase(str) {
     return str.replace(/\s+/g, '_').toLowerCase();
 }
-exports.toSnakeCase = toSnakeCase;
 /**
  * Checks if a string is a valid password.
  * Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.
@@ -271,7 +282,6 @@ function isValidPassword(str) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return regex.test(str);
 }
-exports.isValidPassword = isValidPassword;
 /**
  * Converts a string to camel case (lowercase letters with the first letter of each subsequent word capitalized).
  * @param {string} str - The input string.
@@ -287,7 +297,6 @@ function toCamelCase(str) {
     });
     return capitalizedWords.join('');
 }
-exports.toCamelCase = toCamelCase;
 /**
  * Removes all non-alphanumeric characters from a string.
  * @param {string} str - The input string.
@@ -296,7 +305,6 @@ exports.toCamelCase = toCamelCase;
 function removeNonAlphanumeric(str) {
     return str.replace(/[^a-zA-Z0-9]/g, '');
 }
-exports.removeNonAlphanumeric = removeNonAlphanumeric;
 /**
  * Checks if a string is a valid username.
  * Username must be alphanumeric and can contain underscores and hyphens.
@@ -307,7 +315,6 @@ function isValidUsername(str) {
     const regex = /^[a-zA-Z0-9_-]+$/;
     return regex.test(str);
 }
-exports.isValidUsername = isValidUsername;
 /**
  * Splits a string into an array of substrings using a specified delimiter.
  * @param {string} str - The input string.
@@ -317,7 +324,6 @@ exports.isValidUsername = isValidUsername;
 function splitString(str, delimiter) {
     return str.split(delimiter);
 }
-exports.splitString = splitString;
 /**
  * Checks if a string is a valid credit card number.
  * @param {string} str - The input string.
@@ -327,7 +333,6 @@ function isValidCreditCardNumber(str) {
     const regex = /^(?:\d{4}-){3}\d{4}$|^\d{16}$/;
     return regex.test(str);
 }
-exports.isValidCreditCardNumber = isValidCreditCardNumber;
 /**
  * Removes duplicate characters from a string.
  * @param {string} str - The input string.
@@ -336,7 +341,6 @@ exports.isValidCreditCardNumber = isValidCreditCardNumber;
 function removeDuplicates(str) {
     return Array.from(new Set(str)).join('');
 }
-exports.removeDuplicates = removeDuplicates;
 /**
  * Converts a string to a slug (lowercase letters separated by hyphens).
  * @param {string} str - The input string.
@@ -345,7 +349,6 @@ exports.removeDuplicates = removeDuplicates;
 function toSlug(str) {
     return str.toLowerCase().replace(/\s+/g, '-');
 }
-exports.toSlug = toSlug;
 /**
  * Checks if a string is a valid hexadecimal color code (e.g., #FFFFFF).
  * @param {string} str - The input string.
@@ -355,7 +358,6 @@ function isValidHexColor(str) {
     const regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
     return regex.test(str);
 }
-exports.isValidHexColor = isValidHexColor;
 /**
  * Masks a credit card number by replacing all but the last four digits with asterisks.
  * @param {string} str - The input string (credit card number).
@@ -366,7 +368,6 @@ function maskCreditCardNumber(str) {
     const maskedDigits = '*'.repeat(str.length - 4);
     return maskedDigits + lastFourDigits;
 }
-exports.maskCreditCardNumber = maskCreditCardNumber;
 /**
  * Generates a random alphanumeric string of a specified length.
  * @param {number} length - The desired length of the generated string.
@@ -381,7 +382,6 @@ function generateRandomString(length) {
     }
     return result;
 }
-exports.generateRandomString = generateRandomString;
 /**
  * Checks if a string is a palindrome when only considering alphanumeric characters and ignoring case.
  * @param {string} str - The input string.
@@ -391,5 +391,4 @@ function isAlphanumericPalindrome(str) {
     const alphanumericStr = str.replace(/[^0-9a-zA-Z]/g, '').toLowerCase();
     return alphanumericStr === alphanumericStr.split('').reverse().join('');
 }
-exports.isAlphanumericPalindrome = isAlphanumericPalindrome;
 //# sourceMappingURL=string.js.map

@@ -1,6 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseInt = exports.parseFloat = exports.isNaN = exports.isBoolean = exports.isFunction = exports.isObject = exports.isArray = exports.isString = exports.isInteger = void 0;
+exports.isInteger = isInteger;
+exports.isString = isString;
+exports.isArray = isArray;
+exports.isObject = isObject;
+exports.isFunction = isFunction;
+exports.isBoolean = isBoolean;
+exports.isNaN = isNaN;
+exports.parseFloat = parseFloat;
+exports.parseInt = parseInt;
 /**
  * Checks if a value is an integer.
  * @param {*} num - The value to check.
@@ -9,7 +17,6 @@ exports.parseInt = exports.parseFloat = exports.isNaN = exports.isBoolean = expo
 function isInteger(num) {
     return Number.isInteger(num);
 }
-exports.isInteger = isInteger;
 /**
  * Checks if a value is a string.
  * @param {*} val - The value to check.
@@ -18,7 +25,6 @@ exports.isInteger = isInteger;
 function isString(val) {
     return typeof val === 'string';
 }
-exports.isString = isString;
 /**
  * Checks if a value is an array.
  * @param {*} val - The value to check.
@@ -27,7 +33,6 @@ exports.isString = isString;
 function isArray(val) {
     return Array.isArray(val);
 }
-exports.isArray = isArray;
 /**
  * Checks if a value is an object.
  * @param {*} val - The value to check.
@@ -36,7 +41,6 @@ exports.isArray = isArray;
 function isObject(val) {
     return typeof val === 'object' && !Array.isArray(val) && val !== null;
 }
-exports.isObject = isObject;
 /**
  * Checks if a value is a function.
  * @param {*} val - The value to check.
@@ -45,7 +49,6 @@ exports.isObject = isObject;
 function isFunction(val) {
     return typeof val === 'function';
 }
-exports.isFunction = isFunction;
 /**
  * Checks if a value is a boolean.
  * @param {*} val - The value to check.
@@ -54,7 +57,6 @@ exports.isFunction = isFunction;
 function isBoolean(val) {
     return typeof val === 'boolean';
 }
-exports.isBoolean = isBoolean;
 /**
  * Checks if a value is NaN (not a number).
  * @param {*} value - The value to check.
@@ -63,7 +65,6 @@ exports.isBoolean = isBoolean;
 function isNaN(value) {
     return Number.isNaN(value);
 }
-exports.isNaN = isNaN;
 /**
  * Converts a string to an integer.
  * @param {string} str - The string to convert.
@@ -73,7 +74,6 @@ exports.isNaN = isNaN;
 function parseInt(str, radix) {
     return Number.parseInt(str, radix);
 }
-exports.parseInt = parseInt;
 /**
  * Converts a string to a floating-point number.
  * @param {string} str - The string to convert.
@@ -82,5 +82,4 @@ exports.parseInt = parseInt;
 function parseFloat(str) {
     return Number.parseFloat(str);
 }
-exports.parseFloat = parseFloat;
 //# sourceMappingURL=type-check.js.map

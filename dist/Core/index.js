@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trim = exports.DataValidator = exports.Random = exports.UrlParser = exports.TaskQueue = exports.generateId = exports.CustomError = exports.dataFilter = exports.dateFilter = exports.DataFilter = exports.DateFilter = exports.Http = void 0;
+exports.DataValidator = exports.Random = exports.UrlParser = exports.TaskQueue = exports.CustomError = exports.DataFilter = exports.DateFilter = void 0;
+exports.Http = Http;
+exports.dateFilter = dateFilter;
+exports.dataFilter = dataFilter;
+exports.generateId = generateId;
+exports.trim = trim;
 /**
  * Represents a custom error.
  * @class CustomError
@@ -155,12 +160,10 @@ function Http() {
         }
     };
 }
-exports.Http = Http;
 function dataFilter(item) {
     console.warn('dataFilter has been renamed to DataFilter');
     return new DataFilter(item);
 }
-exports.dataFilter = dataFilter;
 /**
  * A class representing a data filter.
  * @class DataFilter
@@ -204,7 +207,6 @@ function dateFilter() {
     console.warn('dateFilter has been renamed to DateFilter');
     return new DateFilter();
 }
-exports.dateFilter = dateFilter;
 /**
  * A class containing utility functions for working with dates.
  * @class DateFilter
@@ -357,7 +359,6 @@ function generateId() {
     const id = Math.floor(Math.random() * 1000000) + 1;
     return id;
 }
-exports.generateId = generateId;
 /**
  * Creates and manages a queue of tasks.
  * @class TaskQueue
@@ -537,5 +538,4 @@ function trim(str) {
     // Replace the matched whitespace with an empty string
     return str.replace(regex, "");
 }
-exports.trim = trim;
 //# sourceMappingURL=index.js.map

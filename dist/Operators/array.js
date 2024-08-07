@@ -1,6 +1,36 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.entries = exports.values = exports.keys = exports.concat = exports.fill = exports.join = exports.reverse = exports.lastIndexOf = exports.indexOf = exports.includes = exports.sort = exports.slice = exports.forEach = exports.flatMap = exports.findIndex = exports.find = exports.some = exports.every = exports.shuffle = exports.chunk = exports.flatten = exports.unique = exports.min = exports.max = exports.reduce = exports.map = exports.filter = exports.mode = exports.median = exports.mean = exports.sum = void 0;
+exports.sum = sum;
+exports.mean = mean;
+exports.median = median;
+exports.mode = mode;
+exports.filter = filter;
+exports.map = map;
+exports.reduce = reduce;
+exports.max = max;
+exports.min = min;
+exports.unique = unique;
+exports.flatten = flatten;
+exports.chunk = chunk;
+exports.shuffle = shuffle;
+exports.every = every;
+exports.some = some;
+exports.find = find;
+exports.findIndex = findIndex;
+exports.flatMap = flatMap;
+exports.forEach = forEach;
+exports.slice = slice;
+exports.sort = sort;
+exports.includes = includes;
+exports.indexOf = indexOf;
+exports.lastIndexOf = lastIndexOf;
+exports.reverse = reverse;
+exports.join = join;
+exports.fill = fill;
+exports.concat = concat;
+exports.keys = keys;
+exports.values = values;
+exports.entries = entries;
 /**
  * Calculates the sum of all the elements in an array.
  * @param {number[]} arr - The input array.
@@ -9,7 +39,6 @@ exports.entries = exports.values = exports.keys = exports.concat = exports.fill 
 function sum(arr) {
     return arr.reduce((total, num) => total + num, 0);
 }
-exports.sum = sum;
 /**
  * Calculates the mean of all the elements in an array.
  * @param {number[]} arr - The input array.
@@ -18,7 +47,6 @@ exports.sum = sum;
 function mean(arr) {
     return sum(arr) / arr.length;
 }
-exports.mean = mean;
 /**
  * Calculates the median of all the elements in an array.
  * @param {number[]} arr - The input array.
@@ -32,7 +60,6 @@ function median(arr) {
     }
     return arr[mid];
 }
-exports.median = median;
 /**
  * Finds the mode of an array.
  * @param {number[]} arr - The input array.
@@ -46,7 +73,6 @@ function mode(arr) {
     const mode = Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b);
     return parseInt(mode, 10);
 }
-exports.mode = mode;
 /**
  * Filters the elements of an array based on a given predicate.
  * @param {Array} arr - The input array.
@@ -56,7 +82,6 @@ exports.mode = mode;
 function filter(arr, predicate) {
     return arr.filter(predicate);
 }
-exports.filter = filter;
 /**
  * Transforms each element of an array using a given mapper function.
  * @param {Array} arr - The input array.
@@ -66,7 +91,6 @@ exports.filter = filter;
 function map(arr, mapper) {
     return arr.map(mapper);
 }
-exports.map = map;
 /**
  * Reduces an array to a single value using a given reducer function and an initial value.
  * @param {Array} arr - The input array.
@@ -77,7 +101,6 @@ exports.map = map;
 function reduce(arr, reducer, initialValue) {
     return arr.reduce(reducer, initialValue);
 }
-exports.reduce = reduce;
 /**
  * Finds the maximum element of an array.
  * @param {Array} arr - The input array.
@@ -95,7 +118,6 @@ function max(arr) {
     }
     return maxElement;
 }
-exports.max = max;
 /**
  * Finds the minimum element of an array.
  * @param {Array} arr - The input array.
@@ -104,7 +126,6 @@ exports.max = max;
 function min(arr) {
     return Math.min(...arr);
 }
-exports.min = min;
 /**
  * Removes duplicate elements from an array.
  * @param {Array} arr - The input array.
@@ -113,7 +134,6 @@ exports.min = min;
 function unique(arr) {
     return [...new Set(arr)];
 }
-exports.unique = unique;
 /**
  * Flattens a nested array into a single-level array.
  * @param {Array} arr - The input array.
@@ -122,7 +142,6 @@ exports.unique = unique;
 function flatten(arr) {
     return arr.flat();
 }
-exports.flatten = flatten;
 /**
  * Breaks an array into chunks of a given size.
  * @param {Array} arr - The input array.
@@ -136,7 +155,6 @@ function chunk(arr, size) {
     }
     return chunks;
 }
-exports.chunk = chunk;
 /**
  * Shuffles an array in place using the Fisher-Yates algorithm.
  *
@@ -151,7 +169,6 @@ function shuffle(arr) {
     }
     return shuffled;
 }
-exports.shuffle = shuffle;
 /**
  * Tests whether all elements in the array pass the predicate function.
  *
@@ -162,7 +179,6 @@ exports.shuffle = shuffle;
 function every(arr, predicate) {
     return arr.every(predicate);
 }
-exports.every = every;
 /**
  * Tests whether at least one element in the array passes the predicate function.
  *
@@ -173,7 +189,6 @@ exports.every = every;
 function some(arr, predicate) {
     return arr.some(predicate);
 }
-exports.some = some;
 /**
  * Returns the first element in the array that passes the predicate function,
  * or undefined if no such element is found.
@@ -185,7 +200,6 @@ exports.some = some;
 function find(arr, predicate) {
     return arr.find(predicate);
 }
-exports.find = find;
 /**
  * Returns the index of the first element in the array that passes the predicate function,
  * or -1 if no such element is found.
@@ -197,7 +211,6 @@ exports.find = find;
 function findIndex(arr, predicate) {
     return arr.findIndex(predicate);
 }
-exports.findIndex = findIndex;
 /**
  * Maps each element in the array to a new value using the provided mapper function,
  * and then flattens the result to a one-dimensional array.
@@ -209,7 +222,6 @@ exports.findIndex = findIndex;
 function flatMap(arr, mapper) {
     return arr.flatMap(mapper);
 }
-exports.flatMap = flatMap;
 /**
  * Calls the provided callback function once for each element in the array,
  * in order, and passing the element as an argument to the callback.
@@ -220,7 +232,6 @@ exports.flatMap = flatMap;
 function forEach(arr, callback) {
     arr.forEach(callback);
 }
-exports.forEach = forEach;
 /**
  * Returns a new array containing the elements from the start index up to, but not including, the end index.
  *
@@ -232,7 +243,6 @@ exports.forEach = forEach;
 function slice(arr, start, end) {
     return arr.slice(start, end);
 }
-exports.slice = slice;
 /**
  * Returns a new array with the elements sorted according to the provided comparator function.
  *
@@ -244,7 +254,6 @@ exports.slice = slice;
 function sort(arr, comparator) {
     return arr.sort(comparator);
 }
-exports.sort = sort;
 /**
  * Returns a Boolean indicating whether the given value is found in the array.
  *
@@ -256,7 +265,6 @@ exports.sort = sort;
 function includes(arr, value) {
     return arr.includes(value);
 }
-exports.includes = includes;
 /**
  * Returns the index of the first occurrence of the given value in the array, or -1 if it is not found.
  *
@@ -268,7 +276,6 @@ exports.includes = includes;
 function indexOf(arr, value) {
     return arr.indexOf(value);
 }
-exports.indexOf = indexOf;
 /**
  * Returns the index of the last occurrence of the given value in the array, or -1 if it is not found.
  *
@@ -280,7 +287,6 @@ exports.indexOf = indexOf;
 function lastIndexOf(arr, value) {
     return arr.lastIndexOf(value);
 }
-exports.lastIndexOf = lastIndexOf;
 /**
  * Returns a new array with the elements in reverse order.
  *
@@ -291,7 +297,6 @@ exports.lastIndexOf = lastIndexOf;
 function reverse(arr) {
     return arr.reverse();
 }
-exports.reverse = reverse;
 /**
  * Joins all elements of an array into a string, with an optional separator.
  *
@@ -303,7 +308,6 @@ exports.reverse = reverse;
 function join(arr, separator) {
     return arr.join(separator);
 }
-exports.join = join;
 /**
  * Fills elements of an array with a static value.
  * @param {Array} arr - The input array.
@@ -315,7 +319,6 @@ exports.join = join;
 function fill(arr, value, start = 0, end = arr.length) {
     return arr.fill(value, start, end);
 }
-exports.fill = fill;
 /**
  * Combines two or more arrays.
  * @param {Array} arr1 - The first array.
@@ -325,7 +328,6 @@ exports.fill = fill;
 function concat(arr1, ...arr2) {
     return arr1.concat(...arr2);
 }
-exports.concat = concat;
 /**
  * Returns an iterator that contains the keys for each index in the array.
  * @param {Array} arr - The input array.
@@ -334,7 +336,6 @@ exports.concat = concat;
 function keys(arr) {
     return arr.keys();
 }
-exports.keys = keys;
 /**
  * Returns an iterator that contains the values for each index in the array.
  * @param {Array} arr - The input array.
@@ -343,7 +344,6 @@ exports.keys = keys;
 function values(arr) {
     return arr.values();
 }
-exports.values = values;
 /**
  * Returns an iterator that contains key/value pairs for each index in the array.
  * @param {Array} arr - The input array.
@@ -352,5 +352,4 @@ exports.values = values;
 function entries(arr) {
     return arr.entries();
 }
-exports.entries = entries;
 //# sourceMappingURL=array.js.map

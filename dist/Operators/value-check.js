@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isPositive = exports.isNegative = exports.isZero = exports.isEven = exports.isOdd = exports.isPrime = exports.isWhole = exports.isFractional = void 0;
+exports.isFractional = isFractional;
+exports.isWhole = isWhole;
+exports.isPrime = isPrime;
+exports.isOdd = isOdd;
+exports.isEven = isEven;
+exports.isZero = isZero;
+exports.isNegative = isNegative;
+exports.isPositive = isPositive;
 /**
  * Checks if a number is positive.
  * @param {number} num - The number to check.
@@ -9,7 +16,6 @@ exports.isPositive = exports.isNegative = exports.isZero = exports.isEven = expo
 function isPositive(num) {
     return num > 0;
 }
-exports.isPositive = isPositive;
 /**
  * Checks if a number is negative.
  * @param {number} num - The number to check.
@@ -18,7 +24,6 @@ exports.isPositive = isPositive;
 function isNegative(num) {
     return num < 0;
 }
-exports.isNegative = isNegative;
 /**
  * Checks if a number is zero.
  * @param {number} num - The number to check.
@@ -27,7 +32,6 @@ exports.isNegative = isNegative;
 function isZero(num) {
     return num === 0;
 }
-exports.isZero = isZero;
 /**
  * Checks if a number is even.
  * @param {number} num - The number to check.
@@ -36,7 +40,6 @@ exports.isZero = isZero;
 function isEven(num) {
     return num % 2 === 0;
 }
-exports.isEven = isEven;
 /**
  * Checks if a number is odd.
  * @param {number} num - The number to check.
@@ -45,7 +48,6 @@ exports.isEven = isEven;
 function isOdd(num) {
     return num % 2 === 1;
 }
-exports.isOdd = isOdd;
 /**
  * Checks if a number is prime.
  * @param {number} num - The number to check.
@@ -60,7 +62,6 @@ function isPrime(num) {
     }
     return true;
 }
-exports.isPrime = isPrime;
 /**
  * Checks if a number is a whole number.
  * @param {number} num - The number to check.
@@ -69,7 +70,6 @@ exports.isPrime = isPrime;
 function isWhole(num) {
     return Number.isInteger(num);
 }
-exports.isWhole = isWhole;
 /**
  * Checks if a number is a fractional number.
  * @param {number} num - The number to check.
@@ -78,5 +78,4 @@ exports.isWhole = isWhole;
 function isFractional(num) {
     return num % 1 !== 0;
 }
-exports.isFractional = isFractional;
 //# sourceMappingURL=value-check.js.map

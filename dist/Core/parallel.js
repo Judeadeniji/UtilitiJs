@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.executeParallelAsync = void 0;
+exports.executeParallelAsync = executeParallelAsync;
 /**
  * Executes a function asynchronously.
  * @param {Function} fn - The function to execute.
@@ -56,5 +56,4 @@ function executeParallelAsync(fn, array = [], chunkSize = 1000) {
         return Promise.all(flattenedResults);
     });
 }
-exports.executeParallelAsync = executeParallelAsync;
 //# sourceMappingURL=parallel.js.map

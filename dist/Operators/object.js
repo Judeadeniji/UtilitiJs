@@ -1,6 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterProperties = exports.mapProperties = exports.forEachProperty = exports.cloneDeep = exports.cloneShallow = exports.extendObject = exports.looksLike = exports.getEntries = exports.getValues = exports.getKeys = exports.hasProperty = exports.setProperty = exports.getProperty = void 0;
+exports.getProperty = getProperty;
+exports.setProperty = setProperty;
+exports.hasProperty = hasProperty;
+exports.getKeys = getKeys;
+exports.getValues = getValues;
+exports.getEntries = getEntries;
+exports.looksLike = looksLike;
+exports.extendObject = extendObject;
+exports.cloneShallow = cloneShallow;
+exports.cloneDeep = cloneDeep;
+exports.forEachProperty = forEachProperty;
+exports.mapProperties = mapProperties;
+exports.filterProperties = filterProperties;
 /**
  * Returns the value at the specified key in the object.
  *
@@ -11,7 +23,6 @@ exports.filterProperties = exports.mapProperties = exports.forEachProperty = exp
 function getProperty(object, key) {
     return object[key];
 }
-exports.getProperty = getProperty;
 /**
  * Sets the value at the specified key in the object.
  *
@@ -22,7 +33,6 @@ exports.getProperty = getProperty;
 function setProperty(object, key, value) {
     object[key] = value;
 }
-exports.setProperty = setProperty;
 /**
  * Returns a boolean indicating whether the object has a property with the specified key.
  *
@@ -33,7 +43,6 @@ exports.setProperty = setProperty;
 function hasProperty(object, key) {
     return Object.prototype.hasOwnProperty.call(object, key);
 }
-exports.hasProperty = hasProperty;
 /**
  * Returns an array of the object's own enumerable property names.
  *
@@ -43,7 +52,6 @@ exports.hasProperty = hasProperty;
 function getKeys(object) {
     return Object.keys(object);
 }
-exports.getKeys = getKeys;
 /**
  * Returns an array of the object's own enumerable property values.
  *
@@ -53,7 +61,6 @@ exports.getKeys = getKeys;
 function getValues(object) {
     return Object.values(object);
 }
-exports.getValues = getValues;
 /**
  * Returns an array of the object's own enumerable property [key, value] pairs.
  *
@@ -63,7 +70,6 @@ exports.getValues = getValues;
 function getEntries(object) {
     return Object.entries(object);
 }
-exports.getEntries = getEntries;
 /**
  * Copies the own enumerable properties of source objects to the target object and returns the target object.
  *
@@ -74,7 +80,6 @@ exports.getEntries = getEntries;
 function extendObject(object, ...sources) {
     return Object.assign(object, ...sources);
 }
-exports.extendObject = extendObject;
 /**
  * Creates a shallow copy of the object.
  *
@@ -84,7 +89,6 @@ exports.extendObject = extendObject;
 function cloneShallow(object) {
     return Object.assign({}, object);
 }
-exports.cloneShallow = cloneShallow;
 /**
  * Creates a deep copy of the object.
  *
@@ -94,7 +98,6 @@ exports.cloneShallow = cloneShallow;
 function cloneDeep(object) {
     return JSON.parse(JSON.stringify(object));
 }
-exports.cloneDeep = cloneDeep;
 /**
  * Calls the callback function for each own enumerable property of the object.
  *
@@ -110,7 +113,6 @@ function forEachProperty(object, callback) {
         callback(value, key, object);
     }
 }
-exports.forEachProperty = forEachProperty;
 /**
  * Calls the callback function for each own enumerable property of the object and returns a new object with the returned values.
  *
@@ -128,7 +130,6 @@ function mapProperties(object, callback) {
     }
     return result;
 }
-exports.mapProperties = mapProperties;
 /**
  * Calls the callback function for each own enumerable property of the object and returns a new object with the properties for which the callback returned a truthy value.
  *
@@ -148,7 +149,6 @@ function filterProperties(object, callback) {
     }
     return result;
 }
-exports.filterProperties = filterProperties;
 /**
  * Checks if the structure of two objects are almost identical or partially identical.
  * @param {object} model - The model object to compare.
@@ -209,5 +209,4 @@ function looksLike(model, template) {
     // If there are failed fields, return them; otherwise, return true
     return [failedFields.length === 0, failedFields];
 }
-exports.looksLike = looksLike;
 //# sourceMappingURL=object.js.map

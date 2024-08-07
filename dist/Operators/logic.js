@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.iff = exports.implies = exports.nor = exports.nand = exports.xor = exports.not = exports.or = exports.and = void 0;
+exports.and = and;
+exports.or = or;
+exports.not = not;
+exports.xor = xor;
+exports.nand = nand;
+exports.nor = nor;
+exports.implies = implies;
+exports.iff = iff;
 /**
  * Returns true if all the conditions are truthy values, false otherwise.
  *
@@ -10,7 +17,6 @@ exports.iff = exports.implies = exports.nor = exports.nand = exports.xor = expor
 function and(...conditions) {
     return conditions.every(Boolean);
 }
-exports.and = and;
 /**
  * Returns true if any of the conditions are truthy values, false otherwise.
  *
@@ -20,7 +26,6 @@ exports.and = and;
 function or(...conditions) {
     return conditions.some(Boolean);
 }
-exports.or = or;
 /**
  * Returns the boolean negation of the condition.
  *
@@ -30,7 +35,6 @@ exports.or = or;
 function not(condition) {
     return !condition;
 }
-exports.not = not;
 /**
  * Returns true if an odd number of the conditions are truthy values, false otherwise.
  *
@@ -40,7 +44,6 @@ exports.not = not;
 function xor(...conditions) {
     return conditions.filter(Boolean).length % 2 === 1;
 }
-exports.xor = xor;
 /**
  * Returns true if any of the conditions are falsy values, false otherwise.
  *
@@ -50,7 +53,6 @@ exports.xor = xor;
 function nand(...conditions) {
     return !and(...conditions);
 }
-exports.nand = nand;
 /**
  * Returns true if all of the conditions are falsy values, false otherwise.
  *
@@ -60,7 +62,6 @@ exports.nand = nand;
 function nor(...conditions) {
     return !or(...conditions);
 }
-exports.nor = nor;
 /**
  * Returns the value of a logical implication (a -> b).
  *
@@ -71,7 +72,6 @@ exports.nor = nor;
 function implies(a, b) {
     return or(!a, b);
 }
-exports.implies = implies;
 /**
  * Returns the value of a biconditional implication (a <-> b).
  *
@@ -82,5 +82,4 @@ exports.implies = implies;
 function iff(a, b) {
     return and(implies(a, b), implies(b, a));
 }
-exports.iff = iff;
 //# sourceMappingURL=logic.js.map

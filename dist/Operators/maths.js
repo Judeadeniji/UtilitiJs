@@ -1,6 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sign = exports.floor = exports.ceil = exports.powerOf10 = exports.atanh = exports.acosh = exports.asinh = exports.tanh = exports.cosh = exports.sinh = exports.log10 = exports.naturalLogarithm = exports.absoluteDifference = exports.nthRoot = exports.lcm = exports.gcd = exports.isInteger = exports.random = exports.exponentiate = exports.logarithm = exports.atan = exports.acos = exports.asin = exports.tan = exports.cos = exports.sin = exports.round = exports.min = exports.max = exports.absoluteValue = exports.squareRoot = exports.power = exports.factorial = exports.average = exports.sum = exports.randomInt = exports.roundTo = exports.toDegrees = exports.toRadians = exports.lerp = exports.clamp = void 0;
+exports.clamp = clamp;
+exports.lerp = lerp;
+exports.toRadians = toRadians;
+exports.toDegrees = toDegrees;
+exports.roundTo = roundTo;
+exports.randomInt = randomInt;
+exports.sum = sum;
+exports.average = average;
+exports.factorial = factorial;
+exports.power = power;
+exports.squareRoot = squareRoot;
+exports.absoluteValue = absoluteValue;
+exports.max = max;
+exports.min = min;
+exports.round = round;
+exports.sin = sin;
+exports.cos = cos;
+exports.tan = tan;
+exports.asin = asin;
+exports.acos = acos;
+exports.atan = atan;
+exports.logarithm = logarithm;
+exports.exponentiate = exponentiate;
+exports.random = random;
+exports.isInteger = isInteger;
+exports.gcd = gcd;
+exports.lcm = lcm;
+exports.nthRoot = nthRoot;
+exports.absoluteDifference = absoluteDifference;
+exports.naturalLogarithm = naturalLogarithm;
+exports.log10 = log10;
+exports.sinh = sinh;
+exports.cosh = cosh;
+exports.tanh = tanh;
+exports.asinh = asinh;
+exports.acosh = acosh;
+exports.atanh = atanh;
+exports.powerOf10 = powerOf10;
+exports.ceil = ceil;
+exports.floor = floor;
+exports.sign = sign;
 /**
  * Clamps a value between a minimum and maximum range.
  * @param {number} value - The value to be clamped.
@@ -11,7 +51,6 @@ exports.sign = exports.floor = exports.ceil = exports.powerOf10 = exports.atanh 
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
-exports.clamp = clamp;
 /**
  * Linearly interpolates between two values.
  * @param {number} a - The starting value.
@@ -22,7 +61,6 @@ exports.clamp = clamp;
 function lerp(a, b, t) {
     return a + (b - a) * t;
 }
-exports.lerp = lerp;
 /**
  * Converts an angle from degrees to radians.
  * @param {number} degrees - The angle in degrees.
@@ -31,7 +69,6 @@ exports.lerp = lerp;
 function toRadians(degrees) {
     return (degrees * Math.PI) / 180;
 }
-exports.toRadians = toRadians;
 /**
  * Converts an angle from radians to degrees.
  * @param {number} radians - The angle in radians.
@@ -40,7 +77,6 @@ exports.toRadians = toRadians;
 function toDegrees(radians) {
     return (radians * 180) / Math.PI;
 }
-exports.toDegrees = toDegrees;
 /**
  * Rounds a number to a specified number of decimal places.
  * @param {number} value - The number to be rounded.
@@ -51,7 +87,6 @@ function roundTo(value, decimalPlaces) {
     const factor = 10 ** decimalPlaces;
     return Math.round(value * factor) / factor;
 }
-exports.roundTo = roundTo;
 /**
  * Generates a random integer between a minimum and maximum value.
  * @param {number} min - The minimum value.
@@ -63,7 +98,6 @@ function randomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-exports.randomInt = randomInt;
 /**
  * Calculates the sum of an array of numbers.
  * @param {number[]} numbers - The array of numbers.
@@ -72,7 +106,6 @@ exports.randomInt = randomInt;
 function sum(numbers) {
     return numbers.reduce((acc, val) => acc + val, 0);
 }
-exports.sum = sum;
 /**
  * Calculates the average of an array of numbers.
  * @param {number[]} numbers - The array of numbers.
@@ -82,7 +115,6 @@ function average(numbers) {
     const total = sum(numbers);
     return total / numbers.length;
 }
-exports.average = average;
 /**
  * Calculates the factorial of a given number.
  * @param {number} n - The number.
@@ -94,7 +126,6 @@ function factorial(n) {
     }
     return n * factorial(n - 1);
 }
-exports.factorial = factorial;
 /**
  * Calculates the power of a number.
  * @param {number} base - The base number.
@@ -104,7 +135,6 @@ exports.factorial = factorial;
 function power(base, exponent) {
     return Math.pow(base, exponent);
 }
-exports.power = power;
 /**
  * Calculates the square root of a number.
  * @param {number} n - The number.
@@ -113,7 +143,6 @@ exports.power = power;
 function squareRoot(n) {
     return Math.sqrt(n);
 }
-exports.squareRoot = squareRoot;
 /**
  * Calculates the absolute value of a number.
  * @param {number} n - The number.
@@ -122,7 +151,6 @@ exports.squareRoot = squareRoot;
 function absoluteValue(n) {
     return Math.abs(n);
 }
-exports.absoluteValue = absoluteValue;
 /**
  * Calculates the maximum value among a set of numbers.
  * @param {...number} numbers - The numbers.
@@ -131,7 +159,6 @@ exports.absoluteValue = absoluteValue;
 function max(...numbers) {
     return Math.max(...numbers);
 }
-exports.max = max;
 /**
  * Calculates the minimum value among a set of numbers.
  * @param {...number} numbers - The numbers.
@@ -140,7 +167,6 @@ exports.max = max;
 function min(...numbers) {
     return Math.min(...numbers);
 }
-exports.min = min;
 /**
  * Rounds a number to the nearest integer.
  * @param {number} n - The number.
@@ -149,7 +175,6 @@ exports.min = min;
 function round(n) {
     return Math.round(n);
 }
-exports.round = round;
 /**
  * Calculates the sine of an angle.
  * @param {number} angle - The angle in radians.
@@ -158,7 +183,6 @@ exports.round = round;
 function sin(angle) {
     return Math.sin(angle);
 }
-exports.sin = sin;
 /**
  * Calculates the cosine of an angle.
  * @param {number} angle - The angle in radians.
@@ -167,7 +191,6 @@ exports.sin = sin;
 function cos(angle) {
     return Math.cos(angle);
 }
-exports.cos = cos;
 /**
  * Calculates the tangent of an angle.
  * @param {number} angle - The angle in radians.
@@ -176,7 +199,6 @@ exports.cos = cos;
 function tan(angle) {
     return Math.tan(angle);
 }
-exports.tan = tan;
 /**
  * Calculates the arc sine (inverse sine) of a value.
  * @param {number} value - The value.
@@ -185,7 +207,6 @@ exports.tan = tan;
 function asin(value) {
     return Math.asin(value);
 }
-exports.asin = asin;
 /**
  * Calculates the arc cosine (inverse cosine) of a value.
  * @param {number} value - The value.
@@ -194,7 +215,6 @@ exports.asin = asin;
 function acos(value) {
     return Math.acos(value);
 }
-exports.acos = acos;
 /**
  * Calculates the arc tangent (inverse tangent) of a value.
  * @param {number} value - The value.
@@ -203,7 +223,6 @@ exports.acos = acos;
 function atan(value) {
     return Math.atan(value);
 }
-exports.atan = atan;
 /**
  * Calculates the logarithm of a number with a specified base.
  * @param {number} n - The number.
@@ -213,7 +232,6 @@ exports.atan = atan;
 function logarithm(n, base) {
     return Math.log(n) / Math.log(base);
 }
-exports.logarithm = logarithm;
 /**
  * Calculates the exponential value of a number.
  * @param {number} n - The number.
@@ -222,7 +240,6 @@ exports.logarithm = logarithm;
 function exponentiate(n) {
     return Math.exp(n);
 }
-exports.exponentiate = exponentiate;
 /**
  * Generates a random floating-point number between 0 (inclusive) and 1 (exclusive).
  * @returns {number} - The random number.
@@ -230,7 +247,6 @@ exports.exponentiate = exponentiate;
 function random() {
     return Math.random();
 }
-exports.random = random;
 /**
  * Checks if a number is an integer.
  * @param {number} n - The number.
@@ -239,7 +255,6 @@ exports.random = random;
 function isInteger(n) {
     return Number.isInteger(n);
 }
-exports.isInteger = isInteger;
 /**
  * Calculates the greatest common divisor (GCD) of two numbers using the Euclidean algorithm.
  * @param {number} a - The first number.
@@ -252,7 +267,6 @@ function gcd(a, b) {
     }
     return gcd(b, a % b);
 }
-exports.gcd = gcd;
 /**
  * Calculates the least common multiple (LCM) of two numbers.
  * @param {number} a - The first number.
@@ -262,7 +276,6 @@ exports.gcd = gcd;
 function lcm(a, b) {
     return (a * b) / gcd(a, b);
 }
-exports.lcm = lcm;
 /**
  * Calculates the n-th root of a number.
  * @param {number} n - The number.
@@ -272,7 +285,6 @@ exports.lcm = lcm;
 function nthRoot(n, root) {
     return Math.pow(n, 1 / root);
 }
-exports.nthRoot = nthRoot;
 /**
  * Calculates the absolute difference between two numbers.
  * @param {number} a - The first number.
@@ -282,7 +294,6 @@ exports.nthRoot = nthRoot;
 function absoluteDifference(a, b) {
     return Math.abs(a - b);
 }
-exports.absoluteDifference = absoluteDifference;
 /**
  * Calculates the natural logarithm (base e) of a number.
  * @param {number} n - The number.
@@ -291,7 +302,6 @@ exports.absoluteDifference = absoluteDifference;
 function naturalLogarithm(n) {
     return Math.log(n);
 }
-exports.naturalLogarithm = naturalLogarithm;
 /**
  * Calculates the base 10 logarithm of a number.
  * @param {number} n - The number.
@@ -300,7 +310,6 @@ exports.naturalLogarithm = naturalLogarithm;
 function log10(n) {
     return Math.log10(n);
 }
-exports.log10 = log10;
 /**
  * Calculates the hyperbolic sine of a number.
  * @param {number} n - The number.
@@ -309,7 +318,6 @@ exports.log10 = log10;
 function sinh(n) {
     return Math.sinh(n);
 }
-exports.sinh = sinh;
 /**
  * Calculates the hyperbolic cosine of a number.
  * @param {number} n - The number.
@@ -318,7 +326,6 @@ exports.sinh = sinh;
 function cosh(n) {
     return Math.cosh(n);
 }
-exports.cosh = cosh;
 /**
  * Calculates the hyperbolic tangent of a number.
  * @param {number} n - The number.
@@ -327,7 +334,6 @@ exports.cosh = cosh;
 function tanh(n) {
     return Math.tanh(n);
 }
-exports.tanh = tanh;
 /**
  * Calculates the arc hyperbolic sine (inverse hyperbolic sine) of a value.
  * @param {number} value - The value.
@@ -336,7 +342,6 @@ exports.tanh = tanh;
 function asinh(value) {
     return Math.asinh(value);
 }
-exports.asinh = asinh;
 /**
  * Calculates the arc hyperbolic cosine (inverse hyperbolic cosine) of a value.
  * @param {number} value - The value.
@@ -345,7 +350,6 @@ exports.asinh = asinh;
 function acosh(value) {
     return Math.acosh(value);
 }
-exports.acosh = acosh;
 /**
  * Calculates the arc hyperbolic tangent (inverse hyperbolic tangent) of a value.
  * @param {number} value - The value.
@@ -354,7 +358,6 @@ exports.acosh = acosh;
 function atanh(value) {
     return Math.atanh(value);
 }
-exports.atanh = atanh;
 /**
  * Calculates the power of 10.
  * @param {number} exponent - The exponent.
@@ -363,7 +366,6 @@ exports.atanh = atanh;
 function powerOf10(exponent) {
     return Math.pow(10, exponent);
 }
-exports.powerOf10 = powerOf10;
 /**
  * Rounds a number up to the nearest integer.
  * @param {number} n - The number.
@@ -372,7 +374,6 @@ exports.powerOf10 = powerOf10;
 function ceil(n) {
     return Math.ceil(n);
 }
-exports.ceil = ceil;
 /**
  * Rounds a number down to the nearest integer.
  * @param {number} n - The number.
@@ -381,7 +382,6 @@ exports.ceil = ceil;
 function floor(n) {
     return Math.floor(n);
 }
-exports.floor = floor;
 /**
  * Calculates the sign of a number.
  * @param {number} n - The number.
@@ -390,5 +390,4 @@ exports.floor = floor;
 function sign(n) {
     return Math.sign(n);
 }
-exports.sign = sign;
 //# sourceMappingURL=maths.js.map
